@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/12/28 21:09:39 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/01/05 13:34:17 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,24 @@ namespace ft
 				{
 				}
 
-				void
-				connect(Node *previous, Node *next)
+				Node
+				&operator=(const Node &other)
 				{
-					m_previous = previous;
+					m_val = other.m_val;
+					m_allocator = other.m_allocator;
+					m_next = other.m_next;
+					m_previous = other.m_previous;
+				}
+				void
+				connect(Node *next)
+				{
+					m_previous = next->previous();
 					m_next = next;
 
-					if (previous)
-						previous->next(this);
+					if (m_previous)
+						m_previous->next(this);
+					if (next)
+						next->previous(this);
 				}
 				
 				void
@@ -156,6 +166,7 @@ namespace ft
 				operator--()
 				{
 					m_node = m_node->previous();
+					std::cout << "--\n";
 					return (*this);
 				}
 				
@@ -224,7 +235,6 @@ namespace ft
 				size_type m_size;
 				Node *m_begin;
 				Node *m_first;
-				Node *m_back;
 				Node *m_end;
 				
 				// iterator m_end;
@@ -241,16 +251,17 @@ namespace ft
 				}
 				
 				explicit List (const allocator_type& alloc = allocator_type()) ://Constructs an empty list with zero elements.
-						m_allocator(alloc),
-						m_back(NULL)
+						m_allocator(alloc)
 				{
 					m_end = m_allocNode.allocate(1);
 					m_allocNode.construct(m_end, value_type());
 					m_begin = m_allocNode.allocate(1);
 					m_allocNode.construct(m_begin, value_type());
 					m_end->previous(m_begin);
+					//m_end->next(NULL);
 					m_begin->next(m_end);
 					m_first = m_end;
+					m_size = 0;
 				}
 				
 				//Constructs a new list with n elements and assigns val to each element of list.
@@ -278,6 +289,16 @@ namespace ft
 					
 				}
 		
+				List
+				&operator=(const List &other)
+				{
+					m_allocator = other.m_allocator;
+					m_allocNode = other.m_allocNode;
+					m_size = other.m_size;
+					m_begin = other.m_begin;
+					m_first = other.m_first;
+					m_end = other.m_end;
+				}
 				
 			public:
 				
@@ -310,12 +331,12 @@ namespace ft
 
 				reference back(void)
 				{
-					return ((m_end--)->value());
+					return ((m_end->previous())->value());
 				}
 
 				const_reference back(void) const
 				{
-					return ((m_end--)->value());
+					return ((m_end->previous())->value());
 				}
 
 
@@ -370,6 +391,7 @@ namespace ft
 				// 	return (const_reverse_iterator(m_begin));
 				// }
 				
+				/*CAPACITY*/
 
 				bool
 				empty() const
@@ -388,6 +410,8 @@ namespace ft
 				// {
 				// 	return (std::numeric_limits<difference_type>::max());
 				// }
+
+				/*MODIFIERS*/
 
 				void clear()
 				{
@@ -445,16 +469,18 @@ namespace ft
 				iterator
 				erase(iterator pos)
 				{
+					std::cout << "ici\n";
 					Node *previous = pos.node()->previous();
 					Node *next = pos.node()->next();
-				
+				std::cout << "node: " << pos.node()->value() << std::endl;
 					m_allocNode.destroy(pos.node());
 					m_allocNode.deallocate(pos.node(), 1);
-									
+
+				std::cout << "la\n";
 					previous->next(next);
+					std::cout << "pouet\n";
 					next->previous(previous);
-					m_back = previous;
-					
+						std::cout << "hello\n";			
 					m_size--;
 
 					return (iterator(next));
@@ -478,20 +504,18 @@ namespace ft
 				{
 					Node *node = m_allocNode.allocate(1);
 					m_allocNode.construct(node, val);
-					node->connect(m_back, m_end);
+					
 					if (m_first == m_end)
 					{	
-						m_first = node;
+						node->connect(m_end);
 						m_begin->next(node);
-						m_first->next(m_end);
-						m_end->previous(node);
+						m_first = node;
 					}
 					else
 					{
-						(m_end--)->next(node);
-					
-						m_end->previous(node);
+						node->connect(m_end);
 					}
+					
 				
 					m_size++;
 					// ft::construct_copy(&(node->data()), val);
@@ -500,7 +524,13 @@ namespace ft
 					
 				void pop_back()
 				{
-					erase(iterator(m_back));
+					if (m_size != 0)
+					{
+						erase(iterator(m_end->previous()));
+						m_size--;
+					}
+					if (m_size == 0)
+						m_first = m_end;
 				}
                 // if (this->_first == this->_end)
                 //     this->_first = new_elem;

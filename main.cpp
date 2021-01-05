@@ -6,7 +6,7 @@ int main()
 	//typedef ft::Iterator<ft::List<int> > iterator;
 	list.push_back(33);
 	ft::ListIterator<int> it = list.begin();
-	std::cout << it.node()->value();
+	std::cout << it.node()->value() << std::endl;
 
 	ft::List<int> numbers;
  	ft::ListIterator<int> itNumbers = numbers.begin();
@@ -16,22 +16,25 @@ int main()
 		std::cout << *itNumbers << std::endl;
 	}
  
-    numbers.push_back(5);
-    numbers.push_back(3);
-    numbers.push_back(4);
+    // numbers.push_back(5);
+    // numbers.push_back(3);
+    // numbers.push_back(4);
+	//  numbers.push_back(6);
  
- 	std::cout << "Front:" <<  numbers.front() << std::endl;
+ //	std::cout << "Front:" <<  numbers.front() << std::endl;
    
-    //numbers.pop_back();
+    numbers.pop_back();
 	itNumbers = numbers.begin();
+	// itNumbers++;
+	
+	std::cout << "nb:"<< *itNumbers << std::endl;
 	iteNumbers = numbers.end();
-   	while (itNumbers != iteNumbers )
+   	for (;itNumbers != iteNumbers; ++itNumbers )
 	{
 		std::cout << "nb: " <<  *itNumbers << std::endl;
-		std::cout << "nb: " <<  *iteNumbers << std::endl;
-		itNumbers++;
+		
 	}
-	std::cout << "back:" << numbers.back() << std::endl;
+//	std::cout << "back:" << numbers.back() << std::endl;
    
 }
 // template <typename T>
