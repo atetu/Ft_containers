@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   listIterator.hpp                                   :+:      :+:    :+:   */
+/*   ListIterator.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/12/28 18:36:12 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/01/15 14:09:22 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 namespace ft
 {
 	template<class T>
-		class ListIterator
+		class ListIterator : public Iterator
 	{
 		public:
 			// typedef typename Iter::value_type value_type;

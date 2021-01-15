@@ -1,6 +1,6 @@
 #include <list>
-#include "../includes/sequence_containers/List.hpp"
-#include "test.hpp"
+
+
 
 template <typename T>
 void testBasics(const std::list<T>& lBase, const ft::List<T>& lCustom)

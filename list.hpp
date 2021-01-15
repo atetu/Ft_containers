@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/01/05 13:34:17 by atetu            ###   ########.fr       */
+/*   Updated: 2021/01/15 18:45:30 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ namespace ft
 				typedef typename allocator_type::pointer pointer;
 				typedef typename allocator_type::const_pointer const_pointer;
 			//	typedef Iterator<T> iterator;
-				// typedef ListConstIterator<T> const_iterator;
+				// typedef listConstIterator<T> const_iterator;
 				// typedef std::reverse_iterator<iterator> reverse_iterator;
 				// typedef std::reverse_iterator<iterator> const_reverse_iterator;
 				// typedef ft::iterator_traits<iterator>::difference_type difference_type;
@@ -82,6 +82,18 @@ namespace ft
 				}
 				
 				void
+				connect(Node *previous, Node *next)
+				{
+					m_previous = previous;
+					m_next = next;
+
+					if (m_previous)
+						m_previous->next(this);
+					if (next)
+						next->previous(this);
+				}
+				
+				void
 				next(Node *next)
 				{
 					m_next = next;
@@ -113,7 +125,7 @@ namespace ft
 		};
 	
 		template<class T>
-		class ListIterator
+		class listIterator
 		{
 			public:
 				typedef T value_type;
@@ -127,42 +139,42 @@ namespace ft
 				Node *m_node;
 				
 			public:
-				ListIterator() : 
+				listIterator() : 
 					m_node(NULL)
 				{
 				}
 
-				ListIterator(Node *node):
+				listIterator(Node *node):
 					m_node(node)
 				{
 				}
 				
-				ListIterator(const Node *node) :
+				listIterator(const Node *node) :
 					m_node(node)
 				{
 				}
 				
-				ListIterator(const ListIterator& other) : 
+				listIterator(const listIterator& other) : 
 					m_node(other.m_node)
 				{
 				}
 				
-				ListIterator 
+				listIterator 
 				operator++()
 				{
 					m_node = m_node->next();
 					return (*this);
 				}
 				
-				ListIterator
+				listIterator
 				operator++(int) // ou int?
 				{
-					ListIterator tmp(*this);
+					listIterator tmp(*this);
 					operator++();
 					return (tmp);
 				}
 				
-				ListIterator& 
+				listIterator& 
 				operator--()
 				{
 					m_node = m_node->previous();
@@ -170,22 +182,22 @@ namespace ft
 					return (*this);
 				}
 				
-				ListIterator
+				listIterator
 				operator--(int) // ou int?
 				{
-					ListIterator tmp(*this);
+					listIterator tmp(*this);
 					operator--();
 					return (tmp);
 				}
 				
 				bool
-				operator==(const ListIterator& other) const
+				operator==(const listIterator& other) const
 				{
 					return (m_node == other.m_node);
 				}
 				
 				bool
-				operator!=(const ListIterator& other) const
+				operator!=(const listIterator& other) const
 				{
 					return (m_node != other.m_node);
 				}
@@ -207,7 +219,7 @@ namespace ft
 		};
 	
 	template < typename T, typename Alloc = std::allocator<T> > 
-		class List
+		class list
 		{
 			public:
 				typedef T value_type;
@@ -217,7 +229,7 @@ namespace ft
 				typedef typename allocator_type::pointer pointer;
 				typedef typename allocator_type::const_pointer const_pointer;
 			//	typedef Iterator<T> iterator;
-				typedef ListIterator<T> iterator;
+				typedef listIterator<T> iterator;
 			//	typedef Iterator<const T> const_iterator;
 				typedef ft::ReverseIterator<iterator> reverse_iterator;
 				// typedef ft::ReverseIterator<iterator> const_reverse_iterator;
@@ -250,7 +262,7 @@ namespace ft
 					return (node);
 				}
 				
-				explicit List (const allocator_type& alloc = allocator_type()) ://Constructs an empty list with zero elements.
+				explicit list (const allocator_type& alloc = allocator_type()) ://Constructs an empty list with zero elements.
 						m_allocator(alloc)
 				{
 					m_end = m_allocNode.allocate(1);
@@ -265,32 +277,32 @@ namespace ft
 				}
 				
 				//Constructs a new list with n elements and assigns val to each element of list.
-				List(size_type n, const_reference val = value_type(), const allocator_type& alloc = allocator_type())
+				list(size_type n, const_reference val = value_type(), const allocator_type& alloc = allocator_type())
 				{
 					
 				}
 				
-				explicit List(size_type n) :
+				explicit list(size_type n) :
 					m_size( n)
 				{
 					
 				}
-				// List (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) //Constructs a list with as many elements as in range of first to last.
+				// list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) //Constructs a list with as many elements as in range of first to last.
 				// {
 					
 				// }
-				List (const List& other) // Constructs a list with copy of each elements present in existing list
+				list (const list& other) // Constructs a list with copy of each elements present in existing list
 				{
 					
 				}
 				
-				~List()
+				~list()
 				{
 					
 				}
 		
-				List
-				&operator=(const List &other)
+				list
+				&operator=(const list &other)
 				{
 					m_allocator = other.m_allocator;
 					m_allocNode = other.m_allocNode;
@@ -302,43 +314,7 @@ namespace ft
 				
 			public:
 				
-				template <class InputIterator>
-				void
-				assign(InputIterator first, InputIterator last)
-				{
-					//List list;
-					this->clear();
-					while (first != last)
-						push_back(*first++);
-				}
-				
-				void assign(size_type n, const value_type &val)
-				{
-					this->clear();
-                	for (size_type count = 0; count < n; count++)
-                  	  this->push_back(val);
-				}
-
-				reference front()
-				{
-					return (m_first->value());
-				}
-
-				const_reference front() const
-				{
-					return (m_first->value());
-				}
-
-				reference back(void)
-				{
-					return ((m_end->previous())->value());
-				}
-
-				const_reference back(void) const
-				{
-					return ((m_end->previous())->value());
-				}
-
+				/*ITERATORS*/
 
 				iterator begin(void)
 				{
@@ -391,6 +367,31 @@ namespace ft
 				// 	return (const_reverse_iterator(m_begin));
 				// }
 				
+				
+
+				/*ELEMENT ACCESS*/
+				
+				reference front()
+				{
+					return (m_first->value());
+				}
+
+				const_reference front() const
+				{
+					return (m_first->value());
+				}
+
+				reference back(void)
+				{
+					return ((m_end->previous())->value());
+				}
+
+				const_reference back(void) const
+				{
+					return ((m_end->previous())->value());
+				}
+
+				
 				/*CAPACITY*/
 
 				bool
@@ -411,93 +412,26 @@ namespace ft
 				// 	return (std::numeric_limits<difference_type>::max());
 				// }
 
+	
 				/*MODIFIERS*/
-
-				void clear()
-				{
-					iterator it(m_first);
-					iterator ite(m_end);
-					Node *next;
-					
-					while (it != ite)
-					{
-						next = it.value().next();	
-						m_allocNode.destroy(it.value());
-						m_allocNode.deallocate(it.value(), 1);
-						it++;
-					}
-					
-					m_end->previous(m_begin);
-					m_begin->next(m_end);
-					m_first = m_end;
-					
-					m_size = 0;
-				}
-
-				iterator insert(iterator pos, const T& value)
-				{
-					iterator it(m_first);
-					iterator ite(m_end);
-					
-					while (it != pos && it != m_end)
-						it++;	
-			
-					Node *node = allocate(value);
 				
-					// Node *node = m_allocNode.allocate(1);
-					// m_allocNode.construct(node, value);
-
-					Node *previous = it.value()->previous();
-					Node *next = it.value()->next();
-					previous->next(node);
-					next->previous(node);
-					node->connect(previous, next);
-					
+				template <class InputIterator>
+				void
+				assign(InputIterator first, InputIterator last)
+				{
+					//list list;
+					this->clear();
+					while (first != last)
+						push_back(*first++);
 				}
 				
-				template< class InputIt >
-				void insert(iterator pos, InputIt first, InputIt last)
+				void assign(size_type n, const value_type &val)
 				{
-					while (first != last)
-					{	
-						insert(pos, *first);
-						first++;
-					}
-					
+					this->clear();
+                	for (size_type count = 0; count < n; count++)
+                  	  this->push_back(val);
 				}
 
-				iterator
-				erase(iterator pos)
-				{
-					std::cout << "ici\n";
-					Node *previous = pos.node()->previous();
-					Node *next = pos.node()->next();
-				std::cout << "node: " << pos.node()->value() << std::endl;
-					m_allocNode.destroy(pos.node());
-					m_allocNode.deallocate(pos.node(), 1);
-
-				std::cout << "la\n";
-					previous->next(next);
-					std::cout << "pouet\n";
-					next->previous(previous);
-						std::cout << "hello\n";			
-					m_size--;
-
-					return (iterator(next));
-				}
-
-				iterator
-				erase(iterator first, iterator last)
-				{
-					iterator tmp;
-					while (first != last)
-					{	
-						tmp = first;
-						first++;
-						erase(tmp);
-					}
-					return (last);
-				}
 
 				void
 				push_back(const value_type &val)
@@ -537,6 +471,155 @@ namespace ft
                 // this->_size++;
 				// }
 			
+				
+				iterator insert(iterator pos, const T& value) // already allocated?
+				{
+					iterator it(m_first);
+					iterator ite(m_end);
+					
+					while (it != pos && it != m_end)
+						it++;	
+
+					Node *node = allocate(1);
+					m_allocNode.construct(node, value);
+					if (pos == m_first)
+					{
+						if (m_first == m_end)
+						{
+							node->connect(m_end);
+							m_begin->next(node);
+							m_first = node;
+						}
+						else
+						{
+							node->connect(m_first);
+						//	m_begin->next(node);
+							m_first = node;
+						}
+					}
+					else if (pos == m_end)
+					{
+						node->connect(m_end);
+					}
+					else
+						node->connect(it.node()->previous(), it.node());
+									
+					m_size++;
+					return (iterator(node));
+				}
+				
+				template< class InputIt >
+				void insert(iterator pos, InputIt first, InputIt last)
+				{
+					while (first != last)
+					{	
+						insert(pos, *first);
+						first++;
+					}
+					
+				}
+
+				iterator
+				erase(iterator pos)
+				{
+					if (pos == m_first)
+					{
+						if (m_first == m_end)
+						{	
+							return (iterator(m_end));
+						}
+						else
+						{
+							Node *newFirst = pos.node()->next();
+							m_begin->next(newFirst);
+							newFirst->previous(m_begin);
+							m_first = newFirst;
+							m_size--;
+							m_allocNode.destroy(pos.node());
+							m_allocNode.deallocate(pos.node(), 1);
+							return (iterator(newFirst));
+						}
+					}
+					else if (pos == m_end)
+						return (iterator(m_end));
+					
+					//std::cout << "ici\n";
+					Node *previous = pos.node()->previous();
+					Node *next = pos.node()->next();
+			//	std::cout << "node: " << pos.node()->value() << std::endl;
+					m_allocNode.destroy(pos.node());
+					m_allocNode.deallocate(pos.node(), 1);
+
+			//	std::cout << "la\n";
+					previous->next(next);
+		//			std::cout << "pouet\n";
+					next->previous(previous);
+		//				std::cout << "hello\n";			
+					m_size--;
+					return (iterator(next));
+					
+					
+					
+					
+				}
+
+				iterator
+				erase(iterator first, iterator last)
+				{
+					iterator tmp;
+					while (first != last)
+					{	
+						tmp = first;
+						first++;
+						erase(tmp);
+					}
+					return (last);
+				}
+
+
+				
+
+				void clear()
+				{
+					iterator it(m_first);
+					iterator ite(m_end);
+					Node *next;
+					
+					while (m_first != m_end)
+					{
+						next = m_first->next();	
+						m_allocNode.destroy(m_first);
+						m_allocNode.deallocate(m_first, 1);
+						m_first = next;
+					}
+					m_end->previous(m_begin);
+					m_begin->next(m_end);
+					m_first = m_end;
+					m_size = 0;
+					
+				}
+
+				void swap(list &x)
+				{
+					size_type sizeCopy = m_size;
+					Node *beginCopy = m_begin;
+					Node *firstCopy = m_first;
+					Node *endCopy = m_end;
+
+					m_size = x.size();
+					m_begin = x.begin();
+					m_first = x.first();
+					m_end = x.end();
+
+					x.size(sizeCopy);
+					x.begin(beginCopy);
+					x.first(firstCopy);
+					x.end(endCopy);
+					
+				}
+
+				
+				
 		};
 }
 #endif
