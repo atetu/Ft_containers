@@ -58,10 +58,12 @@ int main()
 	testor.push_back();
 	testor.pop_back();
 	testor.init(array, 6);
+	testor.resize();
 	testor.insert();
 	testor.insert2();
 	testor.erase();
 	testor.erase2();
+
 	testor.clear();
 	
 

@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/01/15 18:22:53 by atetu            ###   ########.fr       */
+/*   Updated: 2021/01/28 16:45:09 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,7 +250,21 @@ class ListTest
 			if (checkIdenticalLists("ERASE2", 1))
 				print("ERASE2", "OK");
 		}
-	
+		
+		// void swap(ft::list & x)
+		// {
+				
+		// }
+		
+		void resize()
+		{
+			m_ftList.resize(2);
+			m_list.resize(2);
+			if (checkIdenticalLists("RESIZE", 1))
+				print("RESIZE", "OK");
+		}
+
+		
 		void clear()
 		{
 			int array[3] = {6, 7, 8};
