@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/01/28 16:45:09 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/03 15:12:06 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,10 @@ class ListTest
 			m_list.resize(2);
 			if (checkIdenticalLists("RESIZE", 1))
 				print("RESIZE", "OK");
+			m_ftList.resize(6);
+			m_list.resize(6);
+			if (checkIdenticalLists("RESIZE 2", 1))
+				print("RESIZE 2", "OK");
 		}
 
 		
@@ -279,6 +283,48 @@ class ListTest
 			m_list.clear();
 			if (checkIdenticalLists("CLEAR", 1))
 				print("CLEAR", "OK");
+		}
+		void splice()
+		{
+			
+			int array[3] = {6, 7, 8};
+			init(array, 3);
+			
+			ft::list<int> m_other;
+			std::list<int> other;
+			for (int i = 0 ; i < 3; i++)
+			{
+				m_other.push_back(9);
+				other.push_back(9)				;
+			}
+			
+			// ft::listIterator<T> it= m_ftList.begin();
+			// ft::listIterator<T> ite = m_ftList.end();
+			// while (it != ite)
+			// {
+			// 	printf("%d\n", *it);
+			// 	it++;
+			// }
+
+			// typename std::list<T>::iterator lit= m_list.begin();
+			// typename std::list<T>::iterator lite = m_list.end();
+			// while (lit != lite)
+			// {
+			// 	printf("%d\n", *lit);
+			// 	lit++;
+			// }
+			printf("list init: %d\n", *(m_ftList.begin()));
+			m_ftList.splice(m_ftList.begin(), m_other);
+			m_list.splice((m_list.begin())++, other);
+			typename std::list<T>::iterator lit= m_list.begin();
+			typename std::list<T>::iterator lite = m_list.end();
+			while (lit != lite)
+			{
+				printf("%d\n", *lit);
+				lit++;
+			}
+			// if (checkIdenticalLists("SPLICE 1", 1))
+			// 	print("SPLICE 1", "OK");
 		}
 	
 };

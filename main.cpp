@@ -63,7 +63,7 @@ int main()
 	testor.insert2();
 	testor.erase();
 	testor.erase2();
-
+	testor.splice();
 	testor.clear();
 	
 

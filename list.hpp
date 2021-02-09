@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/01/15 18:45:30 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/09 16:24:44 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ namespace ft
 				void
 				connect(Node *next)
 				{
+					std::cout << "next function\n" << std::endl;
 					m_previous = next->previous();
 					m_next = next;
 
@@ -84,6 +85,7 @@ namespace ft
 				void
 				connect(Node *previous, Node *next)
 				{
+					std::cout << "previous next function\n" << std::endl;
 					m_previous = previous;
 					m_next = next;
 
@@ -91,6 +93,12 @@ namespace ft
 						m_previous->next(this);
 					if (next)
 						next->previous(this);
+				}
+
+				void deconnect()
+				{
+					m_previous->next(m_next);
+					m_next->previous(m_previous);
 				}
 				
 				void
@@ -579,25 +587,7 @@ namespace ft
 
 				
 
-				void clear()
-				{
-					iterator it(m_first);
-					iterator ite(m_end);
-					Node *next;
-					
-					while (m_first != m_end)
-					{
-						next = m_first->next();	
-						m_allocNode.destroy(m_first);
-						m_allocNode.deallocate(m_first, 1);
-						m_first = next;
-					}
-					m_end->previous(m_begin);
-					m_begin->next(m_end);
-					m_first = m_end;
-					m_size = 0;
-					
-				}
+			
 
 				void swap(list &x)
 				{
@@ -618,8 +608,140 @@ namespace ft
 					
 				}
 
+				void resize(size_type n, value_type val = value_type())
+				{
+					int count = 0;
+					Node *tmp = m_first;
+					Node *save = NULL;
 				
+					if (n < m_size)
+					{
+						while (count <= n)
+						{
+							if(count != 0)
+								tmp = tmp->next();
+							if (count == n - 1)
+							{
+								m_end->previous(tmp);
+								save = tmp->next();
+								tmp->next(m_end);
+								tmp = save;
+							}
+							count++;
+						}
+											
+						while (count < m_size)
+						{
+							save = tmp->next();
+							m_allocNode.destroy(tmp);
+							m_allocNode.deallocate(tmp, 1);
+							tmp = save;
+							count++;
+						}
+						m_size = n;
+					}
+					else if (n > m_size)
+					{
+						Node *cur = m_end->previous();
+						while (m_size != n)
+							this->push_back(val);
+					}
+				}
+		
+
+				void clear()
+				{
+					iterator it(m_first);
+					iterator ite(m_end);
+					Node *next;
+							
+					while (m_first != m_end)
+					{
+						next = m_first->next();	
+						m_allocNode.destroy(m_first);
+						m_allocNode.deallocate(m_first, 1);
+						m_first = next;
+					}
+					m_end->previous(m_begin);
+					m_begin->next(m_end);
+					m_first = m_end;
+					m_size = 0;
+				}
+
+				void splice(iterator position, list &x)
+				{
+					// iterator x_ite = x.end();
+					// Node* x_previous_end = ite.node().previous();
+					// x_previous_end.next(m_end);
+					
+					iterator x_it = x.begin();
+					iterator x_ite = x.end();
+					Node *tmp;
+					while (x_it != x_ite)
+					{
+						printf("position: %d\n", position.node()->value());
+						tmp = x_it.node()->next();
+						x_it.node()->deconnect();
+						x_it.node()->connect(position.node(), position.node()->next());
+						//position.node()->connect(x_it.node());
+						
+						x_it = iterator(tmp);
+						m_size++;
+						//position = x_it;
+						printf("new position: %d\n", position.node()->value());
+						// x.m_size--;
+						// printf("size: %lu\n", x.m_size);
+					}
 				
+					iterator it(m_first);
+					iterator ite(m_end);
+
+					// while (it != ite)
+					// {
+					// 	printf("%d\n", it.node()->value());
+					// 	it++;
+					// }
+					// x.
+					
+					// iterator x_it = x.begin();
+					// iterator x_ite = x.end();
+					// m_first = m_end;
+				}
+
+				void splice(iterator position, list &x, iterator i)
+				{
+					
+				}
+				
+				void splice(iterator position, list &x, iterator first, iterator last)
+				{
+					
+				}
+
+				void remove(const value_type &val)
+				{
+					iterator it(m_first);
+					iterator ite(m_end);
+					
+					while (it != m_end)
+					{
+						if(*it == val)
+							it = erase(it);
+						else
+							it++;
+					}
+				
+
+				template<class Predicate>
+				void remove_if (Predicate pred)
+				{
+					
+				}
+				}
 		};
+
+	
 }
+
+
 #endif
