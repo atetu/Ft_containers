@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/03 15:12:06 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/10 12:42:49 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,6 +325,30 @@ class ListTest
 			}
 			// if (checkIdenticalLists("SPLICE 1", 1))
 			// 	print("SPLICE 1", "OK");
+		}
+
+		void merge()
+		{
+			std::list<double> first, second;
+
+			first.push_back (3.1);
+			first.push_back (2.2);
+			first.push_back (2.9);
+
+			second.push_back (3.7);
+			second.push_back (7.1);
+			second.push_back (1.4);
+
+			first.sort();
+			second.sort();
+
+			first.merge(second);
+			std::list<double>::iterator it = first.begin();
+			std::list<double>::iterator ite = first.end();
+			while (it != ite)
+			{
+				std::cout << *it << std::endl;
+			}
 		}
 	
 };

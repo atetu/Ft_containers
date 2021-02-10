@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/09 16:24:44 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/10 12:45:09 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,13 @@ namespace ft
 				listIterator(const listIterator& other) : 
 					m_node(other.m_node)
 				{
+				}
+				
+				listIterator 
+				operator=(const listIterator& other)
+				{
+					m_node = other.m_node;
+					return (*this);
 				}
 				
 				listIterator 
@@ -735,8 +742,76 @@ namespace ft
 				template<class Predicate>
 				void remove_if (Predicate pred)
 				{
+					iterator it(m_first);
+					iterator ite(m_end);
 					
+					while (it != m_end)
+					{
+						if (pred(*it))
+							it = erase(it);
+						else
+							it++;
+					}
 				}
+
+				void unique()
+				{
+					iterator it(m_first);
+					iterator it_first(m_first);
+					iterator it_previous;
+					iterator ite(m_end);
+					
+					while (it != m_end)
+					{
+						if (it != it_first)
+						{
+							if (*it_previous == *it)
+							{
+								it = erase(it);
+								continue;
+							}
+						}
+						else
+						{
+							it_previous = it;
+							it++;
+						}
+					}
+				}
+
+				template< class BinaryPredicate >
+  				void unique (BinaryPredicate binary_pred)
+				{
+					iterator it(m_first);
+					iterator it_first(m_first);
+					iterator it_previous;
+					iterator ite(m_end);
+					
+					while (it != m_end)
+					{
+						if (it != it_first)
+						{
+							if (binary_pred, *it, *it_previous)
+							{
+								it = erase(it);
+								continue;
+							}
+						}
+						else
+						{
+							it_previous = it;
+							it++;
+						}
+					}	
+				}
+
+				void merge(list &x)
+				{
+
+				}
+
+				
+				
 				}
 		};
 
