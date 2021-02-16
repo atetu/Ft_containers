@@ -64,8 +64,8 @@ int main()
 	testor.erase();
 	testor.erase2();
 	testor.splice();
-	testor.clear();
-	testor.merge();
+	// testor.clear();
+	// testor.merge();
 	
 
 	
