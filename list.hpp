@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/16 16:58:44 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/17 15:04:11 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,12 @@ namespace ft
 			m_begin->next(m_end);
 			m_first = m_end;
 			m_size = 0;
+		}
+		
+		void
+		reduce_size()
+		{
+			m_size--;
 		}
 
 	public:
@@ -692,31 +698,50 @@ namespace ft
 			int x_size = 0;
 			int first_indicator = 0;
 			int x_first_indicator = 0;
-			
+
+			if (i == x_it) // not sure about that, the real one aborts
+				return;	
 			if (position.node() == m_first)
 				first_indicator = 1;
-			if (i.node() == x_it
+			if (i.node() == x_it.node())
 				x_first_indicator = 1;
-		
-			while (i != x_ite)
-			{
-				tmp = i.node()->next();
-				i.node()->deconnect();
-				i.node()->connect(position.node()->previous(), position.node());
-			
-				i = iterator(tmp);
-				m_size++;
-				if (first_indicator)
-					m_first = position.node()->previous();
-				first_indicator = 0;
-				x.size--;
-			}
+			i.node()->deconnect();
+			i.node()->connect(position.node()->previous(), position.node());
+			m_size++;
+			if (first_indicator)
+				m_first = position.node()->previous();
+			x.reduce_size();
 			if (x_first_indicator)
 				x.init();
 		}
 
 		void splice(iterator position, list &x, iterator first, iterator last)
 		{
+			iterator x_it = x.begin();
+			Node *tmp;
+			int first_indicator = 0;
+			int x_first_indicator = 0;
+			
+			if (position.node() == m_first)
+				first_indicator = 1;
+			if (first.node() == x_it.node())
+				x_first_indicator = 1;
+			while (first != last)
+			{
+				std::cout <<"Ici:" << first.node()->value() << std::endl;
+				tmp = first.node()->next();
+				first.node()->deconnect();
+				first.node()->connect(position.node()->previous(), position.node());
+			
+				first = iterator(tmp);
+				m_size++;
+				if (first_indicator)
+					m_first = position.node()->previous();
+				first_indicator = 0;
+				x.reduce_size();
+			}
+			if (x_first_indicator)
+				x.init();
 		}
 
 		void remove(const value_type &val)
@@ -811,6 +836,8 @@ namespace ft
 			iterator itx_previous;
 			iterator itex = x.end();
 
+			Node *tmp;
+
 			int notSorted = 0;
 
 			if (x.empty())
@@ -853,15 +880,18 @@ namespace ft
 			{
 				if (*it > *itx)
 				{
-					Node *x_prev = ite.node()->previous();
-					Node *x_next = ite.node()->next();
+					tmp = itx.node()->next();
+					splice(it, x, itx);
+					itx = iterator(tmp);
+					// Node *x_prev = ite.node()->previous();
+					// Node *x_next = ite.node()->next();
 				
-					itx.node()->connect(it.node(), (it++).node());
-					connect_prev_next(x_prev, x_next);
-					m_size++;
-					itx = x_next;
-					if (itx == itex)
-						break;
+					// itx.node()->connect(it.node(), (it++).node());
+					// connect_prev_next(x_prev, x_next);
+					// m_size++;
+					// itx = x_next;
+					// if (itx == itex)
+					// 	break;
 					// }
 					// else if (pos == m_end)
 					// {
@@ -872,10 +902,11 @@ namespace ft
 
 				
 				}
+				it++;
 			}
 			if (itx != itex)
 			{
-				splice(ite--, x);
+				splice(ite, x);
 				// Node *m_next = ite;
 				// Node *m_prev = ite--;
 				// itx.node()->connect(m_prev, m_next);

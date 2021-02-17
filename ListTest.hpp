@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/16 16:52:12 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/17 15:01:33 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,6 @@ class ListTest
 		}
 		void splice()
 		{
-			
 			int array[3] = {6, 7, 8};
 			init(array, 3);
 			
@@ -326,6 +325,72 @@ class ListTest
 			// }
 			if (checkIdenticalLists("SPLICE 1", 1))
 				print("SPLICE 1", "OK");
+			
+			ft::list<int> m_newOther;
+			std::list<int> newOther;
+			for (int i = 0 ; i < 3; i++)
+			{
+				m_newOther.push_back(3);
+				newOther.push_back(3);
+			}
+			m_newOther.push_back(4);
+			newOther.push_back(4);
+			ft::listIterator<T> itOther = m_newOther.begin();
+			typename std::list<T>::iterator ipOther = newOther.begin();
+			for (int i = 0; i < 2; i++)
+			{
+				itOther++;
+				ipOther++;
+			}
+			m_ftList.splice(itt, m_newOther, itOther);
+			m_list.splice(ipp, newOther, ipOther);
+			
+			// typename std::list<T>::iterator lit= m_list.begin();
+			// typename std::list<T>::iterator lite = m_list.end();
+			// while (lit != lite)
+			// {
+			// 	printf("%d\n", *lit);
+			// 	lit++;
+			// }
+			// typename std::list<T>::iterator o= newOther.begin();
+			// typename std::list<T>::iterator oe = newOther.end();
+			// while (o!= oe)
+			// {
+			// 	printf("%d\n", *o);
+			// 	o++;
+			// }
+			// ft::listIterator<T> litnew= m_ftList.begin();
+			// ft::listIterator<T> litenew = m_ftList.end();
+			// while (litnew != litenew)
+			// {
+			// 	printf("%d\n", *litnew);
+			// 	litnew++;
+			// }
+			
+			if (checkIdenticalLists("SPLICE 2", 1))
+				print("SPLICE 2", "OK");
+
+			ft::list<int> m_newOther2;
+			std::list<int> newOther2;
+			for (int i = 0 ; i < 3; i++)
+			{
+				m_newOther2.push_back(5);
+				newOther2.push_back(5);
+			}
+			m_newOther2.push_back(7);
+			newOther2.push_back(7);
+			ft::listIterator<T> itOther2 = m_newOther2.begin();
+			typename std::list<T>::iterator ipOther2 = newOther2.begin();
+			for (int i = 0; i < 2; i++)
+			{
+				itOther2++;
+				ipOther2++;
+			}
+			m_ftList.splice(itt, m_newOther2, itOther2);
+			m_list.splice(ipp, newOther2, ipOther2);
+
+			if (checkIdenticalLists("SPLICE 3", 1))
+				print("SPLICE 3", "OK");
 		}
 
 		void merge()
@@ -341,16 +406,35 @@ class ListTest
 			second.push_back (1.4);
 
 			first.sort();
-			// second.sort();
+			second.sort();
 
 			first.merge(second);
-			std::list<double>::iterator it = first.begin();
-			std::list<double>::iterator ite = first.end();
-			while (it != ite)
-			{
-				std::cout << *it << std::endl;
-				it++;
-			}
+
+			ft::list<double> ft_first, ft_second;
+			
+			ft_first.push_back (2.2);
+			ft_first.push_back (2.9);
+			ft_first.push_back (3.1);
+			
+			ft_second.push_back (1.4);
+			ft_second.push_back (3.7);
+			ft_second.push_back (7.1);
+			
+
+			// ft_first.sort();
+			// ft_second.sort();
+
+			ft_first.merge(ft_second);
+
+			if (checkIdenticalLists("MERGE", 1))
+				print("MERGE", "OK");
+			// std::list<double>::iterator it = first.begin();
+			// std::list<double>::iterator ite = first.end();
+			// while (it != ite)
+			// {
+			// 	std::cout << *it << std::endl;
+			// 	it++;
+			// }
 		}
 	
 };
