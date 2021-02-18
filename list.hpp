@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/17 15:04:11 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/18 17:20:20 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ namespace ft
 		void
 		connect(Node *next)
 		{
-			std::cout << "next function\n"
-					  << std::endl;
+			// std::cout << "next function\n"
+			// 		  << std::endl;
 			m_previous = next->previous();
+			std::cout << "HERE\n";
 			m_next = next;
 
 			if (m_previous)
@@ -465,7 +466,9 @@ namespace ft
 			}
 			else
 			{
+				std::cout << "INSIDE\n";
 				node->connect(m_end);
+				std::cout << "AFTER INSIDE\n";
 			}
 
 			m_size++;
@@ -842,15 +845,17 @@ namespace ft
 
 			if (x.empty())
 				return;
-			
 			while (it != ite)
 			{
 				if (it != it_first)
 				{
-					if (*it_previous > *it)
+					if (it.node()->previous()->value() > it.node()->value())
+					{	
 						notSorted = 1;
-					break;
+						break;
+					}
 				}
+				it++;
 			}
 			if (!notSorted)
 			{
@@ -862,6 +867,7 @@ namespace ft
 							notSorted = 1;
 						break;
 					}
+					itx++;
 				}
 			}
 			if (!notSorted)
@@ -870,49 +876,97 @@ namespace ft
 				splice(ite, x);
 				return;
 			}
-
 			it = begin();
 			ite = end();
 			itx = x.begin();
 			itex = x.end();
 
-			while (it != ite)
+			while (it != ite && itx != itex)
 			{
 				if (*it > *itx)
 				{
 					tmp = itx.node()->next();
 					splice(it, x, itx);
 					itx = iterator(tmp);
-					// Node *x_prev = ite.node()->previous();
-					// Node *x_next = ite.node()->next();
-				
-					// itx.node()->connect(it.node(), (it++).node());
-					// connect_prev_next(x_prev, x_next);
-					// m_size++;
-					// itx = x_next;
-					// if (itx == itex)
-					// 	break;
-					// }
-					// else if (pos == m_end)
-					// {
-					// 	node->connect(m_end);
-					// }
-					// else
-					// 	node->connect(it.node()->previous(), it.node());
-
-				
 				}
-				it++;
+				else
+					it++;
 			}
 			if (itx != itex)
-			{
 				splice(ite, x);
-				// Node *m_next = ite;
-				// Node *m_prev = ite--;
-				// itx.node()->connect(m_prev, m_next);
-			}
 		}
 
+		template<class Compare>
+		void merge(list& x, Compare comp)
+		{
+			
+		}
+
+		void sort()
+		{
+			iterator it(m_first);
+			iterator it_first(m_first);
+			iterator ite(m_end);
+			iterator before_end = ite;
+			before_end--;
+			iterator to_compare;
+			Node *new_it;
+			Node *new_next;
+			Node *prev_it;
+			Node *next_it;
+			Node *prev_compare;
+			Node *next_compare;
+		
+			int notSorted = 0;
+			to_compare = it;
+			to_compare++;
+	//		std::cout << "First:" << *it << std::endl;
+	//		std::cout << "To compare:" << *to_compare << std::endl;
+			while (it != before_end)
+			{
+				// if (it != it_first)
+				// {
+			//	to_compare = it;
+			//	to_compare++;
+				while(to_compare != ite)
+				{
+				// 	std::cout << "First:" << *it << std::endl;
+				// 	std::cout << "To compare:" << *to_compare << std::endl;
+				// 	std::cout << "to compare: " << to_compare.node()->value() << std::endl;
+					if (*it > *to_compare)
+					{	
+						// std::cout << "IT:" << it.node()->value()<< std::endl;
+						// std::cout << "TO_compare: " << *to_compare<< std::endl;
+						new_it = to_compare.node();
+						new_next = it.node();
+						prev_it = it.node()->previous();
+						next_it = it.node()->next();
+						prev_compare = to_compare.node()->next();
+						next_compare = to_compare.node()->next();
+						if (it.node() == m_first)
+							m_first = new_it;
+							
+						new_it->connect(prev_it, next_it);
+						new_next->connect(prev_compare, next_compare);
+						it = new_it;
+						to_compare = new_next;
+					//	std::cout << "ICI\n";
+					}
+					if (to_compare != ite)
+						to_compare++;
+					std::cout << "POUET\n";
+			//		std::cout << "to compare: " << to_compare.node()->value() << std::endl;
+				}
+				// }
+				it++;
+				std::cout << "OUT\n";
+				if (it != before_end)
+				{
+					to_compare = it;
+					to_compare++;
+				}
+			}	
+		}
 		
 	};
 

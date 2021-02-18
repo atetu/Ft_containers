@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/17 15:01:33 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/18 15:54:00 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,49 +393,77 @@ class ListTest
 				print("SPLICE 3", "OK");
 		}
 
+		void sort()
+		{
+			m_list.push_back (3);
+			m_list.push_back (2);
+			m_list.push_back (5);
+			m_list.sort();
+
+			
+			m_ftList.push_back (3);
+			m_ftList.push_back (2);
+			m_ftList.push_back (5);
+ft::listIterator<T> it= m_ftList.begin();
+			ft::listIterator<T> ite = m_ftList.end();
+			std::cout << "BEFORE\n";
+			while (it != ite)
+			{
+				std::cout << *it<< std::endl;
+				it++;
+			}
+			
+			m_ftList.sort();
+			it= m_ftList.begin();
+			ite = m_ftList.end();
+			std::cout << "AFTER\n";
+			while (it != ite)
+			{
+				std::cout << *it<< std::endl;
+				it++;
+			}
+			// if (checkIdenticalLists("SORT", 1))
+			// 	print("SORT", "OK");
+		}
+		
 		void merge()
 		{
-			std::list<double> first, second;
-
-			first.push_back (3.1);
-			first.push_back (2.2);
-			first.push_back (2.9);
-
-			second.push_back (3.7);
-			second.push_back (7.1);
-			second.push_back (1.4);
-
-			first.sort();
+			std::list<int> second;
+			second.push_back (6);
+			second.push_back (1);
+			second.push_back (4);
 			second.sort();
+			m_list.merge(second);
 
-			first.merge(second);
-
-			ft::list<double> ft_first, ft_second;
+			ft::list<int> ft_second;
+			ft_second.push_back (6);
+			ft_second.push_back (1);
+			ft_second.push_back (4);
+			ft_second.sort();
 			
-			ft_first.push_back (2.2);
-			ft_first.push_back (2.9);
-			ft_first.push_back (3.1);
-			
-			ft_second.push_back (1.4);
-			ft_second.push_back (3.7);
-			ft_second.push_back (7.1);
-			
+			// ft::listIterator<T> it= m_ftList.begin();
+			// ft::listIterator<T> ite = m_ftList.end();
+			// while (it != ite)
+			// {
+			// 	std::cout << *it<< std::endl;
+			// 	it++;
+			// }
+			// m_ftList.merge(ft_second);
 
-			// ft_first.sort();
-			// ft_second.sort();
-
-			ft_first.merge(ft_second);
+			// it= m_ftList.begin();
+			// ite = m_ftList.end();
+			// while (it != ite)
+			// {
+			// 	std::cout << *it<< std::endl;
+			// 	it++;
+			// }
+		
 
 			if (checkIdenticalLists("MERGE", 1))
 				print("MERGE", "OK");
-			// std::list<double>::iterator it = first.begin();
-			// std::list<double>::iterator ite = first.end();
-			// while (it != ite)
-			// {
-			// 	std::cout << *it << std::endl;
-			// 	it++;
-			// }
 		}
+
+		
 	
 };
 #endif
