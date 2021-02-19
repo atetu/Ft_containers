@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/18 15:54:00 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/19 16:30:25 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,26 +404,10 @@ class ListTest
 			m_ftList.push_back (3);
 			m_ftList.push_back (2);
 			m_ftList.push_back (5);
-ft::listIterator<T> it= m_ftList.begin();
-			ft::listIterator<T> ite = m_ftList.end();
-			std::cout << "BEFORE\n";
-			while (it != ite)
-			{
-				std::cout << *it<< std::endl;
-				it++;
-			}
-			
-			m_ftList.sort();
-			it= m_ftList.begin();
-			ite = m_ftList.end();
-			std::cout << "AFTER\n";
-			while (it != ite)
-			{
-				std::cout << *it<< std::endl;
-				it++;
-			}
-			// if (checkIdenticalLists("SORT", 1))
-			// 	print("SORT", "OK");
+ 			m_ftList.sort();
+
+			if (checkIdenticalLists("SORT", 1))
+				print("SORT", "OK");
 		}
 		
 		void merge()
@@ -440,7 +424,7 @@ ft::listIterator<T> it= m_ftList.begin();
 			ft_second.push_back (1);
 			ft_second.push_back (4);
 			ft_second.sort();
-			
+			m_ftList.merge(ft_second);
 			// ft::listIterator<T> it= m_ftList.begin();
 			// ft::listIterator<T> ite = m_ftList.end();
 			// while (it != ite)

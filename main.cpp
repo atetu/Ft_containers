@@ -66,7 +66,7 @@ int main()
 	testor.splice();
 	// testor.clear();
 	testor.sort();
-	//testor.merge();
+	testor.merge();
 	
 
 	
