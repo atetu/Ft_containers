@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/22 17:23:15 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/22 19:44:40 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
-		typedef typename allocator_type::reference reference;
-		typedef typename allocator_type::const_reference const_reference;
+		typedef T &reference;
+		// typedef typename allocator_type::reference reference;
+		// typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		//	typedef Iterator<T> iterator;
@@ -131,11 +132,19 @@ namespace ft
 			return (m_previous);
 		}
 
-		value_type &
+		T&
 		value()
 		{
 			return (m_val);
 		}
+		
+		const T&
+		value() const
+		{
+			return (m_val);
+		}
+		
+	
 	};
 
 	template <class T>
@@ -143,11 +152,12 @@ namespace ft
 	{
 	public:
 		typedef T value_type;
+		// typedef N Node;
 		typedef value_type &reference;
 
 	private:
 		typedef Node<T> Node;
-		//			typedef ft::Node<T> node;
+//				typedef ft::Node<T> node;
 
 	private:
 		Node *m_node;
@@ -219,14 +229,13 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
-		value_type
-		operator*()
+		reference
+		operator*() const
 		{
 			return (m_node->value());
 		}
 
-		Node *
-		node()
+		Node *node() const
 		{
 			return (m_node);
 		}
@@ -244,7 +253,7 @@ namespace ft
 		//			typedef ft::Node<T> node;
 
 	private:
-		Node *m_node;
+		const Node *m_node;
 
 	public:
 		listConstIterator() : m_node(NULL)
@@ -259,7 +268,7 @@ namespace ft
 		{
 		}
 
-		listConstIterator(const listIterator &other) : m_node(other.m_node)
+		listConstIterator(const listConstIterator &other) : m_node(other.m_node)
 		{
 		}
 
@@ -313,14 +322,15 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
-		value_type
-		operator*()
+		reference
+		operator*() const
 		{
-			return (m_node->value());
+			//return (m_node->value());
+			return (static_cast<const Node*>(m_node)->value());
 		}
 
-		Node *
-		node()
+		const Node *
+		node() const
 		{
 			return (m_node);
 		}
@@ -332,19 +342,20 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
+		typedef typename ft::Node<T> Node;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		//	typedef Iterator<T> iterator;
 		typedef listIterator<T> iterator;
-		typedef listConstIterator<const T> const_iterator;
+		typedef listConstIterator<T> const_iterator;
 		//typedef ft::ReverseIterator<iterator> reverse_iterator;
 		// typedef ft::ReverseIterator<iterator> const_reverse_iterator;
 		// typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
 
-		typedef typename ft::Node<T> Node;
+		
 
 	private:
 		typedef typename Alloc::template rebind<Node>::other NodeAlloc;
