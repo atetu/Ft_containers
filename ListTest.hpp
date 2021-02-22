@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/19 16:30:25 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/22 14:59:00 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "Iterator.hpp"
 #include "list.hpp"
 #include<list>
+
+bool mycomparison (int first, double second);
 
 template <typename T>
 class ListTest
@@ -48,7 +50,8 @@ class ListTest
                 i++;
             }
 		}
-        void
+        
+		static void
         print(const std::string& test, const std::string & result)
         {
             std::cout << "Test " << test << " : " << result << std::endl;
@@ -81,6 +84,34 @@ class ListTest
        		return(1);
         }
 
+		template <typename Y>
+		static int checkIdenticalLists(std::list<Y> &x, ft::list<Y> &y, std::string testName, int writeOption = 0)
+        {
+            typename std::list<Y>::iterator itList = x.begin();
+            typename std::list<Y>::iterator iteList = x.end();
+			typename ft::listIterator<Y> itFtList = y.begin();
+            typename ft::listIterator<Y> iteFtList = y.end();
+           
+
+            while (itFtList != iteFtList) //&& itList != iteList)
+            {
+				if (writeOption)
+					std::cout <<*itFtList << "-" << *itList << std::endl;
+				if (*itFtList != *itList)
+                {
+					print(testName, "WRONG1");
+                    return(0);
+                }
+                itFtList++;
+                itList++;
+            }
+            if (itFtList != iteFtList || itList != iteList)
+            {
+                print(testName, "WRONG2");
+                return(0);
+            }
+       		return(1);
+        }
 
         #define CHECK_VALUES(apply, name)                     \
             if (m_ftList.apply() != m_list.apply())             \
@@ -408,7 +439,22 @@ class ListTest
 
 			if (checkIdenticalLists("SORT", 1))
 				print("SORT", "OK");
+
+			m_list.push_back (54);
+			m_list.push_back (4);
+			m_list.push_back (10);
+			m_list.sort(mycomparison);
+
+			
+			m_ftList.push_back (54);
+			m_ftList.push_back (4);
+			m_ftList.push_back (10);
+ 			m_ftList.sort(mycomparison);
+
+			if (checkIdenticalLists("SORT2", 1))
+				print("SORT2", "OK");
 		}
+		
 		
 		void merge()
 		{
@@ -424,7 +470,16 @@ class ListTest
 			ft_second.push_back (1);
 			ft_second.push_back (4);
 			ft_second.sort();
+			// std::cout << " AFTER SECOND SORT\n"<< std::flush;
+			// ft::listIterator<T> it= ft_second.begin();
+			// ft::listIterator<T> ite = ft_second.end();
+			// while (it != ite)
+			// {
+			// 	std::cout << *it<< std::endl;
+			// 	it++;
+			// }
 			m_ftList.merge(ft_second);
+			// std::cout << " AFTER MERGE\n"<< std::flush;
 			// ft::listIterator<T> it= m_ftList.begin();
 			// ft::listIterator<T> ite = m_ftList.end();
 			// while (it != ite)
@@ -433,21 +488,54 @@ class ListTest
 			// 	it++;
 			// }
 			// m_ftList.merge(ft_second);
-
-			// it= m_ftList.begin();
-			// ite = m_ftList.end();
-			// while (it != ite)
-			// {
-			// 	std::cout << *it<< std::endl;
-			// 	it++;
-			// }
+// std::cout << "\n"<< std::flush;
+// typename std::list<T>::iterator lit= m_list.begin();
+// 			typename std::list<T>::iterator lite = m_list.end();
+// 			while (lit != lite)
+// 			{
+// 				std::cout << *lit<< std::endl;
+			
+// 				lit++;
+// 			}
 		
 
 			if (checkIdenticalLists("MERGE", 1))
 				print("MERGE", "OK");
+
+			std::list<int> second2;
+			ft::list<int> ft_second2;
+			second2.push_back(2);	
+			ft_second2.push_back(2);
+			m_list.merge(second2, mycomparison);
+			m_ftList.merge(ft_second2, mycomparison);
+
+// ft::listIterator<T> it= m_ftList.begin();
+// 			ft::listIterator<T> ite = m_ftList.end();
+// 			while (it != ite)
+// 			{
+// 				std::cout << *it<< std::endl;
+// 				it++;
+// 			}
+
+			// typename std::list<T>::iterator lit= m_list.begin();
+			// typename std::list<T>::iterator lite = m_list.end();
+			// while (lit != lite)
+			// {
+			// 	std::cout << *lit<< std::endl;
+			
+			// 	lit++;
+			// }
+			if (checkIdenticalLists("MERGE2", 1))
+				print("MERGE2", "OK");
 		}
 
-		
+		void reverse()
+		{
+			m_ftList.reverse();
+			m_list.reverse();
+			if (checkIdenticalLists("REVERSE", 1))
+				print("REVERSE", "OK");
+		}
 	
 };
 #endif

@@ -3,6 +3,12 @@
 #include <iostream>
 #include "ListTest.hpp"
 
+
+bool mycomparison (int first, double second)
+{
+	return (int(first)<int(second));
+}
+		
 // template<typename T>
 // void setList(T* array)
 // {
@@ -67,9 +73,35 @@ int main()
 	// testor.clear();
 	testor.sort();
 	testor.merge();
+	testor.reverse();
 	
+	std::list<int> first;
+	std::list<int> second;
+	ft::list<int> ft_first;
+	ft::list<int> ft_second;
+	first.push_back(5);
+	first.push_back(44);
+	first.push_back(35);
+	second.push_back(6);
+	second.push_back(36);
+	second.push_back(21);
+	second.push_back(2);
+	ft_first.push_back(5);
+	ft_first.push_back(44);
+	ft_first.push_back(35);
+	ft_second.push_back(6);
+	ft_second.push_back(36);
+	ft_second.push_back(21);
+	ft_second.push_back(2);
+	swap(first, second);
+	ft::swap(ft_first, ft_second);
+	if(ListTest<int>::checkIdenticalLists(first, ft_first, "SWAP", 0))
+		ListTest<int>::print("SWAP", "OK");
+	if(ListTest<int>::checkIdenticalLists(second, ft_second, "SWAP2", 0))
+		ListTest<int>::print("SWAP2", "OK");
 
-	
+	if ((ft_first < ft_second) == (first < second))
+		ListTest<int>::print("<", "OK");
 
 	//typedef ft::Iterator<ft::List<int> > iterator;
 // 	list.push_back(33);
