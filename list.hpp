@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/22 19:44:40 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/23 11:44:27 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ namespace ft
 		{
 		}
 
-		Node
-			&
-			operator=(const Node &other)
+		Node&
+		operator=(const Node &other)
 		{
 			m_val = other.m_val;
 			m_allocator = other.m_allocator;
@@ -115,7 +114,7 @@ namespace ft
 		}
 
 		Node *
-		next(void)
+		next(void) const
 		{
 			return (m_next);
 		}
@@ -336,6 +335,195 @@ namespace ft
 		}
 	};
 
+	template <class T>
+	class listReverseIterator
+	{
+	public:
+		typedef T value_type;
+		// typedef N Node;
+		typedef value_type &reference;
+
+	private:
+		typedef Node<T> Node;
+//				typedef ft::Node<T> node;
+
+	private:
+		Node *m_node;
+
+	public:
+		listReverseIterator() : m_node(NULL)
+		{
+		}
+
+		listReverseIterator(Node *node) : m_node(node)
+		{
+		}
+
+		listReverseIterator(const Node *node) : m_node(node)
+		{
+		}
+
+		listReverseIterator(const listReverseIterator &other) : m_node(other.m_node)
+		{
+		}
+
+		listReverseIterator
+		operator=(const listReverseIterator &other)
+		{
+			m_node = other.m_node;
+			return (*this);
+		}
+
+		listReverseIterator
+		operator++()
+		{
+			m_node = m_node->previous();
+			return (*this);
+		}
+
+		listReverseIterator
+		operator++(int) // ou int?
+		{
+			listReverseIterator tmp(*this);
+			operator++();
+			return (tmp);
+		}
+
+		listReverseIterator &
+		operator--()
+		{
+			m_node = m_node->next();
+		//	std::cout << "--\n";
+			return (*this);
+		}
+
+		listReverseIterator
+		operator--(int) // ou int?
+		{
+			listReverseIterator tmp(*this);
+			operator--();
+			return (tmp);
+		}
+
+		bool
+		operator==(const listReverseIterator &other) const
+		{
+			return (m_node == other.m_node);
+		}
+
+		bool
+		operator!=(const listReverseIterator &other) const
+		{
+			return (m_node != other.m_node);
+		}
+
+		reference
+		operator*() const
+		{
+			return (m_node->value());
+		}
+
+		Node *node() const
+		{
+			return (m_node);
+		}
+	};
+
+	template <class T>
+	class listConstReverseIterator
+	{
+	public:
+		typedef const T value_type;
+		typedef value_type &reference;
+
+	private:
+		typedef Node<T> Node;
+		//			typedef ft::Node<T> node;
+
+	private:
+		const Node *m_node;
+
+	public:
+		listConstReverseIterator() : m_node(NULL)
+		{
+		}
+
+		listConstReverseIterator(Node *node) : m_node(node)
+		{
+		}
+
+		listConstReverseIterator(const Node *node) : m_node(node)
+		{
+		}
+
+		listConstReverseIterator(const listConstReverseIterator &other) : m_node(other.m_node)
+		{
+		}
+
+		listConstReverseIterator
+		operator=(const listConstReverseIterator &other)
+		{
+			m_node = other.m_node;
+			return (*this);
+		}
+
+		listConstReverseIterator
+		operator++()
+		{
+			m_node = m_node->previous();
+			return (*this);
+		}
+
+		listConstReverseIterator
+		operator++(int) // ou int?
+		{
+			listConstReverseIterator tmp(*this);
+			operator++();
+			return (tmp);
+		}
+
+		listConstReverseIterator &
+		operator--()
+		{
+			m_node = m_node->next();
+		//	std::cout << "--\n";
+			return (*this);
+		}
+
+		listConstReverseIterator
+		operator--(int) // ou int?
+		{
+			listConstReverseIterator tmp(*this);
+			operator--();
+			return (tmp);
+		}
+
+		bool
+		operator==(const listConstReverseIterator &other) const
+		{
+			return (m_node == other.m_node);
+		}
+
+		bool
+		operator!=(const listConstReverseIterator &other) const
+		{
+			return (m_node != other.m_node);
+		}
+
+		reference
+		operator*() const
+		{
+			//return (m_node->value());
+			return (static_cast<const Node*>(m_node)->value());
+		}
+
+		const Node *
+		node() const
+		{
+			return (m_node);
+		}
+	};
+
 	template <typename T, typename Alloc = std::allocator<T> >
 	class list
 	{
@@ -350,8 +538,8 @@ namespace ft
 		//	typedef Iterator<T> iterator;
 		typedef listIterator<T> iterator;
 		typedef listConstIterator<T> const_iterator;
-		//typedef ft::ReverseIterator<iterator> reverse_iterator;
-		// typedef ft::ReverseIterator<iterator> const_reverse_iterator;
+		typedef ft::listReverseIterator<iterator> reverse_iterator;
+		typedef ft::listConstReverseIterator<iterator> const_reverse_iterator;
 		// typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
 		typedef size_t size_type;
 
@@ -421,9 +609,9 @@ namespace ft
 			m_allocNode.construct(node, value);
 			return (node);
 		}
-
-		explicit list(const allocator_type &alloc = allocator_type()) : //Constructs an empty list with zero elements.
-																		m_allocator(alloc)
+		
+		//Constructs an empty list with zero elements.
+		explicit list(const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
 			m_end = m_allocNode.allocate(1);
 			m_allocNode.construct(m_end, value_type());
@@ -437,35 +625,61 @@ namespace ft
 		}
 
 		//Constructs a new list with n elements and assigns val to each element of list.
-		list(size_type n, const_reference val = value_type(), const allocator_type &alloc = allocator_type())
+		list(size_type n, const value_type& val = value_type(), const allocator_type &alloc = allocator_type())
 		{
+			this->list(alloc);
+			for (int i = 0 ; i < n; i++)
+				push_back(val);
 		}
 
-		explicit list(size_type n) : m_size(n)
+		template <class InputIterator>
+  		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
 		{
+			this->list(alloc);
+			for (; first != last; first++)
+				push_back(*first);
 		}
-		// list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) //Constructs a list with as many elements as in range of first to last.
-		// {
-
-		// }
-		list(const list &other) // Constructs a list with copy of each elements present in existing list
+		
+		// Constructs a list with copy of each elements present in existing list
+		list(const list &other)
 		{
+			this->list(other.m_allocator);
+			
+			iterator it = other.begin();
+			iterator ite = other.end();
+			while(it != ite)
+				push_back(*it);			
 		}
 
 		~list()
 		{
+			iterator it = begin();
+			iterator ite = end();
+			
+			if (it != ite)
+			{
+				while (it != ite)
+				{
+					it = erase(it);
+				}
+			}
+			it = begin();
+			erase(it);
+			erase(ite);
 		}
 
-		list
-			&
-			operator=(const list &other)
+		list&
+		operator=(const list &other)
 		{
-			m_allocator = other.m_allocator;
-			m_allocNode = other.m_allocNode;
-			m_size = other.m_size;
-			m_begin = other.m_begin;
-			m_first = other.m_first;
-			m_end = other.m_end;
+			if (this != &other)
+			{
+				this->erase(begin(), end());
+				
+				iterator it = other.begin();
+				iterator ite = other.end();
+				while(it != ite)
+					push_back(*it);		
+			}
 		}
 
 	public:
@@ -491,35 +705,25 @@ namespace ft
 			return (const_iterator(m_end));
 		}
 
-		// const_iterator cbegin() const //c11
-		// {
-		// 	return (const_iterator(m_first));
-		// }
+		reverse_iterator rbegin()
+		{
+			return (reverse_iterator(m_end));
+		}
 
-		// const_iterator cend() const
-		// {
-		// 	return (const_iterator(m_end));
-		// }
+		const_reverse_iterator rbegin() const
+		{
+			return (const_reverse_iterator(m_end));
+		}
 
-		// reverse_iterator rbegin()
-		// {
-		// 	return (reverse_iterator(m_end));
-		// }
+		reverse_iterator rend()
+		{
+			return (reverse_iterator(m_begin));
+		}
 
-		// const_reverse_iterator rbegin() const
-		// {
-		// 	return (const_reverse_iterator(m_end));
-		// }
-
-		// reverse_iterator rend()
-		// {
-		// 	return (reverse_iterator(m_begin));
-		// }
-
-		// const_reverse_iterator rend() const
-		// {
-		// 	return (const_reverse_iterator(m_begin));
-		// }
+		const_reverse_iterator rend() const
+		{
+			return (const_reverse_iterator(m_begin));
+		}
 
 		/*ELEMENT ACCESS*/
 
@@ -595,15 +799,9 @@ namespace ft
 				m_first = node;
 			}
 			else
-			{
-		//		std::cout << "INSIDE\n";
 				node->connect(m_end);
-		//		std::cout << "AFTER INSIDE\n";
-			}
-
+		
 			m_size++;
-			// ft::construct_copy(&(node->data()), val);
-			// new (&(node->data()) (val);
 		}
 
 		void pop_back()
@@ -1306,19 +1504,19 @@ namespace ft
 	template <class T, class Alloc>
 	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 	{
-		
+		return (!(rhs < lhs));
 	}
 
 	template <class T, class Alloc>
 	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 	{
-	
+		return (rhs < lhs);
 	}
 
 	template <class T, class Alloc>
 	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
 	{
-		
+		return (!(lhs < rhs));
 	}
 	
 } // namespace ft

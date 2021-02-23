@@ -60,7 +60,6 @@ int main()
 	testor.back();
 	testor.empty();
 	testor.size();
-	// testor.assign();
 	testor.push_back();
 	testor.pop_back();
 	testor.init(array, 6);
@@ -70,11 +69,16 @@ int main()
 	testor.erase();
 	testor.erase2();
 	testor.splice();
-	// testor.clear();
 	testor.sort();
 	testor.merge();
 	testor.reverse();
-	
+	testor.clear();
+
+ft::list<int> listt (24,51);
+// ListTest<int> testor2;
+// 	ListTest<int> testor3(24, 51);
+// 	testor.checkIdenticalLists("INIT2");
+
 	std::list<int> first;
 	std::list<int> second;
 	ft::list<int> ft_first;
@@ -102,7 +106,16 @@ int main()
 
 	if ((ft_first < ft_second) == (first < second))
 		ListTest<int>::print("<", "OK");
-
+	if ((ft_first == ft_second) == (first == second))
+		ListTest<int>::print("==", "OK");
+	if ((ft_first != ft_second) == (first != second))
+		ListTest<int>::print("!=", "OK");
+	if ((ft_first <= ft_second) == (first <= second))
+		ListTest<int>::print("<=", "OK");
+	if ((ft_first > ft_second) == (first > second))
+		ListTest<int>::print(">", "OK");
+	if ((ft_first >= ft_second) == (first >= second))
+		ListTest<int>::print(">=", "OK");
 	//typedef ft::Iterator<ft::List<int> > iterator;
 // 	list.push_back(33);
 // 	ft::ListIterator<int> it = list.begin();

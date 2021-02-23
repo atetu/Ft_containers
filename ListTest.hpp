@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/22 14:59:00 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/23 12:03:28 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,21 @@ class ListTest
     public:
         ListTest<T>()
         {
-           
+        	m_ftList();
+			m_list();
         };
         
         ListTest(T* array, int size)
         {
            init(array, size);
         }
-
+		
+		ListTest<T>(int size, T val)
+		{
+			m_ftList(size, val);
+			m_list(size, val);
+		}
+        
 		void init(T* array, int size)
 		{
 			int i = 0;
@@ -50,7 +57,7 @@ class ListTest
                 i++;
             }
 		}
-        
+		
 		static void
         print(const std::string& test, const std::string & result)
         {
@@ -536,6 +543,6 @@ class ListTest
 			if (checkIdenticalLists("REVERSE", 1))
 				print("REVERSE", "OK");
 		}
-	
+
 };
 #endif
