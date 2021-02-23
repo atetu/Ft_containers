@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/23 17:22:54 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/23 18:50:03 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,7 @@ namespace ft
 		void
 		connect(Node *next)
 		{
-			// std::cout << "next function\n"
-			// 		  << std::endl;
 			m_previous = next->previous();
-			//std::cout << "HERE\n";
 			m_next = next;
 
 			if (m_previous)
@@ -83,7 +80,6 @@ namespace ft
 		void
 		connect(Node *previous, Node *next)
 		{
-			//std::cout << "previous next function" << std::endl;
 			m_previous = previous;
 			m_next = next;
 
@@ -91,7 +87,6 @@ namespace ft
 				m_previous->next(this);
 			if (next)
 				next->previous(this);
-		//	std::cout << "after connect" << std::endl;
 		}
 
 		void
@@ -151,12 +146,10 @@ namespace ft
 	{
 	public:
 		typedef T value_type;
-		// typedef N Node;
 		typedef value_type &reference;
 
 	private:
 		typedef Node<T> Node;
-//				typedef ft::Node<T> node;
 
 	private:
 		Node *m_node;
@@ -193,7 +186,7 @@ namespace ft
 		}
 
 		listIterator
-		operator++(int) // ou int?
+		operator++(int)
 		{
 			listIterator tmp(*this);
 			operator++();
@@ -204,12 +197,11 @@ namespace ft
 		operator--()
 		{
 			m_node = m_node->previous();
-		//	std::cout << "--\n";
 			return (*this);
 		}
 
 		listIterator
-		operator--(int) // ou int?
+		operator--(int)
 		{
 			listIterator tmp(*this);
 			operator--();
@@ -249,8 +241,7 @@ namespace ft
 
 	private:
 		typedef Node<T> Node;
-		//			typedef ft::Node<T> node;
-
+	
 	private:
 		const Node *m_node;
 
@@ -286,7 +277,7 @@ namespace ft
 		}
 
 		listConstIterator
-		operator++(int) // ou int?
+		operator++(int)
 		{
 			listConstIterator tmp(*this);
 			operator++();
@@ -297,12 +288,11 @@ namespace ft
 		operator--()
 		{
 			m_node = m_node->previous();
-		//	std::cout << "--\n";
 			return (*this);
 		}
 
 		listConstIterator
-		operator--(int) // ou int?
+		operator--(int)
 		{
 			listConstIterator tmp(*this);
 			operator--();
@@ -324,8 +314,8 @@ namespace ft
 		reference
 		operator*() const
 		{
-			//return (m_node->value());
-			return (static_cast<const Node*>(m_node)->value());
+			return (m_node->value());
+			//eturn (static_cast<const Node*>(m_node)->value());
 		}
 
 		const Node *
@@ -340,12 +330,10 @@ namespace ft
 	{
 	public:
 		typedef T value_type;
-		// typedef N Node;
 		typedef value_type &reference;
 
 	private:
 		typedef Node<T> Node;
-//				typedef ft::Node<T> node;
 
 	private:
 		Node *m_node;
@@ -382,7 +370,7 @@ namespace ft
 		}
 
 		listReverseIterator
-		operator++(int) // ou int?
+		operator++(int)
 		{
 			listReverseIterator tmp(*this);
 			operator++();
@@ -393,12 +381,11 @@ namespace ft
 		operator--()
 		{
 			m_node = m_node->next();
-		//	std::cout << "--\n";
 			return (*this);
 		}
 
 		listReverseIterator
-		operator--(int) // ou int?
+		operator--(int)
 		{
 			listReverseIterator tmp(*this);
 			operator--();
@@ -438,7 +425,6 @@ namespace ft
 
 	private:
 		typedef Node<T> Node;
-		//			typedef ft::Node<T> node;
 
 	private:
 		const Node *m_node;
@@ -475,7 +461,7 @@ namespace ft
 		}
 
 		listConstReverseIterator
-		operator++(int) // ou int?
+		operator++(int)
 		{
 			listConstReverseIterator tmp(*this);
 			operator++();
@@ -486,12 +472,11 @@ namespace ft
 		operator--()
 		{
 			m_node = m_node->next();
-		//	std::cout << "--\n";
 			return (*this);
 		}
 
 		listConstReverseIterator
-		operator--(int) // ou int?
+		operator--(int)
 		{
 			listConstReverseIterator tmp(*this);
 			operator--();
@@ -513,8 +498,8 @@ namespace ft
 		reference
 		operator*() const
 		{
-			//return (m_node->value());
-			return (static_cast<const Node*>(m_node)->value());
+			return (m_node->value());
+			//return (static_cast<const Node*>(m_node)->value());
 		}
 
 		const Node *
@@ -555,10 +540,6 @@ namespace ft
 		Node *m_begin;
 		Node *m_first;
 		Node *m_end;
-
-		// iterator m_end;
-		// iterator m_iterator;
-
 
 	private:
 		void
@@ -855,23 +836,11 @@ namespace ft
 		void pop_back()
 		{
 			if (m_size != 0)
-			{
-				std::cout << "ICI\n";
-				std::cout << m_end->previous()->value() << std::endl;
-				std::cout << m_first->value() << std::endl;
 				erase(iterator(m_end->previous()));
-				std::cout << m_first->value() << std::endl;
-				m_size--;
-				std::cout << "size: " << m_size << std::endl;
-			}
 			if (m_size == 0)
 				m_first = m_end;
 		}
-		// if (this->_first == this->_end)
-		//     this->_first = new_elem;
-		// this->_size++;
-		// }
-
+	
 		iterator insert(iterator pos, const T &value) // already allocated?
 		{
 			iterator it(m_first);
@@ -942,18 +911,14 @@ namespace ft
 			else if (pos == m_end)
 				return (iterator(m_end));
 
-			//std::cout << "ici\n";
 			Node *previous = pos.node()->previous();
 			Node *next = pos.node()->next();
-			//	std::cout << "node: " << pos.node()->value() << std::endl;
 			m_allocNode.destroy(pos.node());
 			m_allocNode.deallocate(pos.node(), 1);
 
-			//	std::cout << "la\n";
 			previous->next(next);
-			//			std::cout << "pouet\n";
 			next->previous(previous);
-			//				std::cout << "hello\n";
+		
 			m_size--;
 			return (iterator(next));
 		}
@@ -1495,10 +1460,7 @@ namespace ft
 				it.node()->next(prev_copy);
 				it++;
 			}
-		}
-		
-		
-		
+		}	
 	};
 		
 	template <class T, class Alloc>

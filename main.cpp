@@ -64,6 +64,7 @@ int main()
 	testor.push_front();
 	testor.push_back();
 	testor.pop_back();
+	testor.pop_front();
 	testor.init(array, 6);
 	testor.resize();
 	testor.insert();

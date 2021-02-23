@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ListTest.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/23 17:21:29 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/23 18:51:25 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ class ListTest
             typename std::list<T>::iterator itList = m_list.begin();
             typename std::list<T>::iterator iteList = m_list.end();
 
-			std::cout << "First: " << *itFtList << std::endl;
-			std::cout << "First: " << *itList << std::endl;
 			
             while (itFtList != iteFtList) //&& itList != iteList)
             {
@@ -227,9 +225,6 @@ class ListTest
             m_list.push_front(50);
 			if(checkIdenticalLists("PUSH_FRONT"))
 				print("PUSH_FRONT", "OK");
-			// m_ftList.push_back(0);
-            // m_list.push_back(0);
-            // checkIdenticalLists("PUSH_BACK");
         }
 		
         void push_back()
@@ -239,9 +234,6 @@ class ListTest
             m_list.push_back(6);
 			if(checkIdenticalLists("PUSH_BACK"))
 				print("PUSH_BACK", "OK");
-			// m_ftList.push_back(0);
-            // m_list.push_back(0);
-            // checkIdenticalLists("PUSH_BACK");
         }
 
         void pop_back()
@@ -251,21 +243,39 @@ class ListTest
                 print("POP_BACK", "WRONG");
             else
             {
-				std::cout << "max : " << max << std::endl;
-                while (max !=0)
+				for (int i = 0; i < 2; i++)
                 {
-					std::cout << "MAX: " << max << std::endl;
-                    m_ftList.pop_back();
+				    m_ftList.pop_back();
                     m_list.pop_back();
-					if (!(checkIdenticalLists("POP_BACK", 1)))
+					if (!(checkIdenticalLists("POP_BACK")))
 						return;
-					max--;
+					i++;
                 }
 			}
 			if(checkIdenticalLists("POP_BACK"))
 				print("POP_BACK", "OK");
         }
-        
+		
+		void pop_front()
+        {
+			int max;
+            if (!((max = m_ftList.size()) == m_list.size()))
+                print("POP_FRONT", "WRONG");
+            else
+            {
+				for (int i = 0; i < 2; i++)
+				{
+				    m_ftList.pop_back();
+                    m_list.pop_back();
+					if (!(checkIdenticalLists("POP_FRONT")))
+						return;
+					i++;
+                }
+			}
+			if(checkIdenticalLists("POP_FRONT"))
+				print("POP_FRONT", "OK");
+        }
+		
 		#define INSERT(itFt, itList, val)			\
 			m_ftList.insert(itFt, val);				\
 			m_list.insert(itList, val);				\
@@ -306,7 +316,7 @@ class ListTest
 			itList++;
 			m_ftList.insert(itFt, ft_list.begin(), ft_list.end());
 			m_list.insert(itList, list.begin(), list.end());
-			if (checkIdenticalLists("INSERT2", 1))
+			if (checkIdenticalLists("INSERT2"))
 				print("INSERT2", "OK");	
 		}
 
@@ -317,7 +327,7 @@ class ListTest
 				checkIdenticalLists("ERASE");				\
 			else											\
 			{												\
-				if (checkIdenticalLists("ERASE", 1))		\
+				if (checkIdenticalLists("ERASE"))		\
 					print("ERASE", "OK");					\
 			}
 			
@@ -327,16 +337,14 @@ class ListTest
 			typename std::list<T>::iterator itList = m_list.begin();
 			typename ft::listIterator<T> iteFt = m_ftList.end();
 			typename std::list<T>::iterator iteList = m_list.end();
-			std::cout << "Op\n";
+			
 			ERASE(itFt, itList, "ERASE", 1);
-		//	ERASE(iteFt, iteList, "ERASE", 1); //normal segfult;
+		//	ERASE(iteFt, iteList, "ERASE", 1); //normal segfault;
 		
-			itFt = m_ftList.begin();// with std::list, when doind itList++ just after works
+			itFt = m_ftList.begin();// with std::list, when doing itList++ just after works
 			itList = m_list.begin();
 			++itFt;
 			itList++;
-			std::cout << "IT:"<< *itFt << std::endl;
-			std::cout << "IT2: "<< *itList << std::endl;
 			ERASE(itFt, itList, "ERASE", 1);
 			
 		}
@@ -351,7 +359,7 @@ class ListTest
 			itList++;
 			m_ftList.erase(itFt, iteFt);
 			m_list.erase(itList, iteList);
-			if (checkIdenticalLists("ERASE2", 1))
+			if (checkIdenticalLists("ERASE2"))
 				print("ERASE2", "OK");
 		}
 		
@@ -364,11 +372,11 @@ class ListTest
 		{
 			m_ftList.resize(2);
 			m_list.resize(2);
-			if (checkIdenticalLists("RESIZE", 1))
+			if (checkIdenticalLists("RESIZE"))
 				print("RESIZE", "OK");
 			m_ftList.resize(6);
 			m_list.resize(6);
-			if (checkIdenticalLists("RESIZE 2", 1))
+			if (checkIdenticalLists("RESIZE 2"))
 				print("RESIZE 2", "OK");
 		}
 
@@ -379,13 +387,13 @@ class ListTest
 			
 			m_ftList.clear();
 			m_list.clear();
-			checkIdenticalLists("CLEAR", 0);
+			checkIdenticalLists("CLEAR");
 			
 			init(array, 3);
-			checkIdenticalLists("CLEAR", 1);
+			checkIdenticalLists("CLEAR");
 			m_ftList.clear();
 			m_list.clear();
-			if (checkIdenticalLists("CLEAR", 1))
+			if (checkIdenticalLists("CLEAR"))
 				print("CLEAR", "OK");
 		}
 		void splice()
@@ -408,26 +416,11 @@ class ListTest
 		
 			ft::listIterator<T> itt = m_ftList.begin();
 			typename std::list<T>::iterator ipp = m_list.begin();
-		//	ipp++;
-		//	itt++;
+	
 			m_ftList.splice(itt, m_other);
 			m_list.splice(ipp, other);
 			
-			// typename std::list<T>::iterator lit= m_list.begin();
-			// typename std::list<T>::iterator lite = m_list.end();
-			// while (lit != lite)
-			// {
-			// 	printf("%d\n", *lit);
-			// 	lit++;
-			// }
-			// ft::listIterator<T> litnew= m_ftList.begin();
-			// ft::listIterator<T> litenew = m_ftList.end();
-			// while (litnew != litenew)
-			// {
-			// 	printf("%d\n", *litnew);
-			// 	litnew++;
-			// }
-			if (checkIdenticalLists("SPLICE 1", 1))
+			if (checkIdenticalLists("SPLICE 1"))
 				print("SPLICE 1", "OK");
 			
 			ft::list<int> m_newOther;
@@ -449,29 +442,7 @@ class ListTest
 			m_ftList.splice(itt, m_newOther, itOther);
 			m_list.splice(ipp, newOther, ipOther);
 			
-			// typename std::list<T>::iterator lit= m_list.begin();
-			// typename std::list<T>::iterator lite = m_list.end();
-			// while (lit != lite)
-			// {
-			// 	printf("%d\n", *lit);
-			// 	lit++;
-			// }
-			// typename std::list<T>::iterator o= newOther.begin();
-			// typename std::list<T>::iterator oe = newOther.end();
-			// while (o!= oe)
-			// {
-			// 	printf("%d\n", *o);
-			// 	o++;
-			// }
-			// ft::listIterator<T> litnew= m_ftList.begin();
-			// ft::listIterator<T> litenew = m_ftList.end();
-			// while (litnew != litenew)
-			// {
-			// 	printf("%d\n", *litnew);
-			// 	litnew++;
-			// }
-			
-			if (checkIdenticalLists("SPLICE 2", 1))
+			if (checkIdenticalLists("SPLICE 2"))
 				print("SPLICE 2", "OK");
 
 			ft::list<int> m_newOther2;
@@ -493,7 +464,7 @@ class ListTest
 			m_ftList.splice(itt, m_newOther2, itOther2);
 			m_list.splice(ipp, newOther2, ipOther2);
 
-			if (checkIdenticalLists("SPLICE 3", 1))
+			if (checkIdenticalLists("SPLICE 3"))
 				print("SPLICE 3", "OK");
 		}
 
@@ -510,7 +481,7 @@ class ListTest
 			m_ftList.push_back (5);
  			m_ftList.sort();
 
-			if (checkIdenticalLists("SORT", 1))
+			if (checkIdenticalLists("SORT"))
 				print("SORT", "OK");
 
 			m_list.push_back (54);
@@ -524,7 +495,7 @@ class ListTest
 			m_ftList.push_back (10);
  			m_ftList.sort(mycomparison);
 
-			if (checkIdenticalLists("SORT2", 1))
+			if (checkIdenticalLists("SORT2"))
 				print("SORT2", "OK");
 		}
 		
@@ -543,36 +514,10 @@ class ListTest
 			ft_second.push_back (1);
 			ft_second.push_back (4);
 			ft_second.sort();
-			// std::cout << " AFTER SECOND SORT\n"<< std::flush;
-			// ft::listIterator<T> it= ft_second.begin();
-			// ft::listIterator<T> ite = ft_second.end();
-			// while (it != ite)
-			// {
-			// 	std::cout << *it<< std::endl;
-			// 	it++;
-			// }
-			m_ftList.merge(ft_second);
-			// std::cout << " AFTER MERGE\n"<< std::flush;
-			// ft::listIterator<T> it= m_ftList.begin();
-			// ft::listIterator<T> ite = m_ftList.end();
-			// while (it != ite)
-			// {
-			// 	std::cout << *it<< std::endl;
-			// 	it++;
-			// }
-			// m_ftList.merge(ft_second);
-// std::cout << "\n"<< std::flush;
-// typename std::list<T>::iterator lit= m_list.begin();
-// 			typename std::list<T>::iterator lite = m_list.end();
-// 			while (lit != lite)
-// 			{
-// 				std::cout << *lit<< std::endl;
-			
-// 				lit++;
-// 			}
 		
-
-			if (checkIdenticalLists("MERGE", 1))
+			m_ftList.merge(ft_second);
+		
+			if (checkIdenticalLists("MERGE"))
 				print("MERGE", "OK");
 
 			std::list<int> second2;
@@ -582,23 +527,7 @@ class ListTest
 			m_list.merge(second2, mycomparison);
 			m_ftList.merge(ft_second2, mycomparison);
 
-// ft::listIterator<T> it= m_ftList.begin();
-// 			ft::listIterator<T> ite = m_ftList.end();
-// 			while (it != ite)
-// 			{
-// 				std::cout << *it<< std::endl;
-// 				it++;
-// 			}
-
-			// typename std::list<T>::iterator lit= m_list.begin();
-			// typename std::list<T>::iterator lite = m_list.end();
-			// while (lit != lite)
-			// {
-			// 	std::cout << *lit<< std::endl;
-			
-			// 	lit++;
-			// }
-			if (checkIdenticalLists("MERGE2", 1))
+			if (checkIdenticalLists("MERGE2"))
 				print("MERGE2", "OK");
 		}
 
@@ -606,7 +535,7 @@ class ListTest
 		{
 			m_ftList.reverse();
 			m_list.reverse();
-			if (checkIdenticalLists("REVERSE", 1))
+			if (checkIdenticalLists("REVERSE"))
 				print("REVERSE", "OK");
 		}
 
@@ -620,7 +549,6 @@ class ListTest
 			{
 				if (*ft_r != *r)
 				{
-					std::cout << *ft_r << " - " << *r << std::endl;
 					print("REND", "WRONG");
 					return;
 				}
@@ -635,8 +563,6 @@ class ListTest
 
 		void maxSize()
 		{
-			std:: cout << "max ft: " << m_ftList.max_size() << std::endl;
-			std:: cout << "max list: " << m_list.max_size() << std::endl;
 			if (m_ftList.max_size() == m_list.max_size())
 				print("MAX SIZE", "OK");
 			else
