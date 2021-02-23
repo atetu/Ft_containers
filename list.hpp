@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/23 11:44:27 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/23 17:22:54 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -538,9 +538,9 @@ namespace ft
 		//	typedef Iterator<T> iterator;
 		typedef listIterator<T> iterator;
 		typedef listConstIterator<T> const_iterator;
-		typedef ft::listReverseIterator<iterator> reverse_iterator;
-		typedef ft::listConstReverseIterator<iterator> const_reverse_iterator;
-		// typedef typename ft::iterator_traits<iterator>::difference_type difference_type;
+		typedef ft::listReverseIterator<T> reverse_iterator;
+		typedef ft::listConstReverseIterator<T> const_reverse_iterator;
+		typedef typename std::ptrdiff_t difference_type;
 		typedef size_t size_type;
 
 		
@@ -601,6 +601,18 @@ namespace ft
 			return(m_begin);
 		}
 		
+		void create_list()
+		{
+			m_end = m_allocNode.allocate(1);
+			m_allocNode.construct(m_end, value_type());
+			m_begin = m_allocNode.allocate(1);
+			m_allocNode.construct(m_begin, value_type());
+			m_end->previous(m_begin);
+			m_end->next(NULL);
+			m_begin->next(m_end);
+			m_first = m_end;
+			m_size = 0;
+		}
 	public:
 		Node *
 		allocate(const T &value)
@@ -618,37 +630,32 @@ namespace ft
 			m_begin = m_allocNode.allocate(1);
 			m_allocNode.construct(m_begin, value_type());
 			m_end->previous(m_begin);
-			//m_end->next(NULL);
+			m_end->next(NULL);
 			m_begin->next(m_end);
 			m_first = m_end;
 			m_size = 0;
 		}
 
 		//Constructs a new list with n elements and assigns val to each element of list.
-		list(size_type n, const value_type& val = value_type(), const allocator_type &alloc = allocator_type())
+		list(size_type n, const value_type& val = value_type(), const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
-			this->list(alloc);
-			for (int i = 0 ; i < n; i++)
-				push_back(val);
+			create_list();
+			assign(n, val);
 		}
 
 		template <class InputIterator>
-  		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+  		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),  typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) : m_allocator(alloc)
 		{
-			this->list(alloc);
-			for (; first != last; first++)
-				push_back(*first);
+			create_list();
+			this->assign(first, last);
 		}
 		
 		// Constructs a list with copy of each elements present in existing list
 		list(const list &other)
 		{
-			this->list(other.m_allocator);
-			
-			iterator it = other.begin();
-			iterator ite = other.end();
-			while(it != ite)
-				push_back(*it);			
+			m_allocator = other.m_allocator;
+			create_list();
+			assign(other.begin(), other.end());	
 		}
 
 		~list()
@@ -673,13 +680,17 @@ namespace ft
 		{
 			if (this != &other)
 			{
-				this->erase(begin(), end());
-				
-				iterator it = other.begin();
-				iterator ite = other.end();
+				if (begin() != end())
+					this->erase(begin(), end());
+				const_iterator it = other.begin();
+				const_iterator ite = other.end();
 				while(it != ite)
+				{
 					push_back(*it);		
+					it++;
+				}
 			}
+			return (*this);
 		}
 
 	public:
@@ -707,12 +718,12 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(m_end));
+			return (reverse_iterator(m_end->previous()));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return (const_reverse_iterator(m_end));
+			return (const_reverse_iterator(m_end->previous()));
 		}
 
 		reverse_iterator rend()
@@ -761,24 +772,27 @@ namespace ft
 			return (m_size);
 		}
 
-		// size_type
-		// max_size() const
-		// {
-		// 	return (std::numeric_limits<difference_type>::max());
-		// }
+		size_type
+		max_size() const
+		{
+			return (std::numeric_limits<size_type>::max() / sizeof(Node));
+		}
 
 		/*MODIFIERS*/
 
 		template <class InputIterator>
 		void
-		assign(InputIterator first, InputIterator last)
+		assign(InputIterator first, InputIterator last) //,  typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr
 		{
-			//list list;
 			this->clear();
+			
 			while (first != last)
-				push_back(*first++);
+			{
+				push_back(*first);
+				first++;
+			}
 		}
-
+		
 		void assign(size_type n, const value_type &val)
 		{
 			this->clear();
@@ -786,6 +800,40 @@ namespace ft
 				this->push_back(val);
 		}
 
+		void
+		push_front(const value_type &val)
+		{
+			Node *node = m_allocNode.allocate(1);
+			m_allocNode.construct(node, val);
+
+			if (m_first == m_end)
+			{
+				node->connect(m_end);
+				m_begin->next(node);
+				m_first = node;
+			}
+			else
+			{
+				node->connect(m_first);
+				m_first = node;
+			}
+			m_size++;
+		}
+		
+		void pop_front()
+		{
+			
+			if (m_size != 0)
+			{
+				Node *next = m_first->next();	
+				erase(iterator(m_first));
+				m_size--;
+				m_first = next;
+			}
+			if (m_size == 0)
+				m_first = m_end;
+		}
+		
 		void
 		push_back(const value_type &val)
 		{
@@ -808,8 +856,13 @@ namespace ft
 		{
 			if (m_size != 0)
 			{
+				std::cout << "ICI\n";
+				std::cout << m_end->previous()->value() << std::endl;
+				std::cout << m_first->value() << std::endl;
 				erase(iterator(m_end->previous()));
+				std::cout << m_first->value() << std::endl;
 				m_size--;
+				std::cout << "size: " << m_size << std::endl;
 			}
 			if (m_size == 0)
 				m_first = m_end;

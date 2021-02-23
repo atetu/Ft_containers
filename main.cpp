@@ -53,13 +53,15 @@ int main()
 	int array[6] ={0, 1, 2, 3, 4, 5};
 	std::cout << "INITIALISATION - LIST<INT>(0, 1, 2, 3, 4, 5)\n";
 	ListTest<int> testor(array, 6);
-	testor.checkIdenticalLists("INIT");
+	if (testor.checkIdenticalLists("INIT"))
+		ListTest<int>::print("INIT2", "OK");
 	testor.begin();
 	testor.end();
 	testor.front();
 	testor.back();
 	testor.empty();
 	testor.size();
+	testor.push_front();
 	testor.push_back();
 	testor.pop_back();
 	testor.init(array, 6);
@@ -72,12 +74,26 @@ int main()
 	testor.sort();
 	testor.merge();
 	testor.reverse();
+	testor.rendIncrement();
+	testor.maxSize();
 	testor.clear();
 
-ft::list<int> listt (24,51);
-// ListTest<int> testor2;
-// 	ListTest<int> testor3(24, 51);
-// 	testor.checkIdenticalLists("INIT2");
+// ft::list<int> ftl(24, 3);
+	ListTest<int> testor2(24, 3);
+	if (testor2.checkIdenticalLists("INIT2"))
+		ListTest<int>::print("INIT2", "OK");
+
+	ListTest<int> testor3(3, 24, 3, 7);
+	if (testor3.checkIdenticalLists("INIT3"))
+		ListTest<int>::print("INIT3", "OK");
+	
+	ListTest<int> testor4(3, 24, "copy");
+	if (testor4.checkIdenticalLists("INIT4"))
+		ListTest<int>::print("INIT4", "OK");
+
+	// ListTest<int> testor3(24, 3);
+	// if (testor2.checkIdenticalLists("INIT2"))
+	// 	ListTest<int>::print("INIT2", "OK");
 
 	std::list<int> first;
 	std::list<int> second;
