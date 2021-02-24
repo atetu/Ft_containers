@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2020/12/28 18:28:06 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/24 11:51:03 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ namespace ft
 	
 
 	template<class T>
-	class Iterator: public ft::iterator<ft::input_iterator_tag, T>
+	class Iterator //: public ft::iterator<ft::input_iterator_tag, T>
 	{
 		private:
 			T *m_ptr;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/23 18:50:03 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/24 12:12:46 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -641,6 +641,7 @@ namespace ft
 
 		~list()
 		{
+			//clear() ???
 			iterator it = begin();
 			iterator ite = end();
 			
