@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/24 15:19:49 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/24 19:01:35 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ namespace ft
 				bool copyToDo = false;
 				ft::vector<T> copy;
 				iterator start;
-				
+				// check capacity
 				if (position != end())
 				{
 					start = position;
@@ -210,13 +210,43 @@ namespace ft
 
 			void insert (iterator position, size_type n, const value_type& val)
 			{
-
+				bool copyToDo = false;
+				ft::vector<T> copy;
+				iterator start;
+					// check capacity
+				if (position != end())
+				{
+					start = position;
+					start--;
+					copy.assign(position, end());
+					copyToDo = true;
+					erase(position, end());
+				}
+				for (;m_size < n +1 ; m_size++)
+					push_back(val);
+				if (copyToDo)
+					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
 			
 			template <class InputIterator>
     		void insert (iterator position, InputIterator first, InputIterator last)
 			{
-				
+				bool copyToDo = false;
+				ft::vector<T> copy;
+				iterator start;
+					// check capacity
+				if (position != end())
+				{
+					start = position;
+					start--;
+					copy.assign(position, end());
+					copyToDo = true;
+					erase(position, end());
+				}
+				for (;first < last; first++)
+					push_back(*first);
+				if (copyToDo)
+					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
 
 			iterator erase (iterator position)
