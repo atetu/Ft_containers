@@ -2,7 +2,7 @@
 #include <list>
 #include <iostream>
 #include "ListTest.hpp"
-
+#include "VectorTest.hpp"
 
 bool mycomparison (int first, double second)
 {
@@ -48,7 +48,8 @@ bool mycomparison (int first, double second)
 // 	}
 // }
 
-int main()
+
+void listTestor()
 {
 	int array[6] ={0, 1, 2, 3, 4, 5};
 	std::cout << "INITIALISATION - LIST<INT>(0, 1, 2, 3, 4, 5)\n";
@@ -133,6 +134,57 @@ int main()
 		ListTest<int>::print(">", "OK");
 	if ((ft_first >= ft_second) == (first >= second))
 		ListTest<int>::print(">=", "OK");
+}
+
+void vectorTestor()
+{
+// 	std::vector<int> vec;
+// 	std::vector<int>::iterator it = vec.begin();
+// std::cout << "True it : " << *it<< std::endl;
+// 	std::cout << "VECTOR TEST\n";
+	VectorTest<int> testor1;
+	VectorTest<int> testor2(24, 3);
+	VectorTest<int> testor3(3, 24, 3, 7);
+	VectorTest<int> testor4(3, 24, "copy");
+	testor4.size();
+	testor4.maxSize();
+	testor4.capacity();
+	testor4.empty();
+
+	// int array[6] ={0, 1, 2, 3, 4, 5};
+	// std::cout << "INITIALISATION - LIST<INT>(0, 1, 2, 3, 4, 5)\n";
+	// VectorTest<int> testor(array, 6);
+	// if (testor.checkIdenticalLists("INIT"))
+	// 	VectorTest<int>::print("INIT2", "OK");
+	// testor.begin();
+	// testor.end();
+	// testor.front();
+	// testor.back();
+	// testor.empty();
+	// testor.size();
+	// testor.push_front();
+	// testor.push_back();
+	// testor.pop_back();
+	// testor.pop_front();
+	// testor.init(array, 6);
+	// testor.resize();
+	// testor.insert();
+	// testor.insert2();
+	// testor.erase();
+	// testor.erase2();
+	// testor.splice();
+	// testor.sort();
+	// testor.merge();
+	// testor.reverse();
+	// testor.rendIncrement();
+	// testor.maxSize();
+	// testor.clear();
+}
+
+int main()
+{
+	// listTestor();
+	vectorTestor();
 	//typedef ft::Iterator<ft::List<int> > iterator;
 // 	list.push_back(33);
 // 	ft::ListIterator<int> it = list.begin();

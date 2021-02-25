@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/24 11:51:03 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/25 16:42:26 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,17 @@ namespace ft
 			{
 			}
   			
+			Iterator
+			operator=(const Iterator &other)
+			{
+				m_ptr = other.m_ptr;
+				return (*this);
+			}
+			
 			Iterator& 
 			operator++()
 			{
-				++m_ptr;
+				m_ptr++;
 				return (*this);
 			}
 			
@@ -82,7 +89,7 @@ namespace ft
 			Iterator& 
 			operator--()
 			{
-				--m_ptr;
+				m_ptr--;
 				return (*this);
 			}
 			
@@ -118,6 +125,186 @@ namespace ft
 				return (m_ptr);
 			}
 		
+	};
+
+	template <class T>
+	class ConstIterator
+	{
+	public:
+		typedef const T value_type;
+		typedef const value_type& const_reference;
+//		typedef value_type & reference;
+
+	// private:
+	// 	typedef Node<T> Node;
+	
+	// private:
+	// 	const Node *m_node;
+	
+	private:
+			value_type *m_ptr;
+
+	public:
+		public:
+			ConstIterator() : 
+				m_ptr(NULL)
+			{
+			}
+
+			ConstIterator(T* ptr):
+				m_ptr(ptr)
+			{
+			}
+			
+			ConstIterator(const T* ptr) :
+				m_ptr(ptr)
+			{
+			}
+			
+			ConstIterator(const ConstIterator& other) : 
+				m_ptr(other.m_ptr)
+			{
+			}
+  			
+			ConstIterator
+			operator=(const ConstIterator &other)
+			{
+				// m_ptr = other.m_ptr;
+				return (*this);
+			}
+			
+			ConstIterator& 
+			operator++()
+			{
+				m_ptr++;
+				return (*this);
+			}
+			
+  			ConstIterator
+			operator++(T) // ou int?
+			{
+				ConstIterator tmp(*this);
+				operator++();
+				return (tmp);
+			}
+			
+			ConstIterator& 
+			operator--()
+			{
+				m_ptr--;
+				return (*this);
+			}
+			
+  			ConstIterator
+			operator--(T) // ou int?
+			{
+				ConstIterator tmp(*this);
+				operator--();
+				return (tmp);
+			}
+			
+  			bool
+			operator==(const ConstIterator& other) const
+			{
+				std::cout << "ICI\n";
+				return (m_ptr == other.m_ptr);
+			}
+			
+  			bool
+			operator!=(const ConstIterator& other) const
+			{
+				return (m_ptr != other.m_ptr);
+			}
+			
+  			const_reference
+			operator*() const
+			{
+				return (*m_ptr);
+			}
+
+			const value_type*
+			value() const
+			{
+				return (m_ptr);
+			}
+	
+		// listConstIterator() : m_node(NULL)
+		// {
+		// }
+
+		// listConstIterator(Node *node) : m_node(node)
+		// {
+		// }
+
+		// listConstIterator(const Node *node) : m_node(node)
+		// {
+		// }
+
+		// listConstIterator(const listConstIterator &other) : m_node(other.m_node)
+		// {
+		// }
+
+		// listConstIterator
+		// operator=(const listConstIterator &other)
+		// {
+		// 	m_node = other.m_node;
+		// 	return (*this);
+		// }
+
+		// listConstIterator
+		// operator++()
+		// {
+		// 	m_node = m_node->next();
+		// 	return (*this);
+		// }
+
+		// listConstIterator
+		// operator++(int)
+		// {
+		// 	listConstIterator tmp(*this);
+		// 	operator++();
+		// 	return (tmp);
+		// }
+
+		// listConstIterator &
+		// operator--()
+		// {
+		// 	m_node = m_node->previous();
+		// 	return (*this);
+		// }
+
+		// listConstIterator
+		// operator--(int)
+		// {
+		// 	listConstIterator tmp(*this);
+		// 	operator--();
+		// 	return (tmp);
+		// }
+
+		// bool
+		// operator==(const listConstIterator &other) const
+		// {
+		// 	return (m_node == other.m_node);
+		// }
+
+		// bool
+		// operator!=(const listConstIterator &other) const
+		// {
+		// 	return (m_node != other.m_node);
+		// }
+
+		// reference
+		// operator*() const
+		// {
+		// 	return (m_node->value());
+		// 	//eturn (static_cast<const Node*>(m_node)->value());
+		// }
+
+		// const Node *
+		// node() const
+		// {
+		// 	return (m_node);
+		// }
 	};
 
 	template <class Iterator>

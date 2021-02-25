@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/24 19:01:35 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/25 17:13:49 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,81 +33,106 @@ namespace ft
 			typedef typename allocator_type::const_pointer const_pointer;
 			typedef Iterator<T> iterator;
 			typedef ConstIterator<T> const_iterator;
-			typedef ft::ReverseIterator<T> reverse_iterator;
-			typedef ft::ConstReverseIterator<T> const_reverse_iterator;
+		//	typedef ft::ReverseIterator<T> reverse_iterator;
+		//	typedef ft::ConstReverseIterator<T> const_reverse_iterator;
 		
 		private:
 			allocator_type m_allocator;
-			pointer m_array;
+			value_type* m_array;
 			int m_size;
 			int m_capacity;
 		
 		public:
-			explicit vector(const allocator_type& alloc = allocator_type()) : m_allocator(alloc), m_array(nullptr), m_size(0), m_capacity(0)
-			{
-			}
-
-			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : m_allocator(alloc), m_array(nullptr), m_size(0), m_capacity(0)
-			{
-				assign(n, val);
-			}
-
-			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) :
+			explicit vector(const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
 				m_array(nullptr),
 				m_size(0),
 				m_capacity(0)
 			{
+			}
+
+			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) :
+				m_allocator(alloc),
+				m_array(nullptr),
+				m_size(0),
+				m_capacity(0)
+			{
+				assign(n, val);
+			}
+
+			// Implementation for class types other than integral types (char, int...)
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+            typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) :
+				m_allocator(alloc),
+				m_array(nullptr),
+				m_size(0),
+				m_capacity(0)
+			{
+				//std::cout << "WHERE IT SHOULD NOT BE\n" << std::flush;
 				assign(first, last);
 			}
 
 			vector (const vector& x) :
 				m_allocator(x.m_allocator),
 				m_array(nullptr),
-				m_size(x.m_size),
-				m_capacity(x.m_capacity)
+				m_size(0),
+				m_capacity(0)
 			{
-				assign(other.begin(), other.end());
+				// check size of x??
+				assign(x.begin(), x.end());
 			}
 
 			~vector()
 			{
 				//clear
+				m_allocator.deallocate(m_array, m_size);
 			}
 
-			vector& operator= (const vector& x)
+			vector& operator= (vector const & x)
 			{
 				if (this != &x)
 				{
 					//clear();
 					m_allocator = x.m_allocator;
 					m_array = nullptr;
-					m_size = x.m_size;
-					m_capacity = x.m_capacity;
+					m_size = 0;
+					m_capacity = 0;
 					
-					assign(other.begin(), other.end());
+				//	const_iterator it = x.begin();
+				//	std::cout << "IT: " << it.value() << std::endl;
+					
+					if (x.m_capacity != 0)
+						reserve(m_capacity);
+				
+					if (x.size() != 0)
+						assign(x.begin(), x.end());
+				
 				}
+				return(*this);
 			}
 			
 			/*ITERATORS*/
 
 			iterator begin()
 			{
-				return (iterator(&m_array[0]));
+				return (iterator(m_array));
 			}
 			
-			// const_iterator begin() const
-			// {
-				
-			// }
+			const_iterator begin() const
+			{
+				return (const_iterator(&m_array[0]));
+			}
 			
 			iterator end()
 			{
-				return (iterator(&m_array[m_size + 1]));
+				return (iterator(&m_array[m_size]));
 			}
 			
-			
+			const_iterator end() const
+			{
+				return (const_iterator(&m_array[m_size]));
+			}
 			/*CAPACITY*/
 
 			size_type size() const
@@ -120,21 +145,6 @@ namespace ft
 					return (std::numeric_limits<size_type>::max() / sizeof(pointer));
 			}
 			
-			voir reserve(size_type n)
-			{
-				if (n > m_capacity)
-				{
-					//if (n <= max_size())
-					for (size_type i = 0; i < n; i++)
-					{
-						//clear;
-						m_array = m_allocator.allocate(n);
-					}
-					m_capacity = n;
-				}
-				//copy
-			}
-
 			void resize (size_type n, value_type val = value_type())
 			{
 				if (n < m_size)
@@ -146,45 +156,84 @@ namespace ft
 				{
 					if (n + 1 > m_capacity)
 						reserve(n + 10); // check max
-					for(size_type i = m_ size; i < n + 1; i++)
+					for(size_type i = m_size; i < n + 1; i++)
 						push_back(val);
 				}
 			}
 			
+			size_type capacity() const
+			{
+				return (m_capacity);
+			}
+			
+			bool empty() const
+			{
+				return (m_size == 0);
+			}
+			
+			void reserve(size_type n)
+			{
+				if (n > m_capacity)
+				{
+					clear();
+					
+					m_array = m_allocator.allocate(n);
+					// }
+					m_capacity = n;
+
+				}
+				//copy
+			}
+
+			
+			
 
 
 			/*MODIFIERS*/
-			
-			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
-			{
-			//	clear();
-				int neededSize = last - first;
-				if (neededSize < 0)
-					neededSize = -neededSize;
-				if (neededSize >= m_capacity)
-					reserve(neededSize + 10); // check max limit
-				for (;first != last; first++)
-				{
-					push_back(*first);
-				}
-			}
-
 			void assign(size_type n, const value_type& val)
 			{
-				clear();
+			//	clear();
 				
 				if (n >= m_capacity)
 					reserve(n +10) ; // check way to reserve  + limit max_size
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
 			}
+			
+			template <class InputIterator>
+			void assign (InputIterator first, InputIterator last)
+			{
+			//	clear();
+				int neededSize = last.value() - first.value();
+			//	std::cout << "HERE\n" << std::flush;
+				if (neededSize < 0)
+					neededSize = -neededSize;
+				if (neededSize >= m_capacity)
+					reserve(neededSize + 10); // check max limit
+			//	std::cout << "HERE\n" << std::flush;
+				for (;first != last; first++)
+				{
+		//			std::cout << "First: " << *first << "\n" << std::flush;
+					push_back(*first);
+			//		std::cout << "HERE\n" << std::flush;
+				}
+			}
+
+			// void assign(size_type n, const value_type& val)
+			// {
+			// //	clear();
+				
+			// 	if (n >= m_capacity)
+			// 		reserve(n +10) ; // check way to reserve  + limit max_size
+			// 	for (size_type i = 0; i < n; i++)
+			// 		push_back(val);
+			// }
 
 			void push_back (const value_type& val)
 			{
-				if (m_size + 1 >= m_capacity)
+				if (m_size + 1 > m_capacity)
 					reserve(m_size + 10) ; // check way to reserve  + limit max_size
-				m_allocator.construct(&m_array[m_size], val)
+				m_allocator.construct(m_array + m_size, val);
 				m_size++;
 			}
 
@@ -293,6 +342,12 @@ namespace ft
 				}
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
+			}
+
+			void clear()
+			{
+				m_allocator.destroy(m_array);
+				m_size = 0;
 			}
 	};
 };
