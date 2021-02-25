@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/25 17:13:49 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/25 20:02:17 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ namespace ft
 
 			size_type max_size() const
 			{
-					return (std::numeric_limits<size_type>::max() / sizeof(pointer));
+					return (std::numeric_limits<size_type>::max() / sizeof(value_type));
 			}
 			
 			void resize (size_type n, value_type val = value_type())
@@ -156,7 +156,7 @@ namespace ft
 				{
 					if (n + 1 > m_capacity)
 						reserve(n + 10); // check max
-					for(size_type i = m_size; i < n + 1; i++)
+					for(size_type i = m_size; i < n; i++)
 						push_back(val);
 				}
 			}
@@ -219,16 +219,6 @@ namespace ft
 				}
 			}
 
-			// void assign(size_type n, const value_type& val)
-			// {
-			// //	clear();
-				
-			// 	if (n >= m_capacity)
-			// 		reserve(n +10) ; // check way to reserve  + limit max_size
-			// 	for (size_type i = 0; i < n; i++)
-			// 		push_back(val);
-			// }
-
 			void push_back (const value_type& val)
 			{
 				if (m_size + 1 > m_capacity)
@@ -242,6 +232,7 @@ namespace ft
 				bool copyToDo = false;
 				ft::vector<T> copy;
 				iterator start;
+				iterator ret;
 				// check capacity
 				if (position != end())
 				{
@@ -250,11 +241,13 @@ namespace ft
 					copy.assign(position, end());
 					copyToDo = true;
 					erase(position, end());
+					
 				}
-				
 				push_back(val);
+				ret = end();
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
+				return (ret);
 			}
 
 			void insert (iterator position, size_type n, const value_type& val)
@@ -282,18 +275,18 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-				iterator start;
+					
 					// check capacity
+			
 				if (position != end())
 				{
-					start = position;
-					start--;
 					copy.assign(position, end());
 					copyToDo = true;
 					erase(position, end());
 				}
-				for (;first < last; first++)
+				for (;first != last; first++)
 					push_back(*first);
+				
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -302,20 +295,25 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-				iterator start;
+				iterator ret;
 				
 				if (position != end() && position != end()--)
 				{
-					start = position;
-					start--;
 					copy.assign(position++, end());
 					copyToDo = true;
 				}
-				m_allocator.destroy(position.pointer());
-				m_allocator.deallocate(position.pointer());
+				ret = position;
+				if (ret != begin())
+					ret--;
+				m_allocator.destroy(position.value());
+				// m_allocator.deallocate(position.pointer());
 				m_size--;
 				if (copyToDo)
+				{
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
+					ret++;
+				}
+				return (ret);
 			}
 			
 			iterator erase (iterator first, iterator last)
@@ -324,7 +322,7 @@ namespace ft
 				ft::vector<T> copy;
 				iterator start;
 				iterator tmp;
-				
+				std::cout << "ICI\n" << std::flush;
 				if (last != end() && last != end()--)
 				{
 					start = first;
@@ -332,16 +330,15 @@ namespace ft
 					copy.assign(last, end());
 					copyToDo = true;
 				}
-				while(first != last)
-				{
-					tmp = first;
-					tmp++;
-					m_allocator.destroy(first.pointer());
-					m_allocator.deallocate(first.pointer());
-					m_size--;
-				}
+				
+				size_type toDelete = end().value() - first.value();
+				
+				m_allocator.destroy(first.value()); // does it destroy all the rest of the vector until the end?
+				m_size -= toDelete;;
+		
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
+				return (last); // to check
 			}
 
 			void clear()

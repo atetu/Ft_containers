@@ -149,7 +149,10 @@ void vectorTestor()
 	testor4.size();
 	testor4.maxSize();
 	testor4.capacity();
+	testor4.resize();
 	testor4.empty();
+	testor3.push_back();
+	testor3.insert();
 
 	// int array[6] ={0, 1, 2, 3, 4, 5};
 	// std::cout << "INITIALISATION - LIST<INT>(0, 1, 2, 3, 4, 5)\n";

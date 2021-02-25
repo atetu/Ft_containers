@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   VectorTest.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/25 17:14:59 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/25 19:42:43 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ class VectorTest
 
 			if (m_ftvector.size() && m_vector.size())
 			{
+				std::cout << "SIZE: " << m_ftvector.size() << "-" << m_vector.size() << std::endl;
 				while (itFtvector != iteFtvector) //&& itvector != itevector)
 				{
 					if (writeOption)
@@ -227,12 +228,26 @@ class VectorTest
 		void maxSize()
 		{
 			CHECK_VALUES_VEC(max_size, "MAX_SIZE");
-			// if (m_ftvector.max_size() == m_vector.max_size())
-			// 	print("MAX SIZE", "OK");
-			// else
-			// 	print("MAX SIZE", "WRONG");
 		}
 
+		void resize()
+		{
+			m_ftvector.resize(2);
+			m_vector.resize(2);
+			if(checkIdenticalvectors("RESIZE 1", 1))
+				print("RESIZE 1", "OK");
+
+			m_ftvector.resize(0);
+			m_vector.resize(0);
+			if(checkIdenticalvectors("RESIZE 2"))
+				print("RESIZE 2", "OK");
+				
+			m_ftvector.resize(5, 24);
+			m_vector.resize(5, 24);
+			if(checkIdenticalvectors("RESIZE 3"))
+				print("RESIZE 3", "OK");
+		}
+		
 		void capacity()
         {
             CHECK_VALUES_VEC(capacity, "CAPACITY");
@@ -255,14 +270,14 @@ class VectorTest
 	// 			print("PUSH_FRONT", "OK");
     //     }
 		
-    //     void push_back()
-    //     {
-    //         m_ftvector.push_back(6);
+        void push_back()
+        {
+            m_ftvector.push_back(6);
           
-    //         m_vector.push_back(6);
-	// 		if(checkIdenticalvectors("PUSH_BACK"))
-	// 			print("PUSH_BACK", "OK");
-    //     }
+            m_vector.push_back(6);
+			if(checkIdenticalvectors("PUSH_BACK"))
+				print("PUSH_BACK", "OK");
+        }
 
     //     void pop_back()
     //     {
@@ -304,27 +319,27 @@ class VectorTest
 	// 			print("POP_FRONT", "OK");
     //     }
 		
-	// 	#define INSERT(itFt, itvector, val)			\
-	// 		m_ftvector.insert(itFt, val);				\
-	// 		m_vector.insert(itvector, val);				\
-	// 		if (!(checkIdenticalvectors("INSERT")))	\
-	// 			return;
+		#define INSERT_VEC(itFt, itvector, val)			\
+			m_ftvector.insert(itFt, val);				\
+			m_vector.insert(itvector, val);				\
+			if (!(checkIdenticalvectors("INSERT")))	\
+				return;
 				
-	// 	void insert()
-	// 	{
-	// 		typename ft::vectorIterator<T> itFt = m_ftvector.begin();
-	// 		typename ft::vectorIterator<T> iteFt = m_ftvector.end();
-    //         typename std::vector<T>::iterator itvector = m_vector.begin();
-    //         typename std::vector<T>::iterator itevector = m_vector.end();
+		void insert()
+		{
+			typename ft::Iterator<T> itFt = m_ftvector.begin();
+			typename ft::Iterator<T> iteFt = m_ftvector.end();
+            typename std::vector<T>::iterator itvector = m_vector.begin();
+            typename std::vector<T>::iterator itevector = m_vector.end();
 		
-	// 		INSERT(itFt, itvector, 42);
-	// 		INSERT(iteFt, itevector, 38);
+			INSERT_VEC(itFt, itvector, 42);
+			INSERT_VEC(iteFt, itevector, 38);
 			
-	// 		++itFt;
-	// 		++itvector;
-	// 		INSERT(itFt, itvector, 38);
-	// 		print("INSERT", "OK");
-	// 	}
+			++itFt;
+			++itvector;
+			INSERT_VEC(itFt, itvector, 38);
+			print("INSERT", "OK");
+		}
 
 	// 	void insert2()
 	// 	{
