@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/26 12:05:26 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/26 17:10:31 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,16 @@ class VectorTest
             typename std::vector<T>::iterator itvector = m_vector.begin();
             typename std::vector<T>::iterator itevector = m_vector.end();
 
+			// while(itvector != itevector)
+			// {
+			// 	std::cout << "VECTOR: "<< *itvector << std::endl;
+			// 	itvector++;
+			// }
+			// while(itFtvector != iteFtvector)
+			// {
+			// 	std::cout << "FT: "<< *itFtvector << std::endl;
+			// 	itFtvector++;
+			// }
 			if (m_ftvector.size() && m_vector.size())
 			{
 				std::cout << "SIZE: " << m_ftvector.size() << "-" << m_vector.size() << std::endl;
@@ -322,7 +332,7 @@ class VectorTest
 		#define INSERT_VEC(itFt, itvector, val)			\
 			m_ftvector.insert(itFt, val);				\
 			m_vector.insert(itvector, val);				\
-			if (!(checkIdenticalvectors("INSERT")))	\
+			if (!(checkIdenticalvectors("INSERT", 1)))	\
 				return;
 				
 		void insert()
@@ -344,7 +354,7 @@ class VectorTest
 		#define INSERT_VEC1(itFt, itvector, val, size)	\
 			m_ftvector.insert(itFt, size, val);				\
 			m_vector.insert(itvector, size, val);				\
-			if (!(checkIdenticalvectors("INSERT1")))	\
+			if (!(checkIdenticalvectors("INSERT1", 1)))	\
 				return;
 
 		void insert1()
@@ -359,12 +369,21 @@ class VectorTest
 			// m_vector.insert(itevector, 100);
 			// if (checkIdenticalvectors("INSERT1"))
 			// 	print("INSERT", "OK");
-			INSERT_VEC1(iteFt, itevector, 100, 4);
 			
-			// ++itFt;
-			// ++itvector;
-			// INSERT_VEC1(itFt, itvector, 333, -1);
-			// print("INSERT1", "OK");
+			itFt = m_ftvector.begin();
+			iteFt = m_ftvector.end();
+            itvector = m_vector.begin();
+            itevector = m_vector.end();
+			INSERT_VEC1(iteFt, itevector, 100, 4);
+		
+			// itFt = m_ftvector.begin();
+			// iteFt = m_ftvector.end();
+            // itvector = m_vector.begin();
+            // itevector = m_vector.end();
+			// m_vector.insert(itvector, -1, 33);
+			// m_ftvector.insert(itFt, -1, 33);
+			//INSERT_VEC1(itFt, itvector, 333, -1); //fonctionne pas
+			print("INSERT1", "OK");
 		}
 
 		void insert2()

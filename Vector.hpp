@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/26 12:04:58 by atetu            ###   ########.fr       */
+/*   Updated: 2021/02/26 17:10:53 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,12 +175,21 @@ namespace ft
 			{
 				if (n > m_capacity)
 				{
-					clear();
-					
-					m_array = m_allocator.allocate(n);
-					// }
+					if (m_capacity)
+					{
+						T* copy = m_allocator.allocate(n);
+						
+						for (size_type i = 0; i < m_size; i++)
+							m_allocator.construct(copy + i, m_array[i]);
+						m_allocator.destroy(m_array);
+						m_allocator.deallocate(m_array, m_size);
+						m_array = copy;
+					}
+					else
+					{
+						m_array = m_allocator.allocate(n);
+					}
 					m_capacity = n;
-
 				}
 				//copy
 			}
@@ -255,25 +264,24 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-				iterator start;
-					// check capacity
-				if (position != end())
+				//VERIFIER MAX SIZE
+				if (n < 0)
+					return;
+				int p = position.value()- begin().value();
+						
+				if ((m_size + n + 1) > m_capacity)
+					reserve(m_size + n + 1);
+	
+				if (&m_array[p] != end().value())
 				{
-					start = position;
-					start--;
-					copy.assign(position, end());
+					copy.assign(iterator(&m_array[p]), end());
 					copyToDo = true;
-					erase(position, end());
+					erase(iterator(&m_array[p]), end());
 				}
-				// std::cout << "SIZE: " << m_size << std::endl;
-				// std::cout << "N: " << n << std::endl;
 			
-			
-				for (size_type size = m_size; size < n ; size++)
-				{
-					// std::cout << "size inside: " << m_size << std::endl;
+				for (size_type i = 0; i < n; i++)
 					push_back(val);
-				}
+			
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -284,18 +292,25 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-					
-					// check capacity
+				int p = position.value()- begin().value();
+								
+				int neededSize = last.value() - first.value();
+				if (neededSize < 0)
+					neededSize = -neededSize;
 			
-				if (position != end())
+				if ((m_size + neededSize + 1) > m_capacity)
+					reserve(m_size + neededSize + 1);
+							
+				if (&m_array[p] != end().value())
 				{
-					copy.assign(position, end());
 					copyToDo = true;
-					erase(position, end());
+					copy.assign(begin(), end());
+					erase(iterator(&m_array[p]), end());
 				}
-				for (;first != last; first++)
-					push_back(*first);
 				
+				for (; first != last; first++)
+					push_back(*first);
+			
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -315,7 +330,6 @@ namespace ft
 				if (ret != begin())
 					ret--;
 				m_allocator.destroy(position.value());
-				// m_allocator.deallocate(position.pointer());
 				m_size--;
 				if (copyToDo)
 				{
@@ -331,7 +345,7 @@ namespace ft
 				ft::vector<T> copy;
 				iterator start;
 				iterator tmp;
-				std::cout << "ICI\n" << std::flush;
+			
 				if (last != end() && last != end()--)
 				{
 					start = first;
