@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   VectorTest.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/25 19:42:43 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/26 12:05:26 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,27 +341,53 @@ class VectorTest
 			print("INSERT", "OK");
 		}
 
-	// 	void insert2()
-	// 	{
-	// 		std::vector<T> vector;
-	// 		vector.push_back(10);
-	// 		vector.push_back(11);
+		#define INSERT_VEC1(itFt, itvector, val, size)	\
+			m_ftvector.insert(itFt, size, val);				\
+			m_vector.insert(itvector, size, val);				\
+			if (!(checkIdenticalvectors("INSERT1")))	\
+				return;
 
-	// 		ft::vector<T> ft_vector;
-	// 		ft_vector.push_back(10);
-	// 		ft_vector.push_back(11);
+		void insert1()
+		{
+			typename ft::Iterator<T> itFt = m_ftvector.begin();
+			typename ft::Iterator<T> iteFt = m_ftvector.end();
+            typename std::vector<T>::iterator itvector = m_vector.begin();
+            typename std::vector<T>::iterator itevector = m_vector.end();
+		
+			INSERT_VEC1(itFt, itvector, 100, 4);
+			// m_ftvector.insert(iteFt, 100);
+			// m_vector.insert(itevector, 100);
+			// if (checkIdenticalvectors("INSERT1"))
+			// 	print("INSERT", "OK");
+			INSERT_VEC1(iteFt, itevector, 100, 4);
+			
+			// ++itFt;
+			// ++itvector;
+			// INSERT_VEC1(itFt, itvector, 333, -1);
+			// print("INSERT1", "OK");
+		}
 
-	// 		typename ft::vectorIterator<T> itFt = m_ftvector.begin();
-	// 		typename std::vector<T>::iterator itvector = m_vector.begin();
-	// 		m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
-	// 		m_vector.insert(itvector, vector.begin(), vector.end());
-	// 		itFt++;
-	// 		itvector++;
-	// 		m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
-	// 		m_vector.insert(itvector, vector.begin(), vector.end());
-	// 		if (checkIdenticalvectors("INSERT2"))
-	// 			print("INSERT2", "OK");	
-	// 	}
+		void insert2()
+		{
+			std::vector<T> vector;
+			vector.push_back(10);
+			vector.push_back(11);
+
+			ft::vector<T> ft_vector;
+			ft_vector.push_back(10);
+			ft_vector.push_back(11);
+
+			typename ft::Iterator<T> itFt = m_ftvector.begin();
+			typename std::vector<T>::iterator itvector = m_vector.begin();
+			m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
+			m_vector.insert(itvector, vector.begin(), vector.end());
+			itFt++;
+			itvector++;
+			m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
+			m_vector.insert(itvector, vector.begin(), vector.end());
+			if (checkIdenticalvectors("INSERT2"))
+				print("INSERT2", "OK");	
+		}
 
 	// 	#define ERASE(itFt, itvector, nameTest, lastTest)		\
 	// 		m_ftvector.erase(itFt);							\

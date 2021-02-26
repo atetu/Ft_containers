@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/25 20:02:17 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/02/26 12:04:58 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,7 @@ namespace ft
 				// check capacity
 				if (position != end())
 				{
+					// std::cout << "ICI\n";
 					start = position;
 					start--;
 					copy.assign(position, end());
@@ -264,14 +265,22 @@ namespace ft
 					copyToDo = true;
 					erase(position, end());
 				}
-				for (;m_size < n +1 ; m_size++)
+				// std::cout << "SIZE: " << m_size << std::endl;
+				// std::cout << "N: " << n << std::endl;
+			
+			
+				for (size_type size = m_size; size < n ; size++)
+				{
+					// std::cout << "size inside: " << m_size << std::endl;
 					push_back(val);
+				}
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
 			
 			template <class InputIterator>
-    		void insert (iterator position, InputIterator first, InputIterator last)
+    		void insert (iterator position, InputIterator first, InputIterator last,
+            typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
