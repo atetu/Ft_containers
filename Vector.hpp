@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/26 17:10:53 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/01 16:23:45 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <memory>
 #include <iostream>
+#include <exception>
+
 #include "Iterator.hpp"
 
 namespace ft
@@ -195,8 +197,57 @@ namespace ft
 			}
 
 			
-			
+			/*ELEMENT ACCESS*/
 
+			reference operator[] (size_type n)
+			{
+				return(m_array[n]);
+			}
+			
+			const_reference operator[] (size_type n) const
+			{
+				return(m_array[n]); // check
+			}
+			
+			reference at (size_type n)
+			{
+				if (m_size == 0 || n < 0 || n >= m_size)
+				{
+					throw (std::out_of_range("vector"));
+				}
+				else
+					return(m_array[n]);		
+			}
+			
+			const_reference at (size_type n) const
+			{
+				if (m_size == 0 || n < 0 || n >= m_size)
+				{
+					throw (std::out_of_range("vector"));
+				}
+				else
+					return(m_array[n]);		
+			}
+
+			reference front()
+			{
+				return (m_array[0]);
+			}
+
+			const_reference front() const
+			{
+				return (m_array[0]);
+			}
+
+			reference back()
+			{
+				return (m_array[m_size - 1]);
+			}
+
+			const_reference back() const
+			{
+				return (m_array[m_size - 1]);
+			}
 
 			/*MODIFIERS*/
 			void assign(size_type n, const value_type& val)
@@ -234,8 +285,17 @@ namespace ft
 					reserve(m_size + 10) ; // check way to reserve  + limit max_size
 				m_allocator.construct(m_array + m_size, val);
 				m_size++;
+				// std::cout << "Val: " << val << std::endl;
 			}
 
+			void pop_back()
+			{
+				iterator last = end();
+				last--;
+				if (m_size != 0)
+					erase(last);
+			}
+			
 			iterator insert (iterator position, const value_type& val)
 			{
 				bool copyToDo = false;
@@ -304,13 +364,15 @@ namespace ft
 				if (&m_array[p] != end().value())
 				{
 					copyToDo = true;
-					copy.assign(begin(), end());
+					copy.assign(iterator(&m_array[p]), end());
 					erase(iterator(&m_array[p]), end());
 				}
 				
 				for (; first != last; first++)
+				{
+					// std::cout << "First:" << *first << std::endl;
 					push_back(*first);
-			
+				}
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -323,17 +385,23 @@ namespace ft
 				
 				if (position != end() && position != end()--)
 				{
-					copy.assign(position++, end());
+					copy.assign(position, end());
 					copyToDo = true;
 				}
 				ret = position;
 				if (ret != begin())
 					ret--;
-				m_allocator.destroy(position.value());
-				m_size--;
+				erase(position, end());
+				// std::cout << "SIZE: " << m_size << std::endl;
+				// std::cout << "Begin: " << *(copy.begin()) << std::endl;
+				// std::cout << "Begin++: " << *(copy.begin()++) << std::endl;
+			//	m_allocator.destroy(position.value());
+			//	m_size--;
 				if (copyToDo)
 				{
-					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
+					iterator start = copy.begin();
+					start++;
+					insert(iterator(&m_array[m_size]), start, copy.end());
 					ret++;
 				}
 				return (ret);
@@ -369,6 +437,93 @@ namespace ft
 				m_allocator.destroy(m_array);
 				m_size = 0;
 			}
+
+			void swap(vector &x)
+			{
+				ft::vector<T> copy;
+				size_type x_capacity = x.capacity();
+				size_type this_capacity = capacity();
+				copy.assign(begin(), end());
+				erase(begin(), end());
+				reserve(x_capacity);
+				insert(begin(), x.begin(), x.end());
+				x.erase(x.begin(), x.end());
+				x.reserve(this_capacity);
+				x.assign(copy.begin(), copy.end());
+				copy.clear();
+			}
 	};
+
+	template <class T, class Alloc>
+  	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
+
+	template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return (false);
+		typename ft::vector<T>::const_iterator it_lhs = lhs.begin();
+		typename ft::vector<T>::const_iterator ite_lhs = lhs.end();
+		typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
+		typename ft::vector<T>::const_iterator ite_rhs = rhs.end();
+		while(it_lhs != ite_lhs && it_rhs != ite_rhs)
+		{
+			if (*it_lhs != *it_rhs)
+				return(false);
+			it_lhs++;
+			it_rhs++;
+		}
+		if (it_lhs == ite_lhs && it_rhs == ite_rhs)
+			return(true);
+		return (false);
+	}
+
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return(!(lhs == rhs));
+	}
+
+	template <class T, class Alloc>
+	bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		typename ft::vector<T>::const_iterator it_lhs = lhs.begin();
+		typename ft::vector<T>::const_iterator ite_lhs = lhs.end();
+		typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
+		typename ft::vector<T>::const_iterator ite_rhs = rhs.end();
+		
+		while (it_lhs != ite_lhs)
+		{
+			if (it_rhs == ite_rhs || *it_rhs < *it_lhs)
+				return false;
+			else if (*it_lhs < *it_rhs)
+				return true;
+			++it_lhs;
+			++it_rhs;
+		}
+		return (it_rhs != ite_rhs);
+	}
+	
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+	template <class T, class Alloc>
+	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+	
 };
 #endif

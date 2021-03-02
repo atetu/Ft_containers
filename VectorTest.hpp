@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/02/26 17:10:31 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/01 16:52:45 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ class VectorTest
     private:
         ft::vector<T> m_ftvector;
         std::vector<T> m_vector;
+		// ft::vector<const T> m_ftconstvector;
+        // std::vector<const T> m_constvector;
 
     public:
         VectorTest<T>()
@@ -37,6 +39,8 @@ class VectorTest
 			m_vector = v;
 			if(checkIdenticalvectors("INIT_EMPTY"))
 				print("INIT_EMPTY", "OK");
+			// m_ftconstvector(42, 4);
+			// m_constvector(42, 4);
         }
         
         VectorTest(T* array, int size)
@@ -228,8 +232,35 @@ class VectorTest
             else
                 print("END", "OK");
         }
-    
-      
+		
+		void beginconst()
+		{
+			beginconsttest(m_ftvector, m_vector);
+		}
+		
+		void beginconsttest(const ft::vector<T> &ft_vec, const std::vector<T> &vec)
+        {
+            if ((*ft_vec.begin()) != (*vec.begin()))
+                print("BEGIN CONST", "WRONG");
+            else
+                print("BEGIN CONST", "OK");
+        }
+            
+	  	void endconst()
+		{
+			endconsttest(m_ftvector, m_vector);
+		}
+		
+		void endconsttest(const ft::vector<T> &ft_vec, const std::vector<T> &vec)
+        {
+            typename ft::ConstIterator<T> itFT = ft_vec.end();
+            typename std::vector<T>::const_iterator itvector = vec.end();
+            if ((*(--itFT)) != (*(--itvector)))
+                print("END CONST", "WRONG");
+            else
+                print("END CONST", "OK");
+        }
+
         void size()
         {
             CHECK_VALUES_VEC(size, "SIZE");
@@ -280,6 +311,62 @@ class VectorTest
 	// 			print("PUSH_FRONT", "OK");
     //     }
 		
+
+		void operator_access()
+		{
+			for (size_t i = 0 ; i < m_ftvector.size(); i++)
+			{
+				if (!(m_ftvector[i] == m_vector[i]))
+					print("[]", "WRONG");
+			}
+			print("[]", "OK");
+		}
+		
+		void at()
+		{
+			try
+			{
+		
+			
+				size_t i = 0;
+				for (; i < m_ftvector.size(); i++)
+				{
+					if (!(m_ftvector.at(i) == m_vector.at(i)))
+						print("AT", "WRONG");
+				}
+				i = m_ftvector.size() + 1;
+				// std::cout << "After end ft: " << m_ftvector.at(i) << std::endl;
+				// std::cout << "After end vec: " << m_vector.at(i) << std::endl;
+				
+				print("AT", "OK");
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << "ERROR: " << e.what() << '\n';
+				return;
+			}
+		}
+
+		void front()
+		{
+			// std::cout <<  m_vector.front() << std::endl;
+			// std::cout <<  m_ftvector.front() << std::endl;
+			if (m_ftvector.front() == m_vector.front())
+				print("FRONT", "OK");
+			else
+				print("FRONT", "WRONG");			
+		}
+		
+		void back()
+		{
+			// std::cout <<  m_vector.back() << std::endl;
+			// std::cout <<  m_ftvector.back() << std::endl;
+			if (m_ftvector.back() == m_vector.back())
+				print("BACK", "OK");
+			else
+				print("BACK", "WRONG");			
+		}
+		
         void push_back()
         {
             m_ftvector.push_back(6);
@@ -289,25 +376,25 @@ class VectorTest
 				print("PUSH_BACK", "OK");
         }
 
-    //     void pop_back()
-    //     {
-	// 		int max;
-    //         if (!((max = m_ftvector.size()) == m_vector.size()))
-    //             print("POP_BACK", "WRONG");
-    //         else
-    //         {
-	// 			for (int i = 0; i < 2; i++)
-    //             {
-	// 			    m_ftvector.pop_back();
-    //                 m_vector.pop_back();
-	// 				if (!(checkIdenticalvectors("POP_BACK")))
-	// 					return;
-	// 				i++;
-    //             }
-	// 		}
-	// 		if(checkIdenticalvectors("POP_BACK"))
-	// 			print("POP_BACK", "OK");
-    //     }
+        void pop_back()
+        {
+			int max;
+            if (!((max = m_ftvector.size()) == m_vector.size()))
+                print("POP_BACK", "WRONG");
+            else
+            {
+				for (int i = 0; i < 2; i++)
+                {
+				    m_ftvector.pop_back();
+                    m_vector.pop_back();
+					if (!(checkIdenticalvectors("POP_BACK", 1)))
+						return;
+					i++;
+                }
+			}
+			if(checkIdenticalvectors("POP_BACK", 1))
+				print("POP_BACK", "OK");
+        }
 		
 	// 	void pop_front()
     //     {
@@ -400,61 +487,97 @@ class VectorTest
 			typename std::vector<T>::iterator itvector = m_vector.begin();
 			m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
 			m_vector.insert(itvector, vector.begin(), vector.end());
-			itFt++;
+			itFt = m_ftvector.begin();
+			itvector = m_vector.begin();
+			
+			// if (checkIdenticalvectors("INSERT2", 1))
+			// 	print("INSERT2", "OK");	
+		    itFt++;
 			itvector++;
+			    
+			// typename ft::Iterator<T> i = ft_vector.begin();
+			// typename ft::Iterator<T> ie = ft_vector.end();
+			// while(i !=ie)
+			// {
+			// 	std::cout << "I:" << *i <<std::endl;
+			// 	i++;
+			// }
+			
+			// typename std::vector<T>::iterator v = vector.begin();
+			// typename std::vector<T>::iterator ve = vector.end();
+			// while (v != ve)
+			// {
+			// 	std::cout << "V: " << *v << std::endl;
+			// 	v++;
+			// }
 			m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
 			m_vector.insert(itvector, vector.begin(), vector.end());
-			if (checkIdenticalvectors("INSERT2"))
+			if (checkIdenticalvectors("INSERT2", 1))
 				print("INSERT2", "OK");	
 		}
 
-	// 	#define ERASE(itFt, itvector, nameTest, lastTest)		\
-	// 		m_ftvector.erase(itFt);							\
-	// 		m_vector.erase(itvector);							\
-	// 		if (!lastTest)									\
-	// 			checkIdenticalvectors("ERASE");				\
-	// 		else											\
-	// 		{												\
-	// 			if (checkIdenticalvectors("ERASE"))		\
-	// 				print("ERASE", "OK");					\
-	// 		}
+		#define ERASE_VEC(itFt, itvector, nameTest, lastTest)		\
+			m_ftvector.erase(itFt);							\
+			m_vector.erase(itvector);							\
+			if (!lastTest)									\
+				checkIdenticalvectors("ERASE");				\
+			else											\
+			{												\
+				if (checkIdenticalvectors("ERASE"))		\
+					print("ERASE", "OK");					\
+			}
 			
-	// 	void erase()
-	// 	{
-	// 		typename ft::vectorIterator<T> itFt = m_ftvector.begin();
-	// 		typename std::vector<T>::iterator itvector = m_vector.begin();
-	// 		typename ft::vectorIterator<T> iteFt = m_ftvector.end();
-	// 		typename std::vector<T>::iterator itevector = m_vector.end();
+		void erase()
+		{
+			typename ft::Iterator<T> itFt = m_ftvector.begin();
+			typename std::vector<T>::iterator itvector = m_vector.begin();
+			typename ft::Iterator<T> iteFt = m_ftvector.end();
+			typename std::vector<T>::iterator itevector = m_vector.end();
 			
-	// 		ERASE(itFt, itvector, "ERASE", 1);
-	// 	//	ERASE(iteFt, itevector, "ERASE", 1); //normal segfault;
+			ERASE_VEC(itFt, itvector, "ERASE", 1);
+		//	ERASE(iteFt, itevector, "ERASE", 1); //normal segfault;
 		
-	// 		itFt = m_ftvector.begin();// with std::vector, when doing itvector++ just after works
-	// 		itvector = m_vector.begin();
-	// 		++itFt;
-	// 		itvector++;
-	// 		ERASE(itFt, itvector, "ERASE", 1);
+			itFt = m_ftvector.begin();// with std::vector, when doing itvector++ just after works
+			itvector = m_vector.begin();
+			++itFt;
+			itvector++;
+			ERASE_VEC(itFt, itvector, "ERASE", 1);
 			
-	// 	}
+		}
 
-	// 	void erase2()
-	// 	{
-	// 		typename ft::vectorIterator<T> itFt = m_ftvector.begin();
-	// 		typename std::vector<T>::iterator itvector = m_vector.begin();
-	// 		typename ft::vectorIterator<T> iteFt = m_ftvector.end();
-	// 		typename std::vector<T>::iterator itevector = m_vector.end();	
-	// 		itFt++;
-	// 		itvector++;
-	// 		m_ftvector.erase(itFt, iteFt);
-	// 		m_vector.erase(itvector, itevector);
-	// 		if (checkIdenticalvectors("ERASE2"))
-	// 			print("ERASE2", "OK");
-	// 	}
+		void erase2()
+		{
+			typename ft::Iterator<T> itFt = m_ftvector.begin();
+			typename std::vector<T>::iterator itvector = m_vector.begin();
+			typename ft::Iterator<T> iteFt = m_ftvector.end();
+			typename std::vector<T>::iterator itevector = m_vector.end();	
+			itFt++;
+			itvector++;
+			m_ftvector.erase(itFt, iteFt);
+			m_vector.erase(itvector, itevector);
+			if (checkIdenticalvectors("ERASE2"))
+				print("ERASE2", "OK");
+		}
 		
-	// 	// void swap(ft::vector & x)
-	// 	// {
-				
-	// 	// }
+		void swap()
+		{
+			std::vector<int> second;
+			ft::vector<int> ft_second;
+			second.push_back(6);
+			second.push_back(36);
+			second.push_back(21);
+			second.push_back(2);
+			ft_second.push_back(6);
+			ft_second.push_back(36);
+			ft_second.push_back(21);
+			ft_second.push_back(2);
+			m_ftvector.swap(ft_second);
+			m_vector.swap(second);
+			if (checkIdenticalvectors("SWAP") && checkIdenticalvectors(second, ft_second, "SWAP"))
+				print("SWAP", "OK");
+		}
+
+		
 		
 	// 	void resize()
 	// 	{

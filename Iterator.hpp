@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/01 18:22:15 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/02 11:14:09 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -430,11 +430,11 @@ namespace ft
 				{
 				}
 
-				ConstReverseIterator(const T* ptr) : m_node(node)
+				ConstReverseIterator(const T* ptr) : m_ptr(ptr)
 				{
 				}
 
-				listConstReverseIterator(const ConstReverseIterator &other) :
+				ConstReverseIterator(const ConstReverseIterator &other) :
 					m_ptr(other.m_ptr)
 				{
 				}
