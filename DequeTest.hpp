@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DequeTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/02 16:52:00 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/02 20:56:47 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class DequeTest
 			m_ftdeque = ftl;
 			std::deque<T> l(size, val);
 			m_deque = l;
-			if(checkIdenticaldeques("INIT_SIZE_VAL"))
+			if(checkIdenticaldeques("INIT_SIZE_VAL", 1))
 				print("INIT_SIZE_VAL", "OK");
 		}
         
@@ -142,6 +142,7 @@ class DequeTest
 			{
 				std::cout << "SIZE: " << m_ftdeque.size() << "-" << m_deque.size() << std::endl;
 				while (itFtdeque != iteFtdeque) //&& itdeque != itedeque)
+				//  for (int i = 0; i < 3; i++)
 				{
 					if (writeOption)
 						std::cout <<*itFtdeque << "-" << *itdeque << std::endl;
@@ -153,6 +154,7 @@ class DequeTest
 					itFtdeque++;
 					itdeque++;
 				}
+				
 				if (itFtdeque != iteFtdeque || itdeque != itedeque)
 				{
 					print(testName, "WRONG2");
@@ -361,29 +363,46 @@ class DequeTest
             m_ftdeque.push_back(6);
           
             m_deque.push_back(6);
-			if(checkIdenticaldeques("PUSH_BACK"))
+			if(checkIdenticaldeques("PUSH_BACK", 1))
 				print("PUSH_BACK", "OK");
         }
 
-    //     void pop_back()
-    //     {
-	// 		int max;
-    //         if (!((max = m_ftdeque.size()) == m_deque.size()))
-    //             print("POP_BACK", "WRONG");
-    //         else
-    //         {
-	// 			for (int i = 0; i < 2; i++)
-    //             {
-	// 			    m_ftdeque.pop_back();
-    //                 m_deque.pop_back();
-	// 				if (!(checkIdenticaldeques("POP_BACK", 1)))
-	// 					return;
-	// 				i++;
-    //             }
-	// 		}
-	// 		if(checkIdenticaldeques("POP_BACK", 1))
-	// 			print("POP_BACK", "OK");
-    //     }
+		void push_front()
+        {
+            m_ftdeque.push_front(6);
+            m_deque.push_front(6);
+			if(checkIdenticaldeques("PUSH_FRONT", 1))
+				print("PUSH_FRONT", "OK");
+			m_ftdeque.push_front(6);
+            m_deque.push_front(6);
+			
+			if(checkIdenticaldeques("PUSH_FRONT", 1))
+				print("PUSH_FRONT", "OK");
+        }
+
+        void pop_back()
+        {
+			int max;
+            if (!((max = m_ftdeque.size()) == m_deque.size()))
+                print("POP_BACK", "WRONG");
+            else
+            {
+				for (int i = 0; i < max; i++)
+                {
+					std::cout << "I: " << i << std::endl;
+				    m_ftdeque.pop_back();
+                    m_deque.pop_back();
+					if (!(checkIdenticaldeques("POP_BACK", 1)))
+						return;
+					
+                }
+			}
+		//	m_deque.pop_back();
+			// m_ftdeque.pop_back();
+			// 	m_ftdeque.pop_back();
+			if(checkIdenticaldeques("POP_BACK", 1))
+				print("POP_BACK", "OK");
+        }
 		
 	// // 	void pop_front()
     // //     {

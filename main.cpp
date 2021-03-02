@@ -215,22 +215,23 @@ void vectorTestor()
 
 void dequeTestor()
 {
-	// DequeTest<int> testor1;
+	DequeTest<int> testor1;
 	DequeTest<int> testor2(24, 3);
 //	std::cout << "start\n" << std::flush;
 	DequeTest<int> testor3(3, 24, 3, 7);
 	DequeTest<int> testor4(3, 24, "copy");
 
 	testor2.push_back();
-
-
-	std::deque<int> deq;
-	deq.push_back(56);
-	deq.push_back(90);
-	deq.pop_front();
-	std::deque<int>::iterator it = deq.begin();
-	// it--;
-	std::cout << *it << std::endl;
+	testor2.pop_back();
+	testor1.push_front();
+	// testor1.pop_back();
+	// std::deque<int> deq;
+	// deq.push_back(56);
+	// deq.push_back(90);
+	// deq.pop_front();
+	// std::deque<int>::iterator it = deq.begin();
+	// // it--;
+	// std::cout << *it << std::endl;
 	// deq.push_back(1000);
 	// deq.pop_back();
 	// deq.push_front(21);
