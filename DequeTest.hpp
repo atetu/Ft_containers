@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DequeTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/02 20:56:47 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/03 14:17:50 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <iostream>
 
 #include "Deque.hpp"
+#include "Iterator.hpp"
 #include<deque>
 
 bool mycomparison (int first, double second);
@@ -55,15 +56,15 @@ class DequeTest
         
 		DequeTest(T val, int size, int start, int end)
 		{
-			std::cout << "start\n" << std::flush;
+			// std::cout << "start\n" << std::flush;
 			ft::deque<T> ft_copy(size, val);
-			std::cout << "start\n" << std::flush;
+			// std::cout << "start\n" << std::flush;
 			typename ft::deque<T>::iterator it = ft_copy.begin();
 			typename ft::deque<T>::iterator ite = ft_copy.end();
 			typename ft::deque<T>::iterator ft_first;
 			typename ft::deque<T>::iterator ft_last;
 			std::deque<T> copy(size, val);
-			std::cout << "middle\n" << std::flush;
+			// std::cout << "middle\n" << std::flush;
 			typename std::deque<T>::iterator itl = copy.begin();
 			typename std::deque<T>::iterator itel = copy.end();
 			typename std::deque<T>::iterator first;
@@ -83,14 +84,14 @@ class DequeTest
 			}
 			ft_last = it;
 			last = itl;
-			std::cout << "middle\n" << std::flush;
+			// std::cout << "middle\n" << std::flush;
 			ft::deque<int> ftl(ft_first, ft_last);
 			m_ftdeque = ftl;
 			
 			std::deque<int> l(first, last);
 			m_deque = l;
-			std::cout << "end\n" << std::flush;
-			if(checkIdenticaldeques("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST"))
+			// std::cout << "end\n" << std::flush;
+			if(checkIdenticaldeques("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST", 1))
 				print("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST", "OK");
 		}
 		
@@ -176,10 +177,10 @@ class DequeTest
         {
             typename std::deque<Y>::iterator itdeque = x.begin();
             typename std::deque<Y>::iterator itedeque = x.end();
-			typename ft::deque<Y>::Iterator itFtdeque = y.begin();
-            typename ft::deque<Y>::Iterator iteFtdeque = y.end();
+			typename ft::Iterator<Y> itFtdeque = y.begin();
+            typename ft::Iterator<Y> iteFtdeque = y.end();
            
-
+			std::cout << "SIZE: " << y.size() << "-" << x.size() << std::endl;
             while (itFtdeque != iteFtdeque) //&& itdeque != itedeque)
             {
 				if (writeOption)
@@ -404,25 +405,29 @@ class DequeTest
 				print("POP_BACK", "OK");
         }
 		
-	// // 	void pop_front()
-    // //     {
-	// // 		int max;
-    // //         if (!((max = m_ftdeque.size()) == m_deque.size()))
-    // //             print("POP_FRONT", "WRONG");
-    // //         else
-    // //         {
-	// // 			for (int i = 0; i < 2; i++)
-	// // 			{
-	// // 			    m_ftdeque.pop_back();
-    // //                 m_deque.pop_back();
-	// // 				if (!(checkIdenticaldeques("POP_FRONT")))
-	// // 					return;
-	// // 				i++;
-    // //             }
-	// // 		}
-	// // 		if(checkIdenticaldeques("POP_FRONT"))
-	// // 			print("POP_FRONT", "OK");
-    // //     }
+		void pop_front()
+        {
+			int max;
+            if (!((max = m_ftdeque.size()) == m_deque.size()))
+                print("POP_FRONT", "WRONG");
+            else
+            {
+				for (int i = 0; i < 2; i++)
+				{
+				    m_ftdeque.pop_front();
+                    m_deque.pop_front();
+					if (!(checkIdenticaldeques("POP_FRONT")))
+						return;
+					i++;
+                }
+			}
+			// m_ftdeque.pop_front();
+            // m_deque.pop_front();
+			// m_ftdeque.pop_front();
+            // //m_deque.pop_front();
+			if(checkIdenticaldeques("POP_FRONT"))
+				print("POP_FRONT", "OK");
+        }
 		
 	// 	#define INSERT_VEC(itFt, itdeque, val)			\
 	// 		m_ftdeque.insert(itFt, val);				\

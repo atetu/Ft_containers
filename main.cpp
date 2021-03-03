@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/03 13:47:30 by atetu             #+#    #+#             */
+/*   Updated: 2021/03/03 15:10:04 by atetu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "list.hpp"
 #include <list>
 #include <iostream>
 #include "ListTest.hpp"
 #include "VectorTest.hpp"
 #include "DequeTest.hpp"
+#include "StackTest.hpp"
 
 bool mycomparison (int first, double second)
 {
@@ -224,83 +237,99 @@ void dequeTestor()
 	testor2.push_back();
 	testor2.pop_back();
 	testor1.push_front();
-	// testor1.pop_back();
-	// std::deque<int> deq;
-	// deq.push_back(56);
-	// deq.push_back(90);
-	// deq.pop_front();
-	// std::deque<int>::iterator it = deq.begin();
-	// // it--;
-	// std::cout << *it << std::endl;
-	// deq.push_back(1000);
-	// deq.pop_back();
-	// deq.push_front(21);
-	// deq.push_front(31);
-	// deq.push_front(500);
-	// deq.pop_front();
-	// std::deque<int>::iterator it = deq.begin();
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// int n = 0;
-	// while(*it == 0)
-	// {
-	// 	it--;
-	// 	n++;
-	// 	std::cout << "HERE\n";
-	// }
-	// std::cout << *it << std::endl;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
+	testor1.pop_front();
+
+	std::deque<int> first;
+	std::deque<int> second;
+	ft::deque<int> ft_first;
+	ft::deque<int> ft_second;
+	first.push_back(5);
+	first.push_back(44);
+	first.push_back(35);
+	second.push_back(6);
+	second.push_back(36);
+	second.push_back(21);
+	second.push_back(2);
+	ft_first.push_back(5);
+	ft_first.push_back(44);
+	ft_first.push_back(35);
+	ft_second.push_back(6);
+	ft_second.push_back(36);
+	ft_second.push_back(21);
+	ft_second.push_back(2);
+	// swap(first, second);
+	// ft::swap(ft_first, ft_second);
+	if(DequeTest<int>::checkIdenticaldeques(first, ft_first, "SWAP", 1))
+		DequeTest<int>::print("SWAP", "OK");
+	if(DequeTest<int>::checkIdenticaldeques(second, ft_second, "SWAP2", 1))
+		DequeTest<int>::print("SWAP2", "OK");
+
+	if ((ft_first < ft_second) == (first < second))
+		DequeTest<int>::print("<", "OK");
+	if ((ft_first == ft_second) == (first == second))
+		DequeTest<int>::print("==", "OK");
+	if ((ft_first != ft_second) == (first != second))
+		DequeTest<int>::print("!=", "OK");
+	if ((ft_first <= ft_second) == (first <= second))
+		DequeTest<int>::print("<=", "OK");
+	if ((ft_first > ft_second) == (first > second))
+		DequeTest<int>::print(">", "OK");
+	if ((ft_first >= ft_second) == (first >= second))
+		DequeTest<int>::print(">=", "OK");
+}
+
+void stackTestor()
+{
+	StackTest<int> testor1;
+	testor1.push_back_notest();
+	testor1.empty();
+	testor1.size();
+	testor1.top();
+	testor1.pop();
+	testor1.push();
+	std::stack<int> first;
+	std::stack<int> second;
+	ft::stack<int> ft_first;
+	ft::stack<int> ft_second;
+	first.push(5);
+	first.push(44);
+	first.push(35);
+	second.push(6);
+	second.push(36);
+	second.push(21);
+	second.push(2);
+	ft_first.push(5);
+	ft_first.push(44);
+	ft_first.push(35);
+	ft_second.push(6);
+	ft_second.push(36);
+	ft_second.push(21);
+	ft_second.push(2);
+
+
+	if ((ft_first < ft_second) == (first < second))
+		StackTest<int>::print("<", "OK");
+	if ((ft_first == ft_second) == (first == second))
+		StackTest<int>::print("==", "OK");
+	if ((ft_first != ft_second) == (first != second))
+		StackTest<int>::print("!=", "OK");
+	if ((ft_first <= ft_second) == (first <= second))
+		StackTest<int>::print("<=", "OK");
+	if ((ft_first > ft_second) == (first > second))
+		StackTest<int>::print(">", "OK");
+	if ((ft_first >= ft_second) == (first >= second))
+		StackTest<int>::print(">=", "OK");
 }
 
 int main()
 {
 	// listTestor();
 	//vectorTestor();
-	dequeTestor();
+//	dequeTestor();
+	stackTestor();
+
+//	stackTestor();
+
 	//typedef ft::Iterator<ft::List<int> > iterator;
 // 	list.push_back(33);
 // 	ft::ListIterator<int> it = list.begin();
