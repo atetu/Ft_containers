@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/02/25 17:01:19 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/04 19:15:17 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ namespace ft
 		typedef T &reference;
 		// typedef typename allocator_type::reference reference;
 		// typedef typename allocator_type::const_reference const_reference;
-		typedef typename allocator_type::pointer pointer;
-		typedef typename allocator_type::const_pointer const_pointer;
+		// typedef typename allocator_type::pointer pointer;
+		// typedef typename allocator_type::const_pointer const_pointer;
 		//	typedef Iterator<T> iterator;
 		// typedef listConstIterator<T> const_iterator;
 		// typedef std::reverse_iterator<iterator> reverse_iterator;
