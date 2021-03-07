@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Map copy.hpp                                       :+:      :+:    :+:   */
+/*   Mapbqck.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/05 17:15:05 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/05 17:59:01 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -631,10 +631,7 @@ namespace ft
 							if (substitute->right())
 								std::cout << "right: " << substitute->right()->value() << std::endl;
 							if (substitute->left())
-							{
 								std::cout << "left: " << substitute->left()->value() << std::endl;
-								std::cout << "left: " << substitute->left()->parent()->value() << std::endl;
-							}
 						}
 					}
 				}
@@ -841,29 +838,22 @@ namespace ft
 					std::cout << " side : " << side << std::endl;
 					if (side == 1)
 					{
-						// child = identifyDeepestLeft(node->left());
-						// if (child->isLeaf()) // complete for end
-						// {
-						// 	// connection(child, 1, node, 1);
-						// 	child->right(node->right());
-						// 	node->right()->parent(child);
-						// 	if (child != node->left())
-						// 	{
-						// 		child->left(node->left());
-						// 		node->left()->parent(child);
-						// 	}
-						// 	else
-						// 		child->left(NULL);
-						// }
-						// else
-						// {
-						// 	child->left(child->right());
-						// 	child->right()->parent(child);
-						// 	child->right(node->right());
-						// 	node->right()->parent(child);
-						// }
+						child = identifyDeepestLeft(node->left());
+						if (child->isLeaf()) // complete for end
+						{
+							child->right(node->right());
+							if (child != node->left())
+								child->left(node->left());
+							else
+								child->left(NULL);
+						}
+						else
+						{
+							child->left(child->right());
+							child->right(node->right());
+						}
 						
-						// return(child);
+						return(child);
 					}
 					else
 					{
@@ -871,26 +861,21 @@ namespace ft
 						if (child->isLeaf()) // complete for end
 						{
 							child->left(node->left());
-							connection(child, 0, node->left());
 							if (child != node->right())
-								connection(child, 1, node->right());
+								child->right(node->right());
 							else
 								child->right(NULL);
 						}
 						else
 						{
-							connection(child, 1, child->left());
-							connection(child, 0, node->left());
-							// child->right(child->left());
-							// child->left(node->left());
+							child->right(child->left());
+							child->left(node->left());
 						}
-							return(child);
 					}
-					//	return(identifyDeepestRight(node->right()));
+						return(identifyDeepestRight(node->right()));
 				}
 
-			public:	
-				static MapNode*
+				MapNode*
 				identifyDeepestLeft(MapNode* node)
 				{
 					MapNode* tmp = node;
@@ -899,9 +884,7 @@ namespace ft
 					return(tmp);
 				}
 
-	
-
-				static MapNode*
+				MapNode*
 				identifyDeepestRight(MapNode* node)
 				{
 					MapNode* tmp = node;
@@ -938,17 +921,6 @@ namespace ft
 							return (rDepth + 1);
 					}
 				}
-
-				void connection(MapNode* parent, int side, MapNode *child)
-				{
-					if (side == 0)
-						parent->left(child);
-					else
-						parent->right(child);
-					
-					child->parent(parent);
-				}
-	
 	};
 };
 #endif
