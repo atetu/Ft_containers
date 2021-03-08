@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/08 17:14:35 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/08 20:27:56 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ template <typename Key, typename T> class MapTest
             {
 				if (writeOption)
 				{
-					std::cout <<itftmap->first << "-" << itMap->first << std::endl;
-					std::cout <<itMap->second << "-" << itMap->second << std::endl;
+			//		std::cout <<itftmap->first << "-" << itMap->first << std::endl;
+			//		std::cout <<itMap->second << "-" << itMap->second << std::endl;
 				}
 				if (itftmap->first != itMap->first || itMap->second != itMap->second)
                 {
@@ -173,19 +173,19 @@ template <typename Key, typename T> class MapTest
 			m_ftmap.insert(ft_second.begin(), ft_second.end());
 			m_map.insert(second.begin(), second.end());
 			
-			// typename ft::MapIterator<Key, T> itFt = ft_second.begin();
-			// typename std::map<Key, T>::iterator itMap = second.begin();
+			typename ft::MapIterator<Key, T> itFt = ft_second.begin();
+			typename std::map<Key, T>::iterator itMap = second.begin();
 			
-			// for(int i = 0; i < 4; i++)
-			// {
-			// 	itFt++;
-			// 	itMap++;
-			// }
-			// m_ftmap.insert(itFt, ft_second.end());
-			// m_map.insert(itMap, second.end());
+			for(int i = 0; i < 4; i++)
+			{
+				itFt++;
+				itMap++;
+			}
+			m_ftmap.insert(itFt, ft_second.end());
+			m_map.insert(itMap, second.end());
 		
-			// if (checkIdenticalMaps("INSERT2"))
-			// 	print("INSERT2", "OK");	
+			if (checkIdenticalMaps("INSERT2"))
+				print("INSERT2", "OK");	
 		}
 
 		void insert3()
@@ -218,6 +218,17 @@ template <typename Key, typename T> class MapTest
 					print("ERASE", "OK");					\
 			}
 			
+		#define ERASE2(key, nameTest, lastTest)		\
+			m_ftmap.erase(key);							\
+			m_map.erase(key);							\
+			if (!lastTest)									\
+				checkIdenticalMaps("ERASE2", 1);				\
+			else											\
+			{												\
+				if (checkIdenticalMaps("ERASE2", 1))		\
+					print("ERASE2", "OK");					\
+			}
+			
 		void erase()
 		{
 			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
@@ -225,18 +236,61 @@ template <typename Key, typename T> class MapTest
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
 			typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
-			ERASE(itFt, itMap, "ERASE", 1);
+			ERASE(itFt, itMap, "ERASE", 0);
 		//	ERASE(iteFt, iteMap, "ERASE", 1); //normal segfault;
 		
-			itFt = m_ftmap.begin();// with std::map, when doing itMap++ just after works
+			itFt = m_ftmap.begin();
 			itMap = m_map.begin();
-			++itFt;
+			itFt++;
 			itMap++;
 			ERASE(itFt, itMap, "ERASE", 1);
-			
 		}
 
 		void erase2()
+		{
+			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
+			typename std::map<Key, T>::iterator itMap = m_map.begin();
+			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
+			typename std::map<Key, T>::iterator iteMap = m_map.end();
+			
+			while(itFt != iteFt)
+				{
+					std::cout << itFt->first << itFt->second << " ";
+					itFt++;
+				}
+std::cout << "MAP\n";
+			while(itMap != iteMap)
+				{
+					std::cout << itMap->first << itMap->second << " ";
+					itMap++;
+				}
+			ERASE2(10, "ERASE2", 1);
+
+			itFt = m_ftmap.begin();
+			iteFt = m_ftmap.end();
+			
+			while(itFt != iteFt)
+				{
+					std::cout << itFt->first << itFt->second << " ";
+					itFt++;
+				}
+			
+			itMap = m_map.begin();
+			iteMap = m_map.end();
+			m_map.erase(73);
+			while(itMap != iteMap)
+				{
+					std::cout << itMap->first << itMap->second << " ";
+					itMap++;
+				}
+			ERASE2(20, "ERASE2", 1);
+		//	ERASE(iteFt, iteMap, "ERASE", 1); //normal segfault;
+		
+			
+			//ERASE(73, itMap, "ERASE2", 1);
+		}
+		
+		void erase3()
 		{
 			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
 			typename std::map<Key, T>::iterator itMap = m_map.begin();
@@ -246,8 +300,8 @@ template <typename Key, typename T> class MapTest
 			itMap++;
 			m_ftmap.erase(itFt, iteFt);
 			m_map.erase(itMap, iteMap);
-			if (checkIdenticalMaps("ERASE2"))
-				print("ERASE2", "OK");
+			if (checkIdenticalMaps("ERASE3"))
+				print("ERASE3", "OK");
 		}
 
 		void clear()
@@ -263,7 +317,17 @@ template <typename Key, typename T> class MapTest
 			if (checkIdenticalMaps("CLEAR"))
 				print("CLEAR", "OK");
 		}
-        
+      
+	  	#define CHECK_VALUES_MAP(apply, name)						\
+            if (m_ftmap.apply() != m_map.apply())					\
+                print(name, "WRONG");								\
+            else													\
+                print(name, "OK");      
+				
+		void size()
+        {
+            CHECK_VALUES_MAP(size, "SIZE");
+        }
 };
 
 #endif

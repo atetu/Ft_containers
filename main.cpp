@@ -9,14 +9,18 @@ int main()
 {
 	MapTest<int, int> testor;
 	testor.begin();
-	testor.end();
+	//testor.end();
 	testor.insert();
 	testor.insert2();
 	testor.insert3();
 	testor.begin();
 	testor.end();
-	ft::map<int, int> t;
-	
+	testor.erase();
+	testor.size();
+	testor.erase2();
+	testor.erase3();
+
+
 	// t.insert(ft::pair<int, int>(5, 5));
 	// t.insert(ft::pair<int, int>(3, 3));
 	// t.insert(ft::pair<int, int>(2, 2));
