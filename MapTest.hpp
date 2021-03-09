@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/09 16:12:19 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/09 19:49:47 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,8 @@ template <typename Key, typename T> class MapTest
 			m_map.insert(std::pair<int, int>(9, 9));
 			m_map.insert(std::pair<int, int>(20, 20));
 		
-			print("INSERT", "OK");
+			if (checkIdenticalMaps("INSERT"))
+				print("INSERT", "OK");	
 		}
 
 		void insert2()
@@ -357,7 +358,7 @@ template <typename Key, typename T> class MapTest
 			
 			m_ftmap.swap(ft_second);
 			m_map.swap(second);
-			if (checkIdenticalMaps("SWAP"))
+			if (checkIdenticalMaps("SWAP", 1))
 				print("SWAP", "OK");
 		}
 
@@ -375,7 +376,17 @@ template <typename Key, typename T> class MapTest
 			
 			if ((ft_comp(ft->first, ft2->first)) == (mcomp(m->first, m2->first)))
 				print("KEY_COMPARE", "OK");
-		}
+			
+			// ft::map<int, int>::iterator fte;
+			// ft = m_ftmap.begin();
+			// fte = m_ftmap.end();
+			
+			// while(ft != fte)
+			// 	{
+			// 		std::cout << ft->first << "\n";
+			// 		ft++;
+			// 	}		
+			}
 
 		void value_compare()
 		{
@@ -391,6 +402,16 @@ template <typename Key, typename T> class MapTest
 			
 			if ((m_ftmap.value_comp()(*ft, *ft2)) == (m_map.value_comp()(*m, *m2)))
 				print("VALUE_COMPARE", "OK");
+			
+			// ft::map<int, int>::iterator fte = m_ftmap.begin();
+			// ft = m_ftmap.begin();
+			// ft = m_ftmap.end();
+			
+			// while(ft != fte)
+			// 	{
+			// 		std::cout << ft->first << "\n";
+			// 		ft++;
+			// 	}
 		}
 	  
 	  void find()
@@ -408,10 +429,16 @@ template <typename Key, typename T> class MapTest
 		if (m_ftmap.count(10) == m_map.count(10)
 		&& m_ftmap.count(20) == m_ftmap.count(20)
 		&& m_ftmap.count(6) == m_map.count(6)
-		&& m_ftmap.count(6) == m_map.count(6))
+		&& m_ftmap.count(436) == m_map.count(4036))
 		 {
 			  print("COUNT", "OK");
 		  }
+	  }
+
+	  void lower_bound()
+	  {
+		  if ((m_ftmap.lower_bound())->first == (m_map.lower_bound())->first
+		  	&&
 	  }
 };
 

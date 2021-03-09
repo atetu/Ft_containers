@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/09 17:16:54 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/09 19:45:30 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,10 +285,11 @@ namespace ft
 		operator++()
 		{
 			MapNode *tmp;
+			//std::cout<< "NOde: " << m_node->value() << std::endl;
 			if (m_node->hasRight())
 			{
 				m_node = identifyDeepestLeft(m_node->right());
-				std::cout << "node" << m_node << std::endl;
+			//	std::cout << "node" << m_node << std::endl;
 				// if (m_node != NULL && m_node->hasRight())
 				// {
 				// 	std::cout << "inside\n";
@@ -297,6 +298,7 @@ namespace ft
 			}
 			else
 			{
+			//	std::cout << "right null\n";
 				if (m_node == m_node->parent()->left())
 					m_node = m_node->parent();
 				else
@@ -307,6 +309,7 @@ namespace ft
 					{
 						while (m_node == m_node->parent()->right())
 							m_node = m_node->parent();
+						m_node = m_node->parent();
 					}	
 				}
 			}
@@ -381,6 +384,7 @@ namespace ft
 					{
 						while (m_node == m_node->parent()->left())
 							m_node = m_node->parent();
+						m_node = m_node->parent();
 					}	
 				}
 			}
@@ -491,6 +495,7 @@ namespace ft
 					{
 						while (m_node == m_node->parent()->right())
 							m_node = m_node->parent();
+						m_node = m_node->parent();
 					}	
 				}
 			}
@@ -527,7 +532,8 @@ namespace ft
 				else
 				{
 					while (m_node == m_node->parent()->left())
-						m_node = m_node->parent();		
+						m_node = m_node->parent();
+					m_node = m_node->parent();
 				}
 			}
 			return (*this);
@@ -753,6 +759,11 @@ namespace ft
 				
 				bool empty() const
 				{
+					// std::cout << "EMPTY\n";
+					// std::cout << "size: " << m_size << std::endl;
+					// std::cout << "root: " << m_root << std::endl;
+					// std::cout << "first: " << m_first << std::endl;
+					// std::cout << "end: " << m_end << std::endl;
 					return (m_size == 0);
 				}
 
@@ -873,10 +884,10 @@ namespace ft
 						m_size--;
 					}
 				//	m_root = m_first = m_end;
-					std::cout << "First: " << m_first << std::endl;
-					std::cout << "Root: " << m_root << std::endl;
-					std::cout << "End: " << m_end << std::endl;
-					std::cout << "Size: " << m_size << std::endl;
+					// std::cout << "First: " << m_first << std::endl;
+					// std::cout << "Root: " << m_root << std::endl;
+					// std::cout << "End: " << m_end << std::endl;
+					// std::cout << "Size: " << m_size << std::endl;
 				}
 
 				size_type
@@ -898,13 +909,13 @@ namespace ft
 				
 				void erase(iterator first, iterator last)
 				{
-					std::cout << "SIZE: " << m_size << std::endl;
+			//		std::cout << "SIZE: " << m_size << std::endl;
 					while (first != last)
 					{
-						std::cout << "tmp: " << first->first << std::endl;
+			//			std::cout << "tmp: " << first->first << std::endl;
 						iterator tmp = first;
 						first++;
-						std::cout << "next: " << first->first << std::endl;
+				//		std::cout << "next: " << first->first << std::endl;
 						erase(tmp);
 					}
 				}
@@ -1150,21 +1161,23 @@ namespace ft
 				{
 					MapNode* first = NULL;
 					MapNode* end = NULL;
+			//		std::cout << "Root: " << m_root->value() << std::endl;
 					if (m_root != m_end)
 					{
 						if (m_root->hasLeft())
 							m_first = identifyDeepestLeft(m_root->left());
 						else
 							m_first = m_root;
-						if (m_root->hasRight())
+						if (m_root->hasRight() && m_root->right() != m_end)
 						{
 							end = identifyDeepestRight(m_root->right());
-						//std::cout << "end: " << end->value() << std::endl;
+						//	std::cout << "end: " << end->value() << std::endl;
 							connection(end, 1, m_end);
 						}
 						else
 							connection(m_root, 1, m_end);
 					}
+					
 				}
 			
 				pair<iterator,bool>
@@ -1285,7 +1298,7 @@ namespace ft
 				identifyTheDeepestChild(int side, MapNode *node)
 				{
 					MapNode* child = NULL;
-					std::cout << " node : " << node->value() << std::endl;
+					//std::cout << " node : " << node->value() << std::endl;
 					if (side == 1)
 					{
 						if(node->left()->hasRight() && node->left()->hasLeft())
