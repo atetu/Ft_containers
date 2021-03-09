@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/08 20:27:56 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/09 16:12:19 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ template <typename Key, typename T> class MapTest
             {
 				if (writeOption)
 				{
-			//		std::cout <<itftmap->first << "-" << itMap->first << std::endl;
-			//		std::cout <<itMap->second << "-" << itMap->second << std::endl;
+					std::cout <<itftmap->first << "-" << itMap->first << std::endl;
+					std::cout <<itftmap->second << "-" << itMap->second << std::endl;
 				}
 				if (itftmap->first != itMap->first || itMap->second != itMap->second)
                 {
@@ -104,10 +104,10 @@ template <typename Key, typename T> class MapTest
                 
         void begin()
         {
-            // if (m_ftmap.begin().node()->key() != m_map.begin().node()->key() || m_ftmap.begin().node()->value() != m_map.begin().node()->value())
-            //     print("BEGIN", "WRONG");
-            // else
-            //     print("BEGIN", "OK");
+            if (m_ftmap.begin()->first != m_map.begin()->first || m_ftmap.begin()->second != m_map.begin()->second)
+                print("BEGIN", "WRONG");
+            else
+                print("BEGIN", "OK");
         }
        
        void end()
@@ -117,18 +117,45 @@ template <typename Key, typename T> class MapTest
 			itFT--;
 			itMap--;
 			
-            if (itFT->first != itMap->first)
+            if (itFT->first != itMap->first || itFT->second != itMap->second)
                 print("END", "WRONG");
             else
                 print("END", "OK");
         }
        
+	   	#define CHECK_VALUES_MAP(apply, name)						\
+            if (m_ftmap.apply() != m_map.apply())					\
+                print(name, "WRONG");								\
+            else													\
+                print(name, "OK");      
+				
+		void size()
+        {
+            CHECK_VALUES_MAP(size, "SIZE");
+        }
+		
+		void empty()
+        {
+            CHECK_VALUES_MAP(empty, "EMPTY");
+        }
+
+		void max_size()
+		{
+			 CHECK_VALUES_MAP(max_size, "EMPTY");
+		}
+	   
+		void operator_access()
+		{
+			if (m_ftmap[3] == m_map[3] && m_ftmap[0] == m_map[0] && m_ftmap[555] == m_map[555])
+				print("OPERATOR ACCESS", "OK");
+		}
+	   
 	   #define INSERT(itFt, itMap, val)			\
 			m_ftmap.insert(itFt, val);				\
 			m_map.insert(itMap, val);				\
 			if (!(checkIdenticalMaps("INSERT")))	\
 				return;
-				
+			
 		void insert()
 		{
 			m_ftmap.insert(ft::pair<int, int>(5, 5));
@@ -253,36 +280,37 @@ template <typename Key, typename T> class MapTest
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
 			typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
-			while(itFt != iteFt)
-				{
-					std::cout << itFt->first << itFt->second << " ";
-					itFt++;
-				}
-std::cout << "MAP\n";
-			while(itMap != iteMap)
-				{
-					std::cout << itMap->first << itMap->second << " ";
-					itMap++;
-				}
+			// while(itFt != iteFt)
+			// 	{
+			// 		std::cout << itFt->first << itFt->second << " ";
+			// 		itFt++;
+			// 	}
+			// std::cout << "\nMAP\n";
+			// while(itMap != iteMap)
+			// 	{
+			// 		std::cout<< "Map /n" << std::endl;
+			// 		std::cout << itMap->first << itMap->second << " ";
+			// 		itMap++;
+			// 	}
 			ERASE2(10, "ERASE2", 1);
 
-			itFt = m_ftmap.begin();
-			iteFt = m_ftmap.end();
+			// itFt = m_ftmap.begin();
+			// iteFt = m_ftmap.end();
 			
-			while(itFt != iteFt)
-				{
-					std::cout << itFt->first << itFt->second << " ";
-					itFt++;
-				}
+			// while(itFt != iteFt)
+			// 	{
+			// 		std::cout << itFt->first << itFt->second << " ";
+			// 		itFt++;
+			// 	}
 			
-			itMap = m_map.begin();
-			iteMap = m_map.end();
-			m_map.erase(73);
-			while(itMap != iteMap)
-				{
-					std::cout << itMap->first << itMap->second << " ";
-					itMap++;
-				}
+			// itMap = m_map.begin();
+			// iteMap = m_map.end();
+			// m_map.erase(73);
+			// while(itMap != iteMap)
+			// 	{
+			// 		std::cout << itMap->first << itMap->second << " ";
+			// 		itMap++;
+			// 	}
 			ERASE2(20, "ERASE2", 1);
 		//	ERASE(iteFt, iteMap, "ERASE", 1); //normal segfault;
 		
@@ -308,26 +336,83 @@ std::cout << "MAP\n";
 		{
 			m_ftmap.clear();
 			m_map.clear();
-			checkIdenticalMaps("CLEAR");
-			
-			
-			checkIdenticalMaps("CLEAR");
-			m_ftmap.clear();
-			m_map.clear();
-			if (checkIdenticalMaps("CLEAR"))
+			if (checkIdenticalMaps("CLEAR") && m_ftmap.size() == m_map.size())
 				print("CLEAR", "OK");
 		}
       
-	  	#define CHECK_VALUES_MAP(apply, name)						\
-            if (m_ftmap.apply() != m_map.apply())					\
-                print(name, "WRONG");								\
-            else													\
-                print(name, "OK");      
-				
-		void size()
-        {
-            CHECK_VALUES_MAP(size, "SIZE");
-        }
+		void swap()
+		{
+			ft::map<int, int> ft_second;
+			ft_second.insert(ft::pair<int, int>(90, 90));
+			ft_second.insert(ft::pair<int, int>(990, 990));
+			ft_second.insert(ft::pair<int, int>(9990, 9990));
+			ft_second.insert(ft::pair<int, int>(99990, 99990));
+			
+
+			std::map<int, int> second;
+			second.insert(std::pair<int, int>(90, 90));
+			second.insert(std::pair<int, int>(990, 990));
+			second.insert(std::pair<int, int>(9990, 9990));
+			second.insert(std::pair<int, int>(99990, 99990));
+			
+			m_ftmap.swap(ft_second);
+			m_map.swap(second);
+			if (checkIdenticalMaps("SWAP"))
+				print("SWAP", "OK");
+		}
+
+		void key_compare()
+		{
+			ft::map<int, int>::iterator ft = m_ftmap.begin();
+			ft::map<int, int>::iterator ft2 = ft;
+			ft2++;
+			ft::map<int, int>::key_compare ft_comp= m_ftmap.key_comp();
+			
+			std::map<int, int>::iterator m = m_map.begin();
+			std::map<int, int>::iterator m2 = m;
+			m2++;
+			std::map<int,int>::key_compare mcomp = m_map.key_comp();
+			
+			if ((ft_comp(ft->first, ft2->first)) == (mcomp(m->first, m2->first)))
+				print("KEY_COMPARE", "OK");
+		}
+
+		void value_compare()
+		{
+			ft::map<int, int>::iterator ft = m_ftmap.begin();
+			ft::map<int, int>::iterator ft2 = ft;
+			ft2++;
+			//ft::map<int, int>::value_comp ft_comp= m_ftmap.key_comp();
+
+			std::map<int, int>::iterator m = m_map.begin();
+			std::map<int, int>::iterator m2 = m;
+			m2++;
+		//	std::map<int,int>::key_compare mcomp = m_map.key_comp();
+			
+			if ((m_ftmap.value_comp()(*ft, *ft2)) == (m_map.value_comp()(*m, *m2)))
+				print("VALUE_COMPARE", "OK");
+		}
+	  
+	  void find()
+	  {
+		  if ((m_ftmap.find(10))->first == (m_map.find(10))->first
+		  && (m_ftmap.find(20))->second == (m_ftmap.find(20))->second
+		  && (m_ftmap.find(6))->first == (m_map.find(6))->first)
+		  {
+			  print("FIND", "OK");
+		  }
+	  }
+
+	  void count()
+	  {
+		if (m_ftmap.count(10) == m_map.count(10)
+		&& m_ftmap.count(20) == m_ftmap.count(20)
+		&& m_ftmap.count(6) == m_map.count(6)
+		&& m_ftmap.count(6) == m_map.count(6))
+		 {
+			  print("COUNT", "OK");
+		  }
+	  }
 };
 
 #endif

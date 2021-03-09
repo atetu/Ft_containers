@@ -8,18 +8,30 @@
 int main()
 {
 	MapTest<int, int> testor;
-	testor.begin();
+	//testor.begin();
 	//testor.end();
+		testor.size();
 	testor.insert();
-	testor.insert2();
-	testor.insert3();
-	testor.begin();
-	testor.end();
-	testor.erase();
 	testor.size();
-	testor.erase2();
-	testor.erase3();
-
+	testor.insert2();
+	// testor.insert3();
+	// testor.begin();
+	// testor.end();
+	// testor.erase();
+	// testor.size();
+	// testor.empty();
+	// testor.max_size();
+	// testor.operator_access();
+	// testor.swap();
+	// testor.erase2();
+	// testor.erase3();
+	// testor.empty();
+	// testor.insert();
+	// testor.key_compare();
+	// testor.value_compare();
+	// testor.find();
+	// testor.count();
+	// testor.clear();
 
 	// t.insert(ft::pair<int, int>(5, 5));
 	// t.insert(ft::pair<int, int>(3, 3));
