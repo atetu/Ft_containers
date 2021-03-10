@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/10 15:18:34 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/10 20:51:55 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -602,6 +602,194 @@ template <typename Key, typename T> class MapTest
 		}
 		if (!error)
 			print("EQUAL RANGE", "OK");
+	  }
+
+	ft::map<int, int> set_ft_second(int option)
+	{
+		ft::map<int, int> ft_second;
+		ft_second.insert(ft::pair<int, int>(5, 5));
+		ft_second.insert(ft::pair<int, int>(3, 3));
+		ft_second.insert(ft::pair<int, int>(2, 2));
+		ft_second.insert(ft::pair<int, int>(4, 4));
+		if(option == 1)
+			return (ft_second);
+		ft_second.insert(ft::pair<int, int>(10, 10));
+		ft_second.insert(ft::pair<int, int>(8, 8));
+		ft_second.insert(ft::pair<int, int>(6, 6));
+		if (option == 2)
+			ft_second.insert(ft::pair<int, int>(0, 0));
+		if (option == 3)
+			ft_second.insert(ft::pair<int, int>(50, 50));
+		ft_second.insert(ft::pair<int, int>(9, 9));
+		ft_second.insert(ft::pair<int, int>(20, 20));
+		if (option >=2 && option <=4)
+			return (ft_second);
+		ft_second.insert(ft::pair<int, int>(30, 30));
+		return(ft_second);
+	}
+
+	std::map<int, int> set_second(int option)
+	{
+		std::map<int, int> second;
+		second.insert(pair<int, int>(5, 5) );
+		second.insert(std::pair<int, int>(3, 3));
+		second.insert(std::pair<int, int>(2, 2));
+		second.insert(std::pair<int, int>(4, 4));
+		if(option == 1)
+			return (second);
+		second.insert(std::pair<int, int>(10, 10));
+		second.insert(std::pair<int, int>(8, 8));
+		second.insert(std::pair<int, int>(6, 6));
+		if (option == 2)
+			second.insert(std::pair<int, int>(0, 0));
+		if (option == 3)
+			second.insert(std::pair<int, int>(50, 50));
+		second.insert(std::pair<int, int>(9, 9));
+		second.insert(std::pair<int, int>(20, 20));
+		if (option >=2 && option <=4)
+			return (second);
+		second.insert(std::pair<int, int>(30, 30));
+		return(second);
+	}
+
+	  void equal()
+	  {
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if ((m_map == second) != (m_ftmap == ft_second))
+			{
+				print("EQUAL", "WRONG");
+				return;
+			}
+		}
+		print("EQUAL", "OK");
+	  }
+
+	
+	  void not_equal()
+	  {
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if ((m_map != second) != (m_ftmap != ft_second))
+			{
+				print("NOT EQUAL", "WRONG");
+				return;
+			}
+		}
+		print("NOT EQUAL", "OK");
+	  }
+
+	   void less()
+	  {
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if (((m_map < second) != (m_ftmap < ft_second))
+			|| ((second < m_map) != (ft_second < m_ftmap)))
+			{
+				print("LESS", "WRONG");
+				return;
+			}
+		}
+		print("LESS", "OK");
+	  }
+
+	void less_or_equal()
+	{
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if (((m_map <= second) != (m_ftmap <= ft_second))
+			|| ((second <= m_map) != (ft_second <= m_ftmap)))
+			{
+				print("LESS_OR_EQUAL", "WRONG");
+				return;
+			}
+		}
+		print("LESS_OR_EQUAL", "OK");
+	  }
+
+	  void greater()
+	  {
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if (((m_map > second) != (m_ftmap > ft_second))
+			|| ((second > m_map) != (ft_second > m_ftmap)))
+			{
+				print("GREATER", "WRONG");
+				return;
+			}
+		}
+		print("GREATER", "OK");
+	  }
+
+	void greater_or_equal()
+	{
+		ft::map<int, int> ft_second;
+		std::map<int, int> second;
+	
+		for (int i = 0; i < 5; i++)
+		{
+			ft_second = set_ft_second(i);
+			second  = set_second(i);
+			if (((m_map >= second) != (m_ftmap >= ft_second))
+			|| ((second >= m_map) != (ft_second >= m_ftmap)))
+			{
+				print("GREATER_OR_EQUAL", "WRONG");
+				return;
+			}
+		}
+		print("GREATER_OR_EQUAL", "OK");
+	  }
+
+	  void reverse()
+	  {
+		ft::map<int, int>::reverse_iterator ftm = m_ftmap.rbegin();;
+		ft::map<int, int>::reverse_iterator fte = m_ftmap.rend();
+				
+		std::map<int, int>::reverse_iterator m = m_map.rbegin();
+		std::map<int, int>::reverse_iterator m2 = m_map.rend();
+		
+		while(ftm != fte && m != m2)
+		{
+			std::cout<< "ft first: " << ftm->first << "\n" << std::flush;
+				// std::cout<< "m first: " << m->first << "\n" << std::flush;
+				// std::cout<< "ft second: " << ft->second << "\n" << std::flush;
+				// std::cout<< "m second: " << m->second << "\n" << std::flush;
+			if (ftm->first != m->first || ftm->second!= m->second)
+			{
+				
+				print("REVERSE", "WRONG");
+				return;
+			}
+			ftm++;
+			m++;
+		}
+
+		print("REVERSE", "OK");
 	  }
 };
 
