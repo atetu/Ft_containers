@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/09 19:49:47 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/10 15:18:34 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,67 @@ template <typename Key, typename T> class MapTest
         MapTest() : m_ftmap(), m_map()
         {
         }
+		
+		void
+		constructor2()
+		{
+			typename ft::MapIterator<Key, T> itftmap = m_ftmap.begin();
+            typename ft::MapIterator<Key, T> iteftmap = m_ftmap.end();
+            typename std::map<Key, T>::iterator itMap = m_map.begin();
+            typename std::map<Key, T>::iterator iteMap = m_map.end();
+			
+			ft::map<Key, T> ft_copy(itftmap, iteftmap);
+			std::map<Key, T> copy(itMap, iteMap);
+			
+			typename ft::MapIterator<Key, T> it = ft_copy.begin();
+            typename ft::MapIterator<Key, T> ite = ft_copy.end();
+			m_ftmap.clear();
+			m_map.clear();
+			m_ftmap = ft_copy;
+			m_map = copy;
+			std::cout << "constructor 2\n";
+			// while(it != ite)
+			// {
+			// 	std::cout << it->first << std::endl;
+			// 	it++;
+			// }
+		
+			if (checkIdenticalMaps("CONSTRUCTOR2", 1))
+					print("	CONSTRUCTOR2", "OK");	
+			// itftmap = m_ftmap.begin();
+          	// iteftmap = m_ftmap.end();
+			// while(itftmap != iteftmap)
+			// {
+			// 		std::cout << itftmap->first << std::endl;
+			// 	itftmap++;
+			// }
+		}
 
+		void constructor3()
+		{
+			std::cout << "constructor 3\n" << std::flush;
+			ft::map<Key, T> ft_copy(m_ftmap);
+			std::map<Key, T> copy(m_map);
+			
+			typename ft::MapIterator<Key, T> it = ft_copy.begin();
+            typename ft::MapIterator<Key, T> ite = ft_copy.end();
+			// m_ftmap.clear();
+			// m_map.clear();
+			// m_ftmap = ft_copy;
+			// m_map = copy;
+			// std::cout << "constructor 2\n";
+			std::cout << "COPY\n" << std::flush;
+			while(it != ite)
+			{
+				std::cout << it->first << "\n" << std::flush;
+				it++;
+			}
+		
+			if (checkIdenticalMaps("CONSTRUCTOR3", 1))
+					print("	CONSTRUCTOR3", "OK");	
+		}
+		
+		
 		static void
         print(const std::string& test, const std::string & result)
         {
@@ -48,16 +108,24 @@ template <typename Key, typename T> class MapTest
             {
 				if (writeOption)
 				{
-					std::cout <<itftmap->first << "-" << itMap->first << std::endl;
-					std::cout <<itftmap->second << "-" << itMap->second << std::endl;
+					std::cout <<itftmap->first << "-" << itMap->first << "\n" << std::flush;
+					std::cout <<itftmap->second << "-" << itMap->second << "\n" << std::flush;
 				}
+				// if (itMap != iteMap)
+				// {
 				if (itftmap->first != itMap->first || itMap->second != itMap->second)
                 {
 					print(testName, "WRONG1");
                     return(0);
                 }
                 itftmap++;
-                itMap++;
+               	itMap++;
+				// }
+				// else
+				// {
+				// 		break;
+				// }
+				
             }
             if (itftmap != iteftmap || itMap != iteMap)
             {
@@ -137,6 +205,25 @@ template <typename Key, typename T> class MapTest
 		void empty()
         {
             CHECK_VALUES_MAP(empty, "EMPTY");
+			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
+			typename std::map<Key, T>::iterator itMap = m_map.begin();
+			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
+			typename std::map<Key, T>::iterator iteMap = m_map.end();
+			
+		//	std::cout << "MY MAP\n";
+			// while(itFt != iteFt)
+			// 	{
+			// 		std::cout << itFt->first << "\n";
+			// 		itFt++;
+			// 	}
+			
+		//	std::cout << "REAL MAP\n";
+			// while(itMap != iteMap)
+			// 	{
+			// 		std::cout << itMap->first << "\n";
+			// 		itMap++;
+			// 	}
+			// 	std::cout << "\n";
         }
 
 		void max_size()
@@ -360,6 +447,17 @@ template <typename Key, typename T> class MapTest
 			m_map.swap(second);
 			if (checkIdenticalMaps("SWAP", 1))
 				print("SWAP", "OK");
+			// ft::map<int, int>::iterator ft = ft_second.begin();
+			// ft::map<int, int>::iterator ft2 = ft_second.end();
+			// 	while(ft != ft2)
+			// 		{
+			// 			std::cout << "it  : " << ft->first << "\n" << std::flush;
+			// 			ft++;
+			// 		}
+			// ft::map<int, int>::MapNode* root = 	m_ftmap.root();
+			// std::cout <<  "root: " << root->value() << std::endl;
+			// 		// std::cout << "it  : " << ft->first << "\n" << std::flush;
+			// 		// 	ft++;
 		}
 
 		void key_compare()
@@ -435,10 +533,75 @@ template <typename Key, typename T> class MapTest
 		  }
 	  }
 
+	  #define LOWER(itFt, itMap, nameTest, lastTest)		\
+			m_ftmap.erase(itFt);							\
+			m_map.erase(itMap);							\
+			if (!lastTest)									\
+				checkIdenticalMaps("ERASE");				\
+			else											\
+			{												\
+				if (checkIdenticalMaps("ERASE"))		\
+					print("ERASE", "OK");					\
+			}
 	  void lower_bound()
 	  {
-		  if ((m_ftmap.lower_bound())->first == (m_map.lower_bound())->first
-		  	&&
+		int error = 0;
+		for (int i = 0 ; i < 30 ; i++)
+		{
+			if (!((m_ftmap.lower_bound(i))->first == (m_map.lower_bound(i))->first
+				&& (m_ftmap.lower_bound(i))->second == (m_map.lower_bound(i))->second))
+			{
+				error = 1;
+				print("LOWER BOUND", "WRONG");
+				break;
+			}
+		}
+		if (!error)
+			print("LOWER BOUND", "OK");
+	  }
+
+	  void upper_bound()
+	  {
+		int error = 0;
+		for (int i = 0 ; i < 30 ; i++)
+		{
+			if (!((m_ftmap.upper_bound(i))->first == (m_map.upper_bound(i))->first
+				&& (m_ftmap.upper_bound(i))->second == (m_map.upper_bound(i))->second))
+			{
+				error = 1;
+				print("UPPER BOUND", "WRONG");
+				break;
+			}
+		}
+		if (!error)
+			print("UPPER BOUND", "OK");
+	  }
+
+	  void equal_range()
+	  {
+		int error = 0;
+		ft::map<int, int>::iterator ft;
+		ft::map<int, int>::iterator ft2;
+				
+		std::map<int, int>::iterator m;
+		std::map<int, int>::iterator m2;
+		for (int i = 0 ; i < 30 ; i++)
+		{
+			ft = m_ftmap.equal_range(i).first;
+			ft2 = m_ftmap.equal_range(i).second;
+			m = m_map.equal_range(i).first;
+			m2 = m_map.equal_range(i).second;
+
+			if (!(ft->first == m->first && ft->first == m->second &&
+				ft2->first == m2->first && ft2->first == m2->second))
+			{
+				error = 1;
+				print("EQUAL RANGE", "WRONG");
+				break;
+			}
+		}
+		if (!error)
+			print("EQUAL RANGE", "OK");
 	  }
 };
 

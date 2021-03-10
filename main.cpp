@@ -27,11 +27,16 @@ int main()
 	testor.erase3();
 	testor.empty();
 	testor.insert();
+	
 	testor.key_compare();
 	testor.value_compare();
 	testor.find();
 	testor.count();
 	testor.lower_bound();
+	testor.upper_bound();
+	testor.equal_range();
+	testor.constructor2();
+	testor.constructor3();
 	testor.clear();
 
 	// t.insert(ft::pair<int, int>(5, 5));
