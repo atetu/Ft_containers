@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 15:21:45 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 19:46:13 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ namespace ft
   			bool
 			operator==(const ConstIterator& other) const
 			{
-				std::cout << "ICI\n";
+				// std::cout << "ICI\n";
 				return (m_ptr == other.m_ptr);
 			}
 			
@@ -219,6 +219,7 @@ namespace ft
   			const_reference
 			operator*() const
 			{
+				// std::cout << "ptr: " << m_ptr << std::endl;
 				return (*m_ptr);
 			}
 

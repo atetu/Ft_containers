@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 16:23:02 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 21:19:10 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -558,13 +558,13 @@ namespace ft
 
 		reverse_iterator rend()
 		{
-			return (reverse_iterator(iterator(m_begin)));
+			return (reverse_iterator(begin()));
 			//return (reverse_iterator(m_begin));
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return (const_reverse_iterator(const_iterator(m_begin)));
+			return (const_reverse_iterator(begin()));
 		}
 
 		/*ELEMENT ACCESS*/

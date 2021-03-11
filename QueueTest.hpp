@@ -1,46 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   StackTest.hpp                                      :+:      :+:    :+:   */
+/*   QueueTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/11 20:39:22 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/11 20:38:15 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define StackTest_HPP
+#define QueueTest_HPP
 
 #include <memory>
 #include <iostream>
 
-#include "Stack.hpp"
-#include <stack>
+#include "Queue.hpp"
+#include <queue>
 
 bool mycomparison(int first, double second);
 
 template <typename T>
-class StackTest
+class QueueTest
 {
 private:
-	ft::stack<T> m_ftstack;
-	std::stack<T> m_stack;
-	// ft::stack<const T> m_ftconststack;
-	// std::stack<const T> m_conststack;
+	ft::queue<T> m_ftqueue;
+	std::queue<T> m_queue;
+	// ft::queue<const T> m_ftconstqueue;
+	// std::queue<const T> m_constqueue;
 
 public:
-	StackTest<T>()
+	QueueTest<T>()
 	{
-		ft::stack<T> ftv;
-		std::stack<T> v;
-		m_ftstack = ftv;
-		m_stack = v;
+		ft::queue<T> ftv;
+		std::queue<T> v;
+		m_ftqueue = ftv;
+		m_queue = v;
 
-		if (checkIdenticalstacks("INIT_EMPTY"))
+		if (checkIdenticalqueues("INIT_EMPTY"))
 			print("INIT_EMPTY", "OK");
-		// m_ftconststack(42, 4);
-		// m_conststack(42, 4);
+		// m_ftconstqueue(42, 4);
+		// m_constqueue(42, 4);
 	}
 
 	static void
@@ -49,50 +49,50 @@ public:
 		std::cout << "Test " << test << " : " << result << std::endl;
 	}
 
-	int checkIdenticalstacks(std::string testName, int writeOption = 0)
+	int checkIdenticalqueues(std::string testName, int writeOption = 0)
 	{
-		// typename ft::stack<T>::iterator itFtstack = m_ftstack.begin();
-		// typename ft::stack<T>::iterator iteFtstack = m_ftstack.end();
-		// typename std::stack<T>::iterator itstack = m_stack.begin();
-		// typename std::stack<T>::iterator itestack = m_stack.end();
+		// typename ft::queue<T>::iterator itFtqueue = m_ftqueue.begin();
+		// typename ft::queue<T>::iterator iteFtqueue = m_ftqueue.end();
+		// typename std::queue<T>::iterator itqueue = m_queue.begin();
+		// typename std::queue<T>::iterator itequeue = m_queue.end();
 
-		// while(itstack != itestack)
+		// while(itqueue != itequeue)
 		// {
-		// 	std::cout << "stack: "<< *itstack << std::endl;
-		// 	itstack++;
+		// 	std::cout << "queue: "<< *itqueue << std::endl;
+		// 	itqueue++;
 		// }
-		// while(itFtstack != iteFtstack)
+		// while(itFtqueue != iteFtqueue)
 		// {
-		// 	std::cout << "FT: "<< *itFtstack << std::endl;
-		// 	itFtstack++;
+		// 	std::cout << "FT: "<< *itFtqueue << std::endl;
+		// 	itFtqueue++;
 		// }
-		if (m_ftstack.size() && m_stack.size())
+		if (m_ftqueue.size() && m_queue.size())
 		{
-			//std::cout << "SIZE: " << m_ftstack.size() << "-" << m_stack.size() << std::endl;
-			while (m_ftstack.size()) //&& itstack != itestack)
+		//	std::cout << "SIZE: " << m_ftqueue.size() << "-" << m_queue.size() << std::endl;
+			while (m_ftqueue.size()) //&& itqueue != itequeue)
 			//  for (int i = 0; i < 3; i++)
 			{
 				if (writeOption)
-					std::cout << m_ftstack.top() << "-" << m_stack.top() << std::endl;
-				if (m_ftstack.top() != m_stack.top())
+					std::cout << m_ftqueue.back() << "-" << m_queue.back() << std::endl;
+				if (m_ftqueue.back() != m_queue.back())
 				{
 					print(testName, "WRONG1");
 					return (0);
 				}
-				m_ftstack.pop();
-				m_stack.pop();
+				m_ftqueue.pop();
+				m_queue.pop();
 			}
 
-			if (m_ftstack.size() != m_stack.size())
+			if (m_ftqueue.size() != m_queue.size())
 			{
 				print(testName, "WRONG2");
 				return (0);
 			}
 		}
-		else if (m_ftstack.size() != m_stack.size())
+		else if (m_ftqueue.size() != m_queue.size())
 		{
-			std::cout << "FT stack size : " << m_ftstack.size() << std::endl;
-			std::cout << "stack size : " << m_stack.size() << std::endl;
+			// std::cout << "FT queue size : " << m_ftqueue.size() << std::endl;
+			// std::cout << "queue size : " << m_queue.size() << std::endl;
 			print(testName, "WRONG3");
 			return (0);
 		}
@@ -100,18 +100,18 @@ public:
 	}
 
 	template <typename Y>
-	static int checkIdenticalstacks(std::stack<Y> &x, ft::stack<Y> &y, std::string testName, int writeOption = 0)
+	static int checkIdenticalqueues(std::queue<Y> &x, ft::queue<Y> &y, std::string testName, int writeOption = 0)
 	{
 
 		if (x.size() && y.size())
 		{
-			//std::cout << "SIZE: " << y.size() << "-" << x.size() << std::endl;
-			while (y.size()) //&& itstack != itestack)
+			// std::cout << "SIZE: " << y.size() << "-" << x.size() << std::endl;
+			while (y.size()) //&& itqueue != itequeue)
 			//  for (int i = 0; i < 3; i++)
 			{
 				if (writeOption)
-					std::cout << y.top() << "-" << x.top() << std::endl;
-				if (y.top() != x.top())
+					std::cout << y.back() << "-" << x.back() << std::endl;
+				if (y.back() != x.back())
 				{
 					print(testName, "WRONG1");
 					return (0);
@@ -128,42 +128,42 @@ public:
 		}
 		else if (y.size() != x.size())
 		{
-			std::cout << "FT stack size : " << y.size() << std::endl;
-			std::cout << "stack size : " << x.size() << std::endl;
+			std::cout << "FT queue size : " << y.size() << std::endl;
+			std::cout << "queue size : " << x.size() << std::endl;
 			print(testName, "WRONG3");
 			return (0);
 		}
 		return (1);
 	}
 
-	void top()
+	void back()
 	{
-		if (m_ftstack.top() == m_stack.top())
-			print("TOP", "OK");
+		if (m_ftqueue.back() == m_queue.back())
+			print("BACK", "OK");
 		else
-			print("TOP", "WRONG");
+			print("BACK", "WRONG");
 	}
 
 	// void push()
 	// {
-	//     m_ftstack.push(6);
+	//     m_ftqueue.push(6);
 
-	//     m_stack.push(6);
-	// 	if(checkIdenticalstacks("PUSH", 1))
+	//     m_queue.push(6);
+	// 	if(checkIdenticalqueues("PUSH", 1))
 	// 		print("PUSH", "OK");
 	// }
 
 	void push_back_notest()
 	{
-		m_ftstack.push(6);
-		m_stack.push(6);
-		m_ftstack.push(10);
-		m_stack.push(10);
+		m_ftqueue.push(6);
+		m_queue.push(6);
+		m_ftqueue.push(10);
+		m_queue.push(10);
 	}
 
 	void empty()
 	{
-		if (m_ftstack.empty() == m_stack.empty())
+		if (m_ftqueue.empty() == m_queue.empty())
 			print("EMPTY", "OK");
 		else
 			print("EMPTY", "WRONG");
@@ -171,7 +171,7 @@ public:
 
 	void size()
 	{
-		if (m_ftstack.size() == m_stack.size())
+		if (m_ftqueue.size() == m_queue.size())
 			print("SIZE", "OK");
 		else
 			print("SIZE", "WRONG");
@@ -179,39 +179,39 @@ public:
 
 	void pop()
 	{
-		m_ftstack.pop();
-		m_stack.pop();
-		if (checkIdenticalstacks("POP", 1))
+		m_ftqueue.pop();
+		m_queue.pop();
+		if (checkIdenticalqueues("POP", 1))
 			print("POP", "OK");
-		size_t s = m_ftstack.size();
+		size_t s = m_ftqueue.size();
 		// std::cout << "size: " << s << "\n"
 		// 		  << std::flush;
 		while (s)
 		{
-			m_ftstack.pop();
-			m_stack.pop();
-			if (checkIdenticalstacks("POP", 1))
+			m_ftqueue.pop();
+			m_queue.pop();
+			if (checkIdenticalqueues("POP", 1))
 				print("POP", "OK");
-			s = m_ftstack.size();
+			s = m_ftqueue.size();
 		}
 	}
 
 	void push()
 	{
-		m_ftstack.push(6);
-		m_stack.push(6);
-		if (checkIdenticalstacks("PUSH", 1))
+		m_ftqueue.push(6);
+		m_queue.push(6);
+		if (checkIdenticalqueues("PUSH", 1))
 			print("PUSH", "OK");
-		m_ftstack.push(6);
-		m_stack.push(6);
+		m_ftqueue.push(6);
+		m_queue.push(6);
 
-		if (checkIdenticalstacks("PUSH", 1))
+		if (checkIdenticalqueues("PUSH", 1))
 			print("PUSH", "OK");
 	}
 
-	ft::stack<T> set_ft_second(int option)
+	ft::queue<T> set_ft_second(int option)
 	{
-		ft::stack<int> ft_second;
+		ft::queue<int> ft_second;
 		ft_second.push(6);
 		ft_second.push(10);
 		if (option == 1)
@@ -231,9 +231,9 @@ public:
 		return (ft_second);
 	}
 
-	std::stack<int> set_second(int option)
+	std::queue<int> set_second(int option)
 	{
-		std::stack<int> ft_second;
+		std::queue<int> ft_second;
 		ft_second.push(6);
 		ft_second.push(10);
 		if (option == 1)
@@ -255,16 +255,21 @@ public:
 
 	void equal()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		// std::cout << "\nSECOND\n\n";
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
 		// int i = 0;
+			// std::cout << "\nSTART\n\n";
 			ft_second = set_ft_second(i);
 			second = set_second(i);
-			if ((m_ftstack == ft_second) != (m_stack == second))
+			if ((m_ftqueue == ft_second) != (m_queue == second))
 			{
+				// std::cout << "I: " << i << std::endl;
+				// std::cout << "my result: " << (m_ftqueue < ft_second) << std::endl;
+				// std::cout << "expected result: " << (m_queue < second) << std::endl;
 				print("EQUAL", "WRONG");
 				return;
 			}
@@ -274,14 +279,14 @@ public:
 
 	void not_equal()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
 			ft_second = set_ft_second(i);
 			second = set_second(i);
-			if ((m_ftstack != ft_second) != (m_stack != second))
+			if ((m_ftqueue != ft_second) != (m_queue != second))
 			{
 				print("NOT EQUAL", "WRONG");
 				return;
@@ -292,8 +297,8 @@ public:
 
 	void less()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
@@ -303,13 +308,13 @@ public:
 			// ft::deque<int>::const_iterator it = ft_second.begin();
 			// std::cout << "second: " << *it << std::endl;
 			// ft_second.pop();
-			// std::cout << "second: " << ft_second.top() << std::endl;
-			if ((m_ftstack < ft_second) != (m_stack < second))
+			// std::cout << "second: " << ft_second.back() << std::endl;
+			if ((m_ftqueue < ft_second) != (m_queue < second))
 			{
 				// std::cout << "I: " << i << std::endl;
-				// std::cout << "my result: " << (m_ftstack < ft_second) << std::endl;
-				// std::cout << "expected result: " << (m_stack < second) << std::endl;
-				print("LESS", "WRONG");
+				// std::cout << "my result: " << (m_ftqueue < ft_second) << std::endl;
+				// std::cout << "expected result: " << (m_queue < second) << std::endl;
+				// print("LESS", "WRONG");
 				return;
 			}
 		}
@@ -318,14 +323,14 @@ public:
 
 	void less_or_equal()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
 			ft_second = set_ft_second(i);
 			second = set_second(i);
-			if ((m_ftstack <= ft_second) != (m_stack <= second))
+			if ((m_ftqueue <= ft_second) != (m_queue <= second))
 			{
 				print("LESS OR EQUAL", "WRONG");
 				return;
@@ -336,14 +341,14 @@ public:
 
 	void greater()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
 			ft_second = set_ft_second(i);
 			second = set_second(i);
-			if ((m_ftstack > ft_second) != (m_stack > second))
+			if ((m_ftqueue > ft_second) != (m_queue > second))
 			{
 				print("GREATER", "WRONG");
 				return;
@@ -354,14 +359,14 @@ public:
 
 	void greater_or_equal()
 	{
-		ft::stack<int> ft_second;
-		std::stack<int> second;
+		ft::queue<int> ft_second;
+		std::queue<int> second;
 
 		for (int i = 0; i < 5; i++)
 		{
 			ft_second = set_ft_second(i);
 			second = set_second(i);
-			if ((m_ftstack >= ft_second) != (m_stack >= second))
+			if ((m_ftqueue >= ft_second) != (m_queue >= second))
 			{
 				print("GREATER OR EQUAL", "WRONG");
 				return;

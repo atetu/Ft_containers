@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/03 15:23:17 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 19:54:13 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,43 +125,5 @@ namespace ft
 	{
 		return (lhs.m_container>= rhs.m_container);
 	}
-	
-	// template <class T, class Alloc>
-	// bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	// {
-	// 	typename ft::vector<T>::const_iterator it_lhs = lhs.begin();
-	// 	typename ft::vector<T>::const_iterator ite_lhs = lhs.end();
-	// 	typename ft::vector<T>::const_iterator it_rhs = rhs.begin();
-	// 	typename ft::vector<T>::const_iterator ite_rhs = rhs.end();
-		
-	// 	while (it_lhs != ite_lhs)
-	// 	{
-	// 		if (it_rhs == ite_rhs || *it_rhs < *it_lhs)
-	// 			return false;
-	// 		else if (*it_lhs < *it_rhs)
-	// 			return true;
-	// 		++it_lhs;
-	// 		++it_rhs;
-	// 	}
-	// 	return (it_rhs != ite_rhs);
-	// }
-	
-	// template <class T, class Alloc>
-	// bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	// {
-	// 	return (!(rhs < lhs));
-	// }
-
-	// template <class T, class Alloc>
-	// bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	// {
-	// 	return (rhs < lhs);
-	// }
-
-	// template <class T, class Alloc>
-	// bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	// {
-	// 	return (!(lhs < rhs));
-	// }
 };
 #endif

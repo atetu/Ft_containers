@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Deque.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 16:58:48 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 20:36:57 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ namespace ft
             typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) :
 				m_allocator(alloc),
 				m_array(nullptr),
-				m_front(-1),
+				m_front(0),
 				m_rear(0),
 				m_size(0),
 				m_capacity(0)
@@ -84,13 +84,13 @@ namespace ft
 				assign(first, last);
 			}
 				
-			deque (const deque& x)
+			deque(const deque& x)
 			{
 				if (this != &x)
 				{
 					m_allocator = x.m_allocator;
 					m_array = NULL;
-					m_front = -1;
+					m_front = 0;
 					m_rear = 0;
 					m_size = 0;
 					m_capacity = 0;
@@ -116,7 +116,7 @@ namespace ft
 					m_array = nullptr;
 					m_size = 0;
 					m_capacity = 0;
-					m_front = -1;
+					m_front = 0;
 					m_rear = 0;
 				//	const_iterator it = x.begin();
 				//	std::cout << "IT: " << it.value() << std::endl;
@@ -138,6 +138,10 @@ namespace ft
 			
 			const_iterator begin() const
 			{
+				// std::cout << "M-front: " << m_front <<  std::endl;
+				// std::cout << "M-size: " << m_size << std::endl;
+				// if (m_front)
+				// 	std::cout << "M-front: " <<m_array[m_front] << std::endl;
 				return(const_iterator(&m_array[m_front]));
 			}
 
@@ -175,15 +179,20 @@ namespace ft
 						//int oldCapacity = m_capacity;
 						if (m_size)
 						{
+							// std::cout << "n: " << n << std::endl;
+							// 	std::cout << "capacity: " << m_capacity << std::endl;
 							start = n / 2 - m_size / 2;
-							
-							for (size_type i = 0; i < m_size; i++)
+							end = start;
+							for (size_t i = m_front; i < m_rear; i++)
 							{	
-								m_allocator.construct(copy + start + i, m_array[i]);
-								end = start + i + 1;
+									// std::cout << "Start " <<  m_array[i] << std::endl;
+								m_allocator.construct(&copy[end], m_array[i]);
+								end +=1;
 							}
 							m_front = start;
 							m_rear = end;
+							
+							
 						}
 						else
 						{
@@ -194,7 +203,8 @@ namespace ft
 						m_allocator.destroy(m_array);
 						m_allocator.deallocate(m_array, m_capacity);
 						m_array = copy;
-						// m_front = start;
+						// std::cout << "New front 1: " <<  m_front << m_array[m_front] << std::endl;
+						// // m_front = start;
 						// m_rear = end;
 					//	std::cout << "end: " << end << std::endl;
 						// if (m_front >= 0)
@@ -212,7 +222,7 @@ namespace ft
 						m_front = m_middle;
 						m_rear = m_middle;
 					}
-		
+					// std::cout << "New front: " <<  m_front << std::endl;
 					m_capacity = n;
 					// std::cout << "Front: "<< m_front << std::endl;
 					// std::cout << "Rear: "<< m_rear << std::endl;
@@ -261,8 +271,11 @@ namespace ft
 
 			void push_back (const value_type& val)
 			{
-				if (m_size >= m_capacity - 1)
-					reserve(m_size + 10) ; // check way to reserve  + limit max_size
+				// std::cout << "Size: " << m_size << "\n" << std::flush;
+				// std::cout << "Capacity: " << m_capacity << "\n" << std::flush;
+				
+				if (m_size >= m_capacity - 1 || m_rear >= m_capacity - 2 )
+					reserve(m_capacity + 10) ; // check way to reserve  + limit max_size
 				if (m_size)
 				{
 					// std::cout << "rear: " << m_rear << std::endl;
@@ -278,12 +291,14 @@ namespace ft
 				// 	std::cout << "rear middle: " << m_rear << std::endl;
 				}
 				m_size++;
+				// std::cout << "val: " << val << std::endl;
+				// std::cout << "Front: " << m_front << " - " << m_array[m_front]<< std::endl;
 			}
 
 			void push_front (const value_type& val)
 			{
 				if (m_size >= m_capacity || &m_array[m_front] == m_array)
-					reserve(m_size + 10) ; // check way to reserve  + limit max_size
+					reserve(m_capacity + 10) ; // check way to reserve  + limit max_size
 				m_front--;
 				m_allocator.construct(&m_array[m_front], val);
 				m_size++;
@@ -315,9 +330,12 @@ namespace ft
 				// 		front = 0;
 				// 	else
 				// 		front = m_front;	
+				// if(m_size)
+				// {
 					m_allocator.destroy(&m_array[m_front]);
 					m_front++;
 					m_size--;
+				// }
 				// }
 			}
 			
@@ -383,6 +401,8 @@ namespace ft
 		typename ft::deque<T>::const_iterator ite_rhs = rhs.end();
 		while(it_lhs != ite_lhs && it_rhs != ite_rhs)
 		{
+			// std::cout << "LHS: " << *it_lhs << std::endl;
+			// std::cout << "RHS: " << *it_rhs << std::endl;
 			if (*it_lhs != *it_rhs)
 				return(false);
 			it_lhs++;
@@ -404,11 +424,14 @@ namespace ft
 	{
 		typename ft::ConstIterator<T> it_lhs = lhs.begin();
 		typename ft::ConstIterator<T> ite_lhs = lhs.end();
+		// std::cout << "RHS\n";
 		typename ft::ConstIterator<T> it_rhs = rhs.begin();
 		typename ft::ConstIterator<T> ite_rhs = rhs.end();
 		
 		while (it_lhs != ite_lhs)
 		{
+			// std::cout << "lhs: " << *it_lhs << std::endl;
+			// std::cout << "rhs: " << *it_rhs << std::endl;
 			if (it_rhs == ite_rhs || *it_rhs < *it_lhs)
 				return false;
 			else if (*it_lhs < *it_rhs)

@@ -3,8 +3,10 @@
 #include <iostream>
 #include "ListTest.hpp"
 #include "VectorTest.hpp"
-// #include "DequeTest.hpp"
+#include "DequeTest.hpp"
 #include "MapTest.hpp"
+#include "StackTest.hpp"
+#include "QueueTest.hpp"
 // #include "Map.hpp"
 
 bool mycomparison (int first, double second)
@@ -41,6 +43,7 @@ void listTestor()
 	testor.merge();
 	testor.reverse();
 	testor.rendIncrement();
+	testor.reverse_relational();
 	testor.maxSize();
 	testor.clear();
 
@@ -178,80 +181,42 @@ void dequeTestor()
 //	std::cout << "start\n" << std::flush;
 	DequeTest<int> testor3(3, 24, 3, 7);
 	DequeTest<int> testor4(3, 24, "copy");
+}
 
-// 	testor2.push_back();
-// 	testor2.pop_back();
-// 	testor1.push_front();
-	// testor1.pop_back();
-	// std::deque<int> deq;
-	// deq.push_back(56);
-	// deq.push_back(90);
-	// deq.pop_front();
-	// std::deque<int>::iterator it = deq.begin();
-	// // it--;
-	// std::cout << *it << std::endl;
-	// deq.push_back(1000);
-	// deq.pop_back();
-	// deq.push_front(21);
-	// deq.push_front(31);
-	// deq.push_front(500);
-	// deq.pop_front();
-	// std::deque<int>::iterator it = deq.begin();
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// 	it--;
-	// int n = 0;
-	// while(*it == 0)
-	// {
-	// 	it--;
-	// 	n++;
-	// 	std::cout << "HERE\n";
-	// }
-	// std::cout << *it << std::endl;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
-	// it++;
-	// std::cout << *it << std::endl;
+void stackTestor()
+{
+	StackTest<int> testor;
+	testor.push();
+	testor.push_back_notest();
+	testor.size();
+	testor.empty();
+	testor.top();
+	testor.pop();
+	testor.push_back_notest();
+	testor.equal();
+	testor.not_equal();
+	testor.less();
+	testor.less_or_equal();
+	testor.greater();
+	testor.greater_or_equal();
+}
+
+void queueTestor()
+{
+	QueueTest<int> testor;
+	testor.push();
+	testor.push_back_notest();
+	testor.size();
+	testor.empty();
+	testor.back();
+	testor.pop();
+	testor.push_back_notest();
+	testor.equal();
+	testor.not_equal();
+	testor.less();
+	testor.less_or_equal();
+	testor.greater();
+	testor.greater_or_equal();
 }
 
 void mapTestor()
@@ -300,63 +265,9 @@ void mapTestor()
 int main()
 {
 	listTestor();
-	vectorTestor();
-	dequeTestor();
-
-	mapTestor();
-	//typedef ft::Iterator<ft::List<int> > iterator;
-// 	list.push_back(33);
-// 	ft::ListIterator<int> it = list.begin();
-// 	std::cout << it.node()->value() << std::endl;
-
-// 	ft::List<int> numbers;
-//  	ft::ListIterator<int> itNumbers = numbers.begin();
-// 	ft::ListIterator<int> iteNumbers = numbers.end();
-//     for (;itNumbers != iteNumbers; itNumbers++)
-// 	{
-// 		std::cout << *itNumbers << std::endl;
-// 	}
- 
-//     numbers.push_back(5);
-//     numbers.push_back(3);
-//     numbers.push_back(4);
-// 	numbers.push_back(6);
- 
-//  	std::cout << "Front:" <<  numbers.front() << std::endl;
-   
-//     //numbers.pop_back();
-// 	itNumbers = numbers.begin();
-// //	itNumbers++;
-	
-// //	std::cout << "nb:"<< *itNumbers << std::endl;
-// 	iteNumbers = numbers.end();
-//    	for (;itNumbers != iteNumbers; ++itNumbers )
-// 	{
-// 		std::cout << "nb: " <<  *itNumbers << std::endl;
-		
-// 	}
-// 	std::cout << "back:" << numbers.back() << std::endl;
-
-// 	numbers.pop_back();
-//  	 itNumbers = numbers.begin();
-// //	itNumbers++;
-	
-// //	std::cout << "nb:"<< *itNumbers << std::endl;
-// 	iteNumbers = numbers.end();
-//    	for (;itNumbers != iteNumbers; ++itNumbers )
-// 	{
-// 		std::cout << "nb: " <<  *itNumbers << std::endl;
-		
-// 	}
+	// vectorTestor();
+	// dequeTestor();
+	// stackTestor();
+	// queueTestor();
+	// mapTestor();
 }
-// template <typename T>
-// void testList(void)
-// {
-//     std::list<T> lBase;
-//     ft::List<T> lCustom;
-
-//     /* Test size(), front(), back() and element comparison at initialization */
-//     std::cout << std::endl << "======= TEST 1 =======" << std::endl;
-//     (lBase.size() == lCustom.size()) ? fOK("size()") : fKO("size()");
-//     (lBase.front() == lCustom.front()) ? fOK("front()") : fKO("front()");
-//     (lBase.back() == lCustom.back()) ? fOK("back()") : fKO("back()");
