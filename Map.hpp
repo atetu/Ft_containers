@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/10 20:52:11 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/11 15:26:07 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <memory>
 #include <iostream>
 #include <exception>
+#include "ReverseIterator.hpp"
 
 /*https://www.geeksforgeeks.org/deletion-binary-tree/*/
 
@@ -44,6 +45,10 @@ namespace ft
 			pair(const pair<U1, U2>& p ) : first(p.first), second(p.second)
 			{
 				
+			}
+			
+			~pair()
+			{	
 			}
 			
 			pair& operator=(const pair& other)
@@ -97,13 +102,12 @@ namespace ft
 		}
 	};
 	
-
 	template< class Key, class T > class MapNode
 	{
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef ft::pair<const Key, T> value_t;
+			typedef ft::pair<const Key, T> value_type;
 			// typedef size_t size_type;
 			// typedef ptrdiff_t difference_type;
 			// typedef Compare key_compare;
@@ -114,7 +118,7 @@ namespace ft
 			MapNode *m_parent;
 			MapNode *m_left;
 			MapNode *m_right;
-			value_t m_pair;
+			value_type m_pair;
 			int m_color;
 			
 
@@ -122,7 +126,7 @@ namespace ft
 			// MapNode(const allocator_t &alloc = allocator_t()) : m_allocator(alloc)
 			// {
 			// }
-			MapNode() : m_pair(value_t())
+			MapNode() : m_pair(value_type())
 			{
 			}
 		
@@ -138,9 +142,10 @@ namespace ft
 				
 			{
 			}
-			// MapNode() : va
-			// {
-			// }
+			
+			~MapNode()
+			{
+			}
 			
 			MapNode* left()
 			{
@@ -163,7 +168,7 @@ namespace ft
 				m_right = r;
 			}
 			
-			value_t& pair()
+			value_type& pair()
 			{
 				return (m_pair);
 			}
@@ -248,10 +253,12 @@ namespace ft
 	class MapIterator
 	{
 	public:
-		typedef T value_t;
-		typedef value_t* pointer;
-        typedef const value_t* const_pointer;
-		typedef value_t &reference;
+		typedef pair<Key, T> value_type;
+		typedef pair<const Key, T> const_value_type;
+		typedef value_type* pointer;
+		typedef const_value_type* const_pointer;
+        //typedef const value_type* const_pointer;
+		typedef value_type &reference;
 
 	protected:
 		typedef MapNode<Key, T> MapNode;
@@ -273,6 +280,10 @@ namespace ft
 		}
 
 		MapIterator(const MapIterator &other) : m_node(other.m_node)
+		{
+		}
+
+		~MapIterator()
 		{
 		}
 
@@ -433,16 +444,71 @@ namespace ft
 		{
 			return (m_node);
 		}
+
+		MapIterator
+		base() const
+		{
+			return(*this);
+		}
+		// friend bool operator== (const MapIterator<Key, T>& lhs,
+		// const MapIterator<Key, T>& rhs);
 	};
 
-	
+
+	template <class Key, class T>
+	bool operator== (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		// ft::map<Key, T>::MapIterator<Key, T>::key_compare l_key_comp = lhs.key_comp();
+	//typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
+        if (lhs->first == rhs->first && lhs->second== rhs->second)
+			return(true);
+		else
+			return(false);
+    }
+
+	template <class Key, class T>
+	bool operator!= (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		return(!(lhs == rhs));
+    }
+
+	template <class Key, class T>
+	bool operator< (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		return(lhs->first < rhs->first);
+	}
+
+	template <class Key, class T>
+	bool operator<= (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+	template <class Key, class T>
+	bool operator> (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class Key, class T>
+	bool operator>= (const MapIterator<Key, T>& lhs,
+	const MapIterator<Key, T>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
+		
 	template <class Key, class T>
 	class ConstMapIterator
 	{
 	public:
-		typedef const pair<Key, T> value_t;
-		typedef const value_t &reference;
-		typedef const value_t& const_reference;
+		typedef const pair<Key, T> value_type;
+		typedef const value_type &reference;
+		typedef const value_type& const_reference;
 
 	private:
 		typedef MapNode<Key, T> MapNode;
@@ -467,6 +533,10 @@ namespace ft
 		{
 		}
 
+		~ConstMapIterator()
+		{
+		}
+		
 		ConstMapIterator
 		operator=(const ConstMapIterator &other)
 		{
@@ -561,7 +631,7 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
-		const value_t
+		const value_type
 		operator*() const
 		{
 			// std::cout << "address:" << m_node << std::endl;
@@ -581,460 +651,7 @@ namespace ft
 		}
 	};
 
-	template <class Key, class T>
-	class ReverseMapIterator : public MapIterator<Key, T>
-	{
-	public:
-		typedef pair<Key, T> value_t;
-		typedef value_t &reference;
-		typedef value_t& const_reference;
 
-	private:
-		typedef MapNode<Key, T> MapNode;
-		typedef MapIterator<Key, T> It;
-
-	private:
-		MapNode *m_node;
-
-	public:
-		ReverseMapIterator() : It()
-		{
-		}
-
-		ReverseMapIterator(const It &it) : It(it)
-		{
-			It::operator--();
-		}
-
-		ReverseMapIterator(const It &it, int option) : It(it)
-		{
-		}
-		// ReverseMapIterator(const MapNode *node) : m_node(node)
-		// {
-		// }
-
-		// ReverseMapIterator(const ReverseMapIterator &other) : m_node(other.m_node)
-		// {
-		// }
-
-		// ReverseMapIterator
-		// operator=(const ReverseMapIterator &other)
-		// {
-		// 	m_node = other.m_node;
-		// 	return (*this);
-		// }
-
-		ReverseMapIterator
-		operator++()
-		{
-			It::operator--();
-			return(*this);
-		}
-			
-
-		// 	MapNode *tmp;
-		// 	if (m_node->hasLeft())
-		// 	{
-		// 	//	std::cout << "ICI\n" << std::flush;
-		// 		m_node = identifyDeepestRight(m_node->left());
-		// 		// if (m_node == NULL && m_node->hasRight())
-		// 		// 	m_node = m_node->right();
-		// 	}
-		// 	else
-		// 	{
-		// 		if (m_node == m_node->parent()->right())
-		// 		{
-		// 				// std::cout << "LA\n" << std::flush;
-		// 			m_node = m_node->parent();
-		// 		}
-		// 		else
-		// 		{
-		// 				// std::cout << "HELLO\n" << std::flush;
-		// 			tmp = m_node->parent();
-		// 			m_node = tmp->parent();
-		// 			if (tmp == m_node->left())
-		// 			{
-		// 				while (m_node == m_node->parent()->left())
-		// 					m_node = m_node->parent();
-		// 				m_node = m_node->parent();
-		// 			}	
-		// 		}
-		// 	}
-			
-		// 	return (*this);
-		// }
-
-		// MapNode*
-		// identifyDeepestLeft(MapNode* node)
-		// {
-		// //	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-		// 	MapNode* tmp = node;
-		// 	while (tmp->hasLeft())
-		// 		tmp = tmp->left();
-		// 	return(tmp);
-		// }
-		
-		// MapNode*
-		// identifyDeepestRight(MapNode* node)
-		// {
-		// //	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-		// 	MapNode* tmp = node;
-		// 	while (tmp->hasRight())
-		// 		tmp = tmp->right();
-		// 	return(tmp);
-		// }
-		
-		ReverseMapIterator
-		operator++(int)
-		{
-			ReverseMapIterator tmp(*this);
-			operator++();
-			return (tmp);
-		}
-
-		// ReverseMapIterator &
-		// operator--()
-		// {
-		// 	MapNode *tmp;
-		// //	std::cout<< "NOde: " << m_node->value() << std::endl;
-		// 	if (m_node->hasRight())
-		// 	{
-		// 		m_node = identifyDeepestLeft(m_node->right());
-		// 	//	std::cout << "node" << m_node << std::endl;
-		// 		// if (m_node != NULL && m_node->hasRight())
-		// 		// {
-		// 		// 	std::cout << "inside\n";
-		// 		// 	m_node = m_node->right();
-		// 		// }
-		// 	}
-		// 	else
-		// 	{
-		// 	//	std::cout << "parent: " << m_node->parent();
-		// 		if (m_node == m_node->parent()->left())
-		// 			m_node = m_node->parent();
-		// 		else
-		// 		{
-		// 			tmp = m_node->parent();
-		// 			m_node = tmp->parent();
-		// 			if (tmp == m_node->right())
-		// 			{
-		// 				while (m_node == m_node->parent()->right())
-		// 					m_node = m_node->parent();
-		// 				m_node = m_node->parent();
-		// 			}	
-		// 		}
-		// 	}
-		// 	return (*this);
-			
-		// 	// if (m_node->hasLeft())
-		// 	// 	m_node = m_node->left();
-		// 	// else
-		// 	// {
-		// 	// 	if (m_node == m_node->parent()->right())
-		// 	// 		m_node = m_node->parent();
-		// 	// 	else
-		// 	// 	{
-		// 	// 		while (m_node == m_node->parent()->left())
-		// 	// 			m_node = m_node->parent();		
-		// 	// 	}
-		// 	// }
-
-		// 	// MapNode *tmp;
-		// 	// if (m_node->hasLeft())
-		// 	// {
-		// 	// //	std::cout << "ICI\n" << std::flush;
-		// 	// 	m_node = identifyDeepestRight(m_node->left());
-		// 	// 	// if (m_node == NULL && m_node->hasRight())
-		// 	// 	// 	m_node = m_node->right();
-		// 	// }
-		// 	// else
-		// 	// {
-		// 	// 	if (m_node == m_node->parent()->right())
-		// 	// 	{
-		// 	// 			// std::cout << "LA\n" << std::flush;
-		// 	// 		m_node = m_node->parent();
-		// 	// 	}
-		// 	// 	else
-		// 	// 	{
-		// 	// 			// std::cout << "HELLO\n" << std::flush;
-		// 	// 		tmp = m_node->parent();
-		// 	// 		m_node = tmp->parent();
-		// 	// 		if (tmp == m_node->left())
-		// 	// 		{
-		// 	// 			while (m_node == m_node->parent()->left())
-		// 	// 				m_node = m_node->parent();
-		// 	// 			m_node = m_node->parent();
-		// 	// 		}	
-		// 	// 	}
-		// 	// }
-			
-		// 	// return (*this);
-		// }
-
-		// ReverseMapIterator
-		// operator--(int)
-		// {
-		// 		// std::cout << "ICIIIIII\n" << std::flush;
-		// 	ReverseMapIterator tmp(*this);
-		// 	operator--();
-		// 	return (tmp);
-		// }
-
-		// bool
-		// operator==(const ReverseMapIterator &other) const
-		// {
-		// 	return (m_node == other.m_node);
-		// }
-
-		// bool
-		// operator!=(const ReverseMapIterator &other) const
-		// {
-		// 	return (m_node != other.m_node);
-		// }
-
-		// pair<const Key, T>&
-		// operator*()
-		// {
-		// 	// std::cout << "address:" << m_node << std::endl;
-		// 	// std::cout << "value: " << m_node->value() << std::endl;
-		// 	return (m_node->pair());
-		// }
-
-		// pair<const Key, T>*
-		// operator->() const
-		// {
-		// 	return(&(m_node->pair()));
-		// }
-
-		// MapNode *node() const
-		// {
-		// 	return (m_node);
-		// }
-	};
-
-	template <class Key, class T>
-	class ConstReverseMapIterator
-	{
-	public:
-		typedef T value_t;
-		typedef value_t* pointer;
-        typedef const value_t* const_pointer;
-		typedef value_t &reference;
-
-	private:
-		typedef MapNode<Key, T> MapNode;
-
-	private:
-		MapNode *m_node;
-
-	public:
-		ConstReverseMapIterator() : m_node(NULL)
-		{
-		}
-
-		ConstReverseMapIterator(MapNode *node) : m_node(node)
-		{
-		}
-
-		ConstReverseMapIterator(const MapNode *node) : m_node(node)
-		{
-		}
-
-		ConstReverseMapIterator(const ConstReverseMapIterator &other) : m_node(other.m_node)
-		{
-		}
-
-		ConstReverseMapIterator
-		operator=(const ConstReverseMapIterator &other)
-		{
-			m_node = other.m_node;
-			return (*this);
-		}
-
-		ConstReverseMapIterator
-		operator++()
-		{
-			
-
-			MapNode *tmp;
-			if (m_node->hasLeft())
-			{
-			//	std::cout << "ICI\n" << std::flush;
-				m_node = identifyDeepestRight(m_node->left());
-				// if (m_node == NULL && m_node->hasRight())
-				// 	m_node = m_node->right();
-			}
-			else
-			{
-				if (m_node == m_node->parent()->right())
-				{
-						// std::cout << "LA\n" << std::flush;
-					m_node = m_node->parent();
-				}
-				else
-				{
-						// std::cout << "HELLO\n" << std::flush;
-					tmp = m_node->parent();
-					m_node = tmp->parent();
-					if (tmp == m_node->left())
-					{
-						while (m_node == m_node->parent()->left())
-							m_node = m_node->parent();
-						m_node = m_node->parent();
-					}	
-				}
-			}
-			
-			return (*this);
-		}
-
-		MapNode*
-		identifyDeepestLeft(MapNode* node)
-		{
-		//	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-			MapNode* tmp = node;
-			while (tmp->hasLeft())
-				tmp = tmp->left();
-			return(tmp);
-		}
-		
-		MapNode*
-		identifyDeepestRight(MapNode* node)
-		{
-		//	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-			MapNode* tmp = node;
-			while (tmp->hasRight())
-				tmp = tmp->right();
-			return(tmp);
-		}
-		
-		ConstReverseMapIterator
-		operator++(int)
-		{
-			ConstReverseMapIterator tmp(*this);
-			operator++();
-			return (tmp);
-		}
-
-		ConstReverseMapIterator &
-		operator--()
-		{
-			MapNode *tmp;
-		//	std::cout<< "NOde: " << m_node->value() << std::endl;
-			if (m_node->hasRight())
-			{
-				m_node = identifyDeepestLeft(m_node->right());
-			//	std::cout << "node" << m_node << std::endl;
-				// if (m_node != NULL && m_node->hasRight())
-				// {
-				// 	std::cout << "inside\n";
-				// 	m_node = m_node->right();
-				// }
-			}
-			else
-			{
-			//	std::cout << "parent: " << m_node->parent();
-				if (m_node == m_node->parent()->left())
-					m_node = m_node->parent();
-				else
-				{
-					tmp = m_node->parent();
-					m_node = tmp->parent();
-					if (tmp == m_node->right())
-					{
-						while (m_node == m_node->parent()->right())
-							m_node = m_node->parent();
-						m_node = m_node->parent();
-					}	
-				}
-			}
-			return (*this);
-			
-			// if (m_node->hasLeft())
-			// 	m_node = m_node->left();
-			// else
-			// {
-			// 	if (m_node == m_node->parent()->right())
-			// 		m_node = m_node->parent();
-			// 	else
-			// 	{
-			// 		while (m_node == m_node->parent()->left())
-			// 			m_node = m_node->parent();		
-			// 	}
-			// }
-
-			// MapNode *tmp;
-			// if (m_node->hasLeft())
-			// {
-			// //	std::cout << "ICI\n" << std::flush;
-			// 	m_node = identifyDeepestRight(m_node->left());
-			// 	// if (m_node == NULL && m_node->hasRight())
-			// 	// 	m_node = m_node->right();
-			// }
-			// else
-			// {
-			// 	if (m_node == m_node->parent()->right())
-			// 	{
-			// 			// std::cout << "LA\n" << std::flush;
-			// 		m_node = m_node->parent();
-			// 	}
-			// 	else
-			// 	{
-			// 			// std::cout << "HELLO\n" << std::flush;
-			// 		tmp = m_node->parent();
-			// 		m_node = tmp->parent();
-			// 		if (tmp == m_node->left())
-			// 		{
-			// 			while (m_node == m_node->parent()->left())
-			// 				m_node = m_node->parent();
-			// 			m_node = m_node->parent();
-			// 		}	
-			// 	}
-			// }
-			
-			// return (*this);
-		}
-
-		ConstReverseMapIterator
-		operator--(int)
-		{
-				// std::cout << "ICIIIIII\n" << std::flush;
-			ConstReverseMapIterator tmp(*this);
-			operator--();
-			return (tmp);
-		}
-
-		bool
-		operator==(const ConstReverseMapIterator &other) const
-		{
-			return (m_node == other.m_node);
-		}
-
-		bool
-		operator!=(const ConstReverseMapIterator &other) const
-		{
-			return (m_node != other.m_node);
-		}
-
-		pair<const Key, T>&
-		operator*()
-		{
-			// std::cout << "address:" << m_node << std::endl;
-			// std::cout << "value: " << m_node->value() << std::endl;
-			return (m_node->pair());
-		}
-
-		pair<const Key, T>*
-		operator->() const
-		{
-			return(&(m_node->pair()));
-		}
-
-		MapNode *node() const
-		{
-			return (m_node);
-		}
-	};
 
 	template< typename Key, typename T, typename Compare = ft::less<Key>, typename Allocator = std::allocator<ft::MapNode<Key, T> > >
 	class map
@@ -1042,7 +659,7 @@ namespace ft
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<Key, T> value_t;
+			typedef pair<Key, T> value_type;
 			typedef size_t size_type;
 			typedef ptrdiff_t difference_type;
 			typedef Compare key_compare;
@@ -1053,14 +670,11 @@ namespace ft
 			typedef typename allocator_t::const_pointer const_pointer;
 			typedef MapIterator<Key, T> iterator;
 			typedef ConstMapIterator<Key, T> const_iterator;
-			typedef ft::ReverseMapIterator<Key, T> reverse_iterator;
-			typedef ft::ConstReverseMapIterator<Key, T> const_reverse_iterator;
+			typedef ReverseIterator<iterator> reverse_iterator;
+			typedef ReverseIterator<const_iterator> const_reverse_iterator;
+
+		private:
 			typedef typename ft::MapNode<Key, T> MapNode;
-			//typedef insert_return_type; // rien compris
-
-
-		// private:
-		// 	typedef typename Allocator::template rebind<MapNode>::other MapNodeAlloc;
 		
 		public:
 			class value_compare
@@ -1068,9 +682,9 @@ namespace ft
 				public:
 				value_compare (Compare c) : m_comp(c) {}
 					typedef bool result_type;
-  					typedef value_t first_argument_type;
-  					typedef value_t second_argument_type;
-  					bool operator() (const value_t& x, const value_t& y) const
+  					typedef value_type first_argument_type;
+  					typedef value_type second_argument_type;
+  					bool operator() (const value_type& x, const value_type& y) const
   					{
     					return m_comp(x.first, y.first);
   					}
@@ -1175,11 +789,11 @@ namespace ft
 				{
 					clear();
 					// createEndNode();
-					MapNode* root = other.root();
+					MapNode* root = other.m_root;
 					// std::cout << "ROOT:" << root << std::endl;
 					// std::cout << "ROOT:" << root->key() << std::endl;
 					m_root = createNode(root->pair());
-					copyNodes(m_root, other.root(), other.end().node());
+					copyNodes(m_root, other.m_root, other.end().node());
 					m_first = identifyDeepestLeft(m_root->left());
 					if (m_first == NULL)
 						m_first = m_root;
@@ -1238,7 +852,14 @@ namespace ft
 
 				const_reverse_iterator rend() const
 				{
-					return (const_reverse_iterator(begin()));
+					if (m_size)
+					{
+						iterator beg = begin();
+						beg++;
+						return (const_reverse_iterator(beg));
+					}
+					else
+						return(const_reverse_iterator(end(), 0));
 				}
 
 				
@@ -1268,7 +889,7 @@ namespace ft
 				/*MODIFIERS*/
 				
 				pair<iterator,bool>
-				insert (const value_t& val)
+				insert (const value_type& val)
 				{
 					pair<iterator,bool> ret;
 										
@@ -1285,7 +906,7 @@ namespace ft
 				}
 				
 				iterator
-				insert (iterator position, const value_t& val)
+				insert (iterator position, const value_type& val)
 				{
 					return((insert(val)).first);
 				}
@@ -1647,11 +1268,14 @@ namespace ft
 					return(make_pair(lower, upper));
 				}
 				
-				MapNode*
-				root() const
-				{
-					return (m_root);
-				}
+				// MapNode*
+				// root() const
+				// {
+				// 	return (m_root);
+				// }
+
+			// friend bool operator== (const MapIterator<Key, T>& lhs,
+			// const MapIterator<Key, T>& rhs);
 			private:
 
 				void
@@ -1665,7 +1289,7 @@ namespace ft
 				}
 				
 				MapNode*
-				createNode(const value_t& val)
+				createNode(const value_type& val)
 				{
 					MapNode *node = NULL;
 					node = m_allocator.allocate(1);

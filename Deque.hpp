@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/03 15:16:00 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 16:58:48 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,12 @@ namespace ft
 						reserve(x.m_capacity);
 					assign(x.begin(), x.end());
 				}
+			}
+
+			~deque()
+			{
+				clear();
+				m_allocator.deallocate(m_array, m_capacity);
 			}
 
 			deque& operator= (deque const & x)

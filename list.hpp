@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/04 19:15:17 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/11 16:23:02 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 #include <memory>
 #include <iostream>
-#include "Iterator.hpp"
+// #include "Iterator.hpp"
+#include "ReverseIterator.hpp"
 
 namespace ft
 {
@@ -25,16 +26,7 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
-		typedef T &reference;
-		// typedef typename allocator_type::reference reference;
-		// typedef typename allocator_type::const_reference const_reference;
-		// typedef typename allocator_type::pointer pointer;
-		// typedef typename allocator_type::const_pointer const_pointer;
-		//	typedef Iterator<T> iterator;
-		// typedef listConstIterator<T> const_iterator;
-		// typedef std::reverse_iterator<iterator> reverse_iterator;
-		// typedef std::reverse_iterator<iterator> const_reverse_iterator;
-		// typedef ft::iterator_traits<iterator>::difference_type difference_type;
+		typedef T& reference;
 		typedef size_t size_type;
 
 	private:
@@ -146,7 +138,10 @@ namespace ft
 	{
 	public:
 		typedef T value_type;
+		typedef const T const_value_type;
 		typedef value_type &reference;
+		typedef value_type* pointer;
+		typedef const_value_type* const_pointer;
 
 	private:
 		typedef Node<T> Node;
@@ -171,6 +166,10 @@ namespace ft
 		{
 		}
 
+		~listIterator()
+		{
+		}
+		
 		listIterator
 		operator=(const listIterator &other)
 		{
@@ -230,14 +229,31 @@ namespace ft
 		{
 			return (m_node);
 		}
+
+		pointer
+		operator->() const
+		{
+			return(&(m_node->value()));
+		}
+		
+		listIterator
+		base() const
+		{
+			return(*this);
+		}
 	};
 
 	template <class T>
 	class listConstIterator
 	{
 	public:
-		typedef const T value_type;
-		typedef value_type &reference;
+		typedef T value_type;
+		typedef const T const_value_type;
+		typedef value_type& reference;
+		typedef const_value_type& const_reference;
+		typedef value_type* pointer;
+		typedef const_value_type* const_pointer;
+
 
 	private:
 		typedef Node<T> Node;
@@ -262,6 +278,10 @@ namespace ft
 		{
 		}
 
+		~listConstIterator()
+		{
+		}
+		
 		listConstIterator
 		operator=(const listConstIterator &other)
 		{
@@ -311,203 +331,31 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
-		reference
+		const_reference
 		operator*() const
 		{
 			return (m_node->value());
-			//eturn (static_cast<const Node*>(m_node)->value());
 		}
 
+		const_pointer
+		operator->() const
+		{
+			return(&(m_node->value()));
+		}
+		
 		const Node *
 		node() const
 		{
 			return (m_node);
 		}
-	};
 
-	template <class T>
-	class listReverseIterator
-	{
-	public:
-		typedef T value_type;
-		typedef value_type &reference;
-
-	private:
-		typedef Node<T> Node;
-
-	private:
-		Node *m_node;
-
-	public:
-		listReverseIterator() : m_node(NULL)
+		listConstIterator
+		base() const
 		{
-		}
-
-		listReverseIterator(Node *node) : m_node(node)
-		{
-		}
-
-		listReverseIterator(const Node *node) : m_node(node)
-		{
-		}
-
-		listReverseIterator(const listReverseIterator &other) : m_node(other.m_node)
-		{
-		}
-
-		listReverseIterator
-		operator=(const listReverseIterator &other)
-		{
-			m_node = other.m_node;
-			return (*this);
-		}
-
-		listReverseIterator
-		operator++()
-		{
-			m_node = m_node->previous();
-			return (*this);
-		}
-
-		listReverseIterator
-		operator++(int)
-		{
-			listReverseIterator tmp(*this);
-			operator++();
-			return (tmp);
-		}
-
-		listReverseIterator &
-		operator--()
-		{
-			m_node = m_node->next();
-			return (*this);
-		}
-
-		listReverseIterator
-		operator--(int)
-		{
-			listReverseIterator tmp(*this);
-			operator--();
-			return (tmp);
-		}
-
-		bool
-		operator==(const listReverseIterator &other) const
-		{
-			return (m_node == other.m_node);
-		}
-
-		bool
-		operator!=(const listReverseIterator &other) const
-		{
-			return (m_node != other.m_node);
-		}
-
-		reference
-		operator*() const
-		{
-			return (m_node->value());
-		}
-
-		Node *node() const
-		{
-			return (m_node);
+			return(*this);
 		}
 	};
 
-	template <class T>
-	class listConstReverseIterator
-	{
-	public:
-		typedef const T value_type;
-		typedef value_type &reference;
-
-	private:
-		typedef Node<T> Node;
-
-	private:
-		const Node *m_node;
-
-	public:
-		listConstReverseIterator() : m_node(NULL)
-		{
-		}
-
-		listConstReverseIterator(Node *node) : m_node(node)
-		{
-		}
-
-		listConstReverseIterator(const Node *node) : m_node(node)
-		{
-		}
-
-		listConstReverseIterator(const listConstReverseIterator &other) : m_node(other.m_node)
-		{
-		}
-
-		listConstReverseIterator
-		operator=(const listConstReverseIterator &other)
-		{
-			m_node = other.m_node;
-			return (*this);
-		}
-
-		listConstReverseIterator
-		operator++()
-		{
-			m_node = m_node->previous();
-			return (*this);
-		}
-
-		listConstReverseIterator
-		operator++(int)
-		{
-			listConstReverseIterator tmp(*this);
-			operator++();
-			return (tmp);
-		}
-
-		listConstReverseIterator &
-		operator--()
-		{
-			m_node = m_node->next();
-			return (*this);
-		}
-
-		listConstReverseIterator
-		operator--(int)
-		{
-			listConstReverseIterator tmp(*this);
-			operator--();
-			return (tmp);
-		}
-
-		bool
-		operator==(const listConstReverseIterator &other) const
-		{
-			return (m_node == other.m_node);
-		}
-
-		bool
-		operator!=(const listConstReverseIterator &other) const
-		{
-			return (m_node != other.m_node);
-		}
-
-		reference
-		operator*() const
-		{
-			return (m_node->value());
-			//return (static_cast<const Node*>(m_node)->value());
-		}
-
-		const Node *
-		node() const
-		{
-			return (m_node);
-		}
-	};
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class list
@@ -515,23 +363,21 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
-		typedef typename ft::Node<T> Node;
 		typedef typename allocator_type::reference reference;
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		//	typedef Iterator<T> iterator;
 		typedef listIterator<T> iterator;
 		typedef listConstIterator<T> const_iterator;
-		typedef ft::listReverseIterator<T> reverse_iterator;
-		typedef ft::listConstReverseIterator<T> const_reverse_iterator;
-		typedef typename std::ptrdiff_t difference_type;
+		typedef ReverseIterator<iterator> reverse_iterator;
+		typedef ReverseIterator<const_iterator> const_reverse_iterator;
+		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
 
-		
-
 	private:
+		typedef typename ft::Node<T> Node;
 		typedef typename Alloc::template rebind<Node>::other NodeAlloc;
+		
 
 	private:
 		Alloc m_allocator;
@@ -700,22 +546,25 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(m_end->previous()));
+			return (reverse_iterator(end()));
+			//return (reverse_iterator(m_end->previous()));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return (const_reverse_iterator(m_end->previous()));
+			return (const_reverse_iterator(end()));
+			// return (const_reverse_iterator(m_end->previous()));
 		}
 
 		reverse_iterator rend()
 		{
-			return (reverse_iterator(m_begin));
+			return (reverse_iterator(iterator(m_begin)));
+			//return (reverse_iterator(m_begin));
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return (const_reverse_iterator(m_begin));
+			return (const_reverse_iterator(const_iterator(m_begin)));
 		}
 
 		/*ELEMENT ACCESS*/
@@ -842,7 +691,7 @@ namespace ft
 				m_first = m_end;
 		}
 	
-		iterator insert(iterator pos, const T &value) // already allocated?
+		iterator insert(iterator pos, const T &value)
 		{
 			iterator it(m_first);
 			iterator ite(m_end);
@@ -863,7 +712,6 @@ namespace ft
 				else
 				{
 					node->connect(m_first);
-					//	m_begin->next(node);
 					m_first = node;
 				}
 			}
@@ -1051,7 +899,7 @@ namespace ft
 			int x_first_indicator = 0;
 
 	
-			if (i == x_ite) // not sure about that, the real one aborts
+			if (i == x_ite)
 				return;	
 			if (position == it_first)
 				first_indicator = 1;
@@ -1535,6 +1383,6 @@ namespace ft
 		return (!(lhs < rhs));
 	}
 	
-} // namespace ft
+};
 
 #endif

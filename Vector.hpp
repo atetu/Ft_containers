@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/01 16:23:45 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/11 16:35:14 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ namespace ft
 			typedef typename allocator_type::const_pointer const_pointer;
 			typedef Iterator<T> iterator;
 			typedef ConstIterator<T> const_iterator;
+			typedef ReverseIterator<iterator> reverse_iterator;
+			typedef ReverseIterator<const_iterator> const_reverse_iterator;
 		//	typedef ft::ReverseIterator<T> reverse_iterator;
 		//	typedef ft::ConstReverseIterator<T> const_reverse_iterator;
 		
@@ -87,7 +89,7 @@ namespace ft
 
 			~vector()
 			{
-				//clear
+				clear();
 				m_allocator.deallocate(m_array, m_size);
 			}
 
@@ -95,7 +97,7 @@ namespace ft
 			{
 				if (this != &x)
 				{
-					//clear();
+					clear();
 					m_allocator = x.m_allocator;
 					m_array = nullptr;
 					m_size = 0;
@@ -135,6 +137,41 @@ namespace ft
 			{
 				return (const_iterator(&m_array[m_size]));
 			}
+
+			reverse_iterator rbegin()
+			{
+				return (reverse_iterator(end()));
+			}
+			
+			const_reverse_iterator rbegin() const
+			{
+				return (const_reverse_iterator(end()));
+			}
+
+			reverse_iterator rend()
+			{
+				if (m_size)
+				{
+					iterator beg = begin();
+					beg++;
+					return (reverse_iterator(beg));
+				}
+				else
+					return(reverse_iterator(end(), 0));
+			}
+
+			const_reverse_iterator rend() const
+			{
+				if (m_size)
+				{
+					iterator beg = begin();
+					beg++;
+					return (const_reverse_iterator(beg));
+				}
+				else
+					return(const_reverse_iterator(end(), 0));
+			}
+			
 			/*CAPACITY*/
 
 			size_type size() const

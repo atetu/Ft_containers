@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   MapTest.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/10 20:51:55 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/11 15:12:22 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,7 @@ template <typename Key, typename T> class MapTest
             }
        		return(1);
         }
-
-        #define CHECK_VALUES(apply, name)                     \
-            if (m_ftmap.apply() != m_map.apply())             \
-                print(name, "WRONG");                       \
-            else                                                \
-                print(name, "OK");        
+      
                 
         void begin()
         {
@@ -209,21 +204,6 @@ template <typename Key, typename T> class MapTest
 			typename std::map<Key, T>::iterator itMap = m_map.begin();
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
 			typename std::map<Key, T>::iterator iteMap = m_map.end();
-			
-		//	std::cout << "MY MAP\n";
-			// while(itFt != iteFt)
-			// 	{
-			// 		std::cout << itFt->first << "\n";
-			// 		itFt++;
-			// 	}
-			
-		//	std::cout << "REAL MAP\n";
-			// while(itMap != iteMap)
-			// 	{
-			// 		std::cout << itMap->first << "\n";
-			// 		itMap++;
-			// 	}
-			// 	std::cout << "\n";
         }
 
 		void max_size()
@@ -237,10 +217,10 @@ template <typename Key, typename T> class MapTest
 				print("OPERATOR ACCESS", "OK");
 		}
 	   
-	   #define INSERT(itFt, itMap, val)			\
+	   #define INSERT_MAP(itFt, itMap, val)			\
 			m_ftmap.insert(itFt, val);				\
 			m_map.insert(itMap, val);				\
-			if (!(checkIdenticalMaps("INSERT")))	\
+			if (!(checkIdenticalMaps("INSERT_MAP")))	\
 				return;
 			
 		void insert()
@@ -265,8 +245,8 @@ template <typename Key, typename T> class MapTest
 			m_map.insert(std::pair<int, int>(9, 9));
 			m_map.insert(std::pair<int, int>(20, 20));
 		
-			if (checkIdenticalMaps("INSERT"))
-				print("INSERT", "OK");	
+			if (checkIdenticalMaps("INSERT_MAP"))
+				print("INSERT_MAP", "OK");	
 		}
 
 		void insert2()
@@ -299,8 +279,8 @@ template <typename Key, typename T> class MapTest
 			m_ftmap.insert(itFt, ft_second.end());
 			m_map.insert(itMap, second.end());
 		
-			if (checkIdenticalMaps("INSERT2"))
-				print("INSERT2", "OK");	
+			if (checkIdenticalMaps("INSERT_MAP2"))
+				print("INSERT_MAP2", "OK");	
 		}
 
 		void insert3()
@@ -318,30 +298,30 @@ template <typename Key, typename T> class MapTest
 			m_ftmap.insert(itFt, ft::pair<int, int>(435, 435));
 			m_map.insert(itMap, std::pair<int, int>(435, 435));
 			
-			if (checkIdenticalMaps("INSERT3"))
-				print("INSERT3", "OK");	
+			if (checkIdenticalMaps("INSERT_MAP3"))
+				print("INSERT_MAP3", "OK");	
 		}
 		
-		#define ERASE(itFt, itMap, nameTest, lastTest)		\
+		#define ERASE_MAP(itFt, itMap, nameTest, lastTest)		\
 			m_ftmap.erase(itFt);							\
 			m_map.erase(itMap);							\
 			if (!lastTest)									\
-				checkIdenticalMaps("ERASE");				\
+				checkIdenticalMaps("ERASE_MAP");				\
 			else											\
 			{												\
-				if (checkIdenticalMaps("ERASE"))		\
-					print("ERASE", "OK");					\
+				if (checkIdenticalMaps("ERASE_MAP"))		\
+					print("ERASE_MAP", "OK");					\
 			}
 			
-		#define ERASE2(key, nameTest, lastTest)		\
+		#define ERASE_MAP2(key, nameTest, lastTest)		\
 			m_ftmap.erase(key);							\
 			m_map.erase(key);							\
 			if (!lastTest)									\
-				checkIdenticalMaps("ERASE2", 1);				\
+				checkIdenticalMaps("ERASE_MAP2", 1);				\
 			else											\
 			{												\
-				if (checkIdenticalMaps("ERASE2", 1))		\
-					print("ERASE2", "OK");					\
+				if (checkIdenticalMaps("ERASE_MAP2", 1))		\
+					print("ERASE_MAP2", "OK");					\
 			}
 			
 		void erase()
@@ -351,14 +331,13 @@ template <typename Key, typename T> class MapTest
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
 			typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
-			ERASE(itFt, itMap, "ERASE", 0);
-		//	ERASE(iteFt, iteMap, "ERASE", 1); //normal segfault;
-		
+			ERASE_MAP(itFt, itMap, "ERASE_MAP", 0);
+			
 			itFt = m_ftmap.begin();
 			itMap = m_map.begin();
 			itFt++;
 			itMap++;
-			ERASE(itFt, itMap, "ERASE", 1);
+			ERASE_MAP(itFt, itMap, "ERASE_MAP", 1);
 		}
 
 		void erase2()
@@ -368,19 +347,8 @@ template <typename Key, typename T> class MapTest
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
 			typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
-			// while(itFt != iteFt)
-			// 	{
-			// 		std::cout << itFt->first << itFt->second << " ";
-			// 		itFt++;
-			// 	}
-			// std::cout << "\nMAP\n";
-			// while(itMap != iteMap)
-			// 	{
-			// 		std::cout<< "Map /n" << std::endl;
-			// 		std::cout << itMap->first << itMap->second << " ";
-			// 		itMap++;
-			// 	}
-			ERASE2(10, "ERASE2", 1);
+			
+			ERASE_MAP2(10, "ERASE_MAP2", 1);
 
 			// itFt = m_ftmap.begin();
 			// iteFt = m_ftmap.end();
@@ -399,11 +367,11 @@ template <typename Key, typename T> class MapTest
 			// 		std::cout << itMap->first << itMap->second << " ";
 			// 		itMap++;
 			// 	}
-			ERASE2(20, "ERASE2", 1);
-		//	ERASE(iteFt, iteMap, "ERASE", 1); //normal segfault;
+			ERASE_MAP2(20, "ERASE_MAP2", 1);
+		//	ERASE_MAP(iteFt, iteMap, "ERASE_MAP", 1); //normal segfault;
 		
 			
-			//ERASE(73, itMap, "ERASE2", 1);
+			//ERASE_MAP(73, itMap, "ERASE_MAP2", 1);
 		}
 		
 		void erase3()
@@ -416,8 +384,8 @@ template <typename Key, typename T> class MapTest
 			itMap++;
 			m_ftmap.erase(itFt, iteFt);
 			m_map.erase(itMap, iteMap);
-			if (checkIdenticalMaps("ERASE3"))
-				print("ERASE3", "OK");
+			if (checkIdenticalMaps("ERASE_MAP3"))
+				print("ERASE_MAP3", "OK");
 		}
 
 		void clear()
@@ -537,11 +505,11 @@ template <typename Key, typename T> class MapTest
 			m_ftmap.erase(itFt);							\
 			m_map.erase(itMap);							\
 			if (!lastTest)									\
-				checkIdenticalMaps("ERASE");				\
+				checkIdenticalMaps("ERASE_MAP");				\
 			else											\
 			{												\
-				if (checkIdenticalMaps("ERASE"))		\
-					print("ERASE", "OK");					\
+				if (checkIdenticalMaps("ERASE_MAP"))		\
+					print("ERASE_MAP", "OK");					\
 			}
 	  void lower_bound()
 	  {
@@ -767,18 +735,19 @@ template <typename Key, typename T> class MapTest
 
 	  void reverse()
 	  {
-		ft::map<int, int>::reverse_iterator ftm = m_ftmap.rbegin();;
-		ft::map<int, int>::reverse_iterator fte = m_ftmap.rend();
+		typedef ft::map<int, int>::iterator iter_type;
+		ft::ReverseIterator<iter_type> ftm = m_ftmap.rbegin();;
+		ft::ReverseIterator<iter_type> fte = m_ftmap.rend();
 				
 		std::map<int, int>::reverse_iterator m = m_map.rbegin();
 		std::map<int, int>::reverse_iterator m2 = m_map.rend();
 		
 		while(ftm != fte && m != m2)
 		{
-			std::cout<< "ft first: " << ftm->first << "\n" << std::flush;
-				// std::cout<< "m first: " << m->first << "\n" << std::flush;
-				// std::cout<< "ft second: " << ft->second << "\n" << std::flush;
-				// std::cout<< "m second: " << m->second << "\n" << std::flush;
+			// std::cout<< "ft first: " << ftm->first << "\n" << std::flush;
+			// 	// std::cout<< "m first: " << m->first << "\n" << std::flush;
+			// 	// std::cout<< "ft second: " << ft->second << "\n" << std::flush;
+			// 	// std::cout<< "m second: " << m->second << "\n" << std::flush;
 			if (ftm->first != m->first || ftm->second!= m->second)
 			{
 				
@@ -790,6 +759,28 @@ template <typename Key, typename T> class MapTest
 		}
 
 		print("REVERSE", "OK");
+	  }
+
+	  void reverse_relational()
+	  {
+		typedef ft::map<int, int>::iterator iter_type;
+		ft::ReverseIterator<iter_type> ftm = m_ftmap.rbegin();
+		ft::ReverseIterator<iter_type> ftbis = ftm;
+		ft::ReverseIterator<iter_type> ft2 = ftm;
+		ft2++;
+				
+		std::map<int, int>::reverse_iterator m = m_map.rbegin();
+		std::map<int, int>::reverse_iterator mbis = m;
+		std::map<int, int>::reverse_iterator m2 = m;
+		m2++;
+		
+		if ((ftm == ftbis) == (m == mbis)
+			&& (ftm == ft2) == (m == m2))
+			print("REVERSE ==", "OK");
+
+		if ((ftm != ftbis) == (m != mbis)
+			&& (ftm != ft2) == (m != m2))
+			print("REVERSE !=", "OK");
 	  }
 };
 
