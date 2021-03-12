@@ -33,6 +33,7 @@ namespace ft
 
             ReverseIterator(const Iterator &it, int option) : Iterator(it)
             {
+                (void)option;
             }
             
             ReverseIterator(const ReverseIterator &other) : Iterator(other.node())

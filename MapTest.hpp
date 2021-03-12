@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 16:33:32 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 15:12:22 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 15:55:00 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,10 +200,10 @@ template <typename Key, typename T> class MapTest
 		void empty()
         {
             CHECK_VALUES_MAP(empty, "EMPTY");
-			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
-			typename std::map<Key, T>::iterator itMap = m_map.begin();
-			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
-			typename std::map<Key, T>::iterator iteMap = m_map.end();
+			// typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
+			// typename std::map<Key, T>::iterator itMap = m_map.begin();
+			// typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
+			// typename std::map<Key, T>::iterator iteMap = m_map.end();
         }
 
 		void max_size()
@@ -329,7 +329,7 @@ template <typename Key, typename T> class MapTest
 			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
 			typename std::map<Key, T>::iterator itMap = m_map.begin();
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
-			typename std::map<Key, T>::iterator iteMap = m_map.end();
+			// typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
 			ERASE_MAP(itFt, itMap, "ERASE_MAP", 0);
 			
@@ -343,9 +343,9 @@ template <typename Key, typename T> class MapTest
 		void erase2()
 		{
 			typename ft::MapIterator<Key, T> itFt = m_ftmap.begin();
-			typename std::map<Key, T>::iterator itMap = m_map.begin();
+			// typename std::map<Key, T>::iterator itMap = m_map.begin();
 			typename ft::MapIterator<Key, T> iteFt = m_ftmap.end();
-			typename std::map<Key, T>::iterator iteMap = m_map.end();
+			// typename std::map<Key, T>::iterator iteMap = m_map.end();
 			
 			
 			ERASE_MAP2(10, "ERASE_MAP2", 1);

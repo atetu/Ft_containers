@@ -1,5 +1,15 @@
-// #include "list.hpp"
-// #include <list>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/12 14:27:31 by atetu             #+#    #+#             */
+/*   Updated: 2021/03/12 14:29:58 by atetu            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <iostream>
 #include "ListTest.hpp"
 #include "VectorTest.hpp"
@@ -7,7 +17,6 @@
 #include "MapTest.hpp"
 #include "StackTest.hpp"
 #include "QueueTest.hpp"
-// #include "Map.hpp"
 
 bool mycomparison (int first, double second)
 {
@@ -47,7 +56,6 @@ void listTestor()
 	testor.maxSize();
 	testor.clear();
 
-// ft::list<int> ftl(24, 3);
 	ListTest<int> testor2(24, 3);
 	if (testor2.checkIdenticalLists("INIT2"))
 		ListTest<int>::print("INIT2", "OK");
@@ -59,10 +67,6 @@ void listTestor()
 	ListTest<int> testor4(3, 24, "copy");
 	if (testor4.checkIdenticalLists("INIT4"))
 		ListTest<int>::print("INIT4", "OK");
-
-	// ListTest<int> testor3(24, 3);
-	// if (testor2.checkIdenticalLists("INIT2"))
-	// 	ListTest<int>::print("INIT2", "OK");
 
 	std::list<int> first;
 	std::list<int> second;
@@ -129,11 +133,11 @@ void vectorTestor()
 	testor3.at();
 	testor3.front();
 	testor3.back();
+	testor3.rendIncrement();
+	testor3.reverse_relational();
+	testor3.relations();
 	testor3.erase();
 	testor3.erase2();
-
-	
-	
 
 	std::vector<int> first;
 	std::vector<int> second;
@@ -178,7 +182,6 @@ void dequeTestor()
 {
 	DequeTest<int> testor1;
 	DequeTest<int> testor2(24, 3);
-//	std::cout << "start\n" << std::flush;
 	DequeTest<int> testor3(3, 24, 3, 7);
 	DequeTest<int> testor4(3, 24, "copy");
 }
@@ -222,8 +225,6 @@ void queueTestor()
 void mapTestor()
 {
 	MapTest<int, int> testor;
-	//testor.begin();
-	//testor.end();
 	testor.size();
 	testor.insert();
 	testor.equal();
@@ -249,7 +250,6 @@ void mapTestor()
 	testor.erase3();
 	testor.empty();
 	testor.insert();
-	
 	testor.key_compare();
 	testor.value_compare();
 	testor.find();
@@ -265,9 +265,13 @@ void mapTestor()
 int main()
 {
 	listTestor();
-	// vectorTestor();
-	// dequeTestor();
-	// stackTestor();
-	// queueTestor();
-	// mapTestor();
+	vectorTestor();
+	dequeTestor();
+	stackTestor();
+	queueTestor();
+	mapTestor();
+	// while(1)
+	// {
+		
+	// }
 }

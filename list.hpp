@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 21:19:10 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/12 14:38:27 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
-		typedef T& reference;
+		typedef T &reference;
 		typedef size_t size_type;
 
 	private:
@@ -49,7 +49,7 @@ namespace ft
 		{
 		}
 
-		Node&
+		Node &
 		operator=(const Node &other)
 		{
 			m_val = other.m_val;
@@ -87,7 +87,7 @@ namespace ft
 			previous->next(next);
 			next->previous(previous);
 		}
-		
+
 		void deconnect()
 		{
 			m_previous->next(m_next);
@@ -118,19 +118,17 @@ namespace ft
 			return (m_previous);
 		}
 
-		T&
+		T &
 		value()
 		{
 			return (m_val);
 		}
-		
-		const T&
+
+		const T &
 		value() const
 		{
 			return (m_val);
 		}
-		
-	
 	};
 
 	template <class T>
@@ -140,8 +138,8 @@ namespace ft
 		typedef T value_type;
 		typedef const T const_value_type;
 		typedef value_type &reference;
-		typedef value_type* pointer;
-		typedef const_value_type* const_pointer;
+		typedef value_type *pointer;
+		typedef const_value_type *const_pointer;
 
 	private:
 		typedef Node<T> Node;
@@ -169,7 +167,7 @@ namespace ft
 		~listIterator()
 		{
 		}
-		
+
 		listIterator
 		operator=(const listIterator &other)
 		{
@@ -233,13 +231,13 @@ namespace ft
 		pointer
 		operator->() const
 		{
-			return(&(m_node->value()));
+			return (&(m_node->value()));
 		}
-		
+
 		listIterator
 		base() const
 		{
-			return(*this);
+			return (*this);
 		}
 	};
 
@@ -249,15 +247,14 @@ namespace ft
 	public:
 		typedef T value_type;
 		typedef const T const_value_type;
-		typedef value_type& reference;
-		typedef const_value_type& const_reference;
-		typedef value_type* pointer;
-		typedef const_value_type* const_pointer;
-
+		typedef value_type &reference;
+		typedef const_value_type &const_reference;
+		typedef value_type *pointer;
+		typedef const_value_type *const_pointer;
 
 	private:
 		typedef Node<T> Node;
-	
+
 	private:
 		const Node *m_node;
 
@@ -281,7 +278,7 @@ namespace ft
 		~listConstIterator()
 		{
 		}
-		
+
 		listConstIterator
 		operator=(const listConstIterator &other)
 		{
@@ -340,9 +337,9 @@ namespace ft
 		const_pointer
 		operator->() const
 		{
-			return(&(m_node->value()));
+			return (&(m_node->value()));
 		}
-		
+
 		const Node *
 		node() const
 		{
@@ -352,10 +349,9 @@ namespace ft
 		listConstIterator
 		base() const
 		{
-			return(*this);
+			return (*this);
 		}
 	};
-
 
 	template <typename T, typename Alloc = std::allocator<T> >
 	class list
@@ -377,7 +373,6 @@ namespace ft
 	private:
 		typedef typename ft::Node<T> Node;
 		typedef typename Alloc::template rebind<Node>::other NodeAlloc;
-		
 
 	private:
 		Alloc m_allocator;
@@ -396,7 +391,7 @@ namespace ft
 			m_first = m_end;
 			m_size = 0;
 		}
-		
+
 		void
 		reduce_size()
 		{
@@ -412,22 +407,22 @@ namespace ft
 		{
 			m_begin = b;
 		}
-		
+
 		void first(Node *f)
 		{
-			m_first = f;	
+			m_first = f;
 		}
-		
+
 		void end(Node *e)
 		{
 			m_end = e;
 		}
-		
+
 		Node *beginNode()
 		{
-			return(m_begin);
+			return (m_begin);
 		}
-		
+
 		void create_list()
 		{
 			m_end = m_allocNode.allocate(1);
@@ -440,6 +435,7 @@ namespace ft
 			m_first = m_end;
 			m_size = 0;
 		}
+
 	public:
 		Node *
 		allocate(const T &value)
@@ -448,7 +444,7 @@ namespace ft
 			m_allocNode.construct(node, value);
 			return (node);
 		}
-		
+
 		//Constructs an empty list with zero elements.
 		explicit list(const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
@@ -464,25 +460,25 @@ namespace ft
 		}
 
 		//Constructs a new list with n elements and assigns val to each element of list.
-		list(size_type n, const value_type& val = value_type(), const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
+		list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
 			create_list();
 			assign(n, val);
 		}
 
 		template <class InputIterator>
-  		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),  typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) : m_allocator(alloc)
+		list(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type * = nullptr) : m_allocator(alloc)
 		{
 			create_list();
 			this->assign(first, last);
 		}
-		
+
 		// Constructs a list with copy of each elements present in existing list
 		list(const list &other)
 		{
 			m_allocator = other.m_allocator;
 			create_list();
-			assign(other.begin(), other.end());	
+			assign(other.begin(), other.end());
 		}
 
 		~list()
@@ -490,7 +486,7 @@ namespace ft
 			//clear() ???
 			iterator it = begin();
 			iterator ite = end();
-			
+
 			if (it != ite)
 			{
 				while (it != ite)
@@ -503,7 +499,7 @@ namespace ft
 			erase(ite);
 		}
 
-		list&
+		list &
 		operator=(const list &other)
 		{
 			if (this != &other)
@@ -512,9 +508,9 @@ namespace ft
 					this->erase(begin(), end());
 				const_iterator it = other.begin();
 				const_iterator ite = other.end();
-				while(it != ite)
+				while (it != ite)
 				{
-					push_back(*it);		
+					push_back(*it);
 					it++;
 				}
 			}
@@ -616,14 +612,14 @@ namespace ft
 		assign(InputIterator first, InputIterator last) //,  typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr
 		{
 			this->clear();
-			
+
 			while (first != last)
 			{
 				push_back(*first);
 				first++;
 			}
 		}
-		
+
 		void assign(size_type n, const value_type &val)
 		{
 			this->clear();
@@ -650,13 +646,13 @@ namespace ft
 			}
 			m_size++;
 		}
-		
+
 		void pop_front()
 		{
-			
+
 			if (m_size != 0)
 			{
-				Node *next = m_first->next();	
+				Node *next = m_first->next();
 				erase(iterator(m_first));
 				m_size--;
 				m_first = next;
@@ -664,7 +660,7 @@ namespace ft
 			if (m_size == 0)
 				m_first = m_end;
 		}
-		
+
 		void
 		push_back(const value_type &val)
 		{
@@ -679,7 +675,7 @@ namespace ft
 			}
 			else
 				node->connect(m_end);
-		
+
 			m_size++;
 		}
 
@@ -690,7 +686,7 @@ namespace ft
 			if (m_size == 0)
 				m_first = m_end;
 		}
-	
+
 		iterator insert(iterator pos, const T &value)
 		{
 			iterator it(m_first);
@@ -767,7 +763,7 @@ namespace ft
 
 			previous->next(next);
 			next->previous(previous);
-		
+
 			m_size--;
 			return (iterator(next));
 		}
@@ -805,7 +801,7 @@ namespace ft
 
 		void resize(size_type n, value_type val = value_type())
 		{
-			int count = 0;
+			size_type count = 0;
 			Node *tmp = m_first;
 			Node *save = NULL;
 
@@ -837,7 +833,6 @@ namespace ft
 			}
 			else if (n > m_size)
 			{
-				Node *cur = m_end->previous();
 				while (m_size != n)
 					this->push_back(val);
 			}
@@ -867,18 +862,17 @@ namespace ft
 			iterator x_it = x.begin();
 			iterator x_ite = x.end();
 			Node *tmp;
-			int x_size = 0;
 			int first_indicator = 0;
-			
+
 			if (position.node() == m_first)
 				first_indicator = 1;
-		
+
 			while (x_it != x_ite)
 			{
 				tmp = x_it.node()->next();
 				x_it.node()->deconnect();
 				x_it.node()->connect(position.node()->previous(), position.node());
-			
+
 				x_it = iterator(tmp);
 				m_size++;
 				if (first_indicator)
@@ -893,14 +887,11 @@ namespace ft
 			iterator x_it = x.begin();
 			iterator x_ite = x.end();
 			iterator it_first(m_first);
-			Node *tmp;
-			int x_size = 0;
 			int first_indicator = 0;
 			int x_first_indicator = 0;
 
-	
 			if (i == x_ite)
-				return;	
+				return;
 			if (position == it_first)
 				first_indicator = 1;
 			if (i.node() == x_it.node())
@@ -921,7 +912,7 @@ namespace ft
 			Node *tmp;
 			int first_indicator = 0;
 			int x_first_indicator = 0;
-			
+
 			if (position.node() == m_first)
 				first_indicator = 1;
 			if (first.node() == x_it.node())
@@ -931,7 +922,7 @@ namespace ft
 				tmp = first.node()->next();
 				first.node()->deconnect();
 				first.node()->connect(position.node()->previous(), position.node());
-			
+
 				first = iterator(tmp);
 				m_size++;
 				if (first_indicator)
@@ -1045,7 +1036,7 @@ namespace ft
 				if (it != it_first)
 				{
 					if (it.node()->previous()->value() > it.node()->value())
-					{	
+					{
 						sorted = 0;
 						break;
 					}
@@ -1071,7 +1062,7 @@ namespace ft
 				splice(ite, x);
 				return;
 			}
-			
+
 			it = begin();
 			ite = end();
 			itx = x.begin();
@@ -1092,8 +1083,8 @@ namespace ft
 				splice(ite, x);
 		}
 
-		template<class Compare>
-		void merge(list& x, Compare comp)
+		template <class Compare>
+		void merge(list &x, Compare comp)
 		{
 			iterator it(m_first);
 			iterator it_first(m_first);
@@ -1115,7 +1106,7 @@ namespace ft
 				if (it != it_first)
 				{
 					if (it.node()->previous()->value() > it.node()->value())
-					{	
+					{
 						sorted = 0;
 						break;
 					}
@@ -1141,7 +1132,7 @@ namespace ft
 				splice(ite, x);
 				return;
 			}
-			
+
 			it = begin();
 			ite = end();
 			itx = x.begin();
@@ -1176,15 +1167,15 @@ namespace ft
 			Node *next_it;
 			Node *prev_compare;
 			Node *next_compare;
-		
+
 			to_compare = it;
 			to_compare++;
 			while (it != before_end)
 			{
-				while(to_compare != ite)
+				while (to_compare != ite)
 				{
 					if (*it > *to_compare)
-					{	
+					{
 						new_it = to_compare.node();
 						new_next = it.node();
 						if (it.node()->next() == to_compare.node())
@@ -1209,7 +1200,7 @@ namespace ft
 					if (to_compare != ite)
 						to_compare++;
 				}
-			
+
 				if (it != ite)
 					it++;
 				else
@@ -1221,10 +1212,10 @@ namespace ft
 				}
 			}
 		}
-		
+
 		template <class Compare>
-  		void sort (Compare comp)
-  		{
+		void sort(Compare comp)
+		{
 			iterator it(m_first);
 			iterator it_first(m_first);
 			iterator ite(m_end);
@@ -1237,15 +1228,15 @@ namespace ft
 			Node *next_it;
 			Node *prev_compare;
 			Node *next_compare;
-		
+
 			to_compare = it;
 			to_compare++;
 			while (it != before_end)
 			{
-				while(to_compare != ite)
+				while (to_compare != ite)
 				{
 					if (!comp(*it, *to_compare))
-					{	
+					{
 						new_it = to_compare.node();
 						new_next = it.node();
 						if (it.node()->next() == to_compare.node())
@@ -1270,7 +1261,7 @@ namespace ft
 					if (to_compare != ite)
 						to_compare++;
 				}
-			
+
 				if (it != ite)
 					it++;
 				else
@@ -1288,8 +1279,7 @@ namespace ft
 			Node *end_copy = m_end;
 			Node *begin_copy = m_begin;
 			Node *prev_copy;
-			Node *next_copy;
-			
+
 			m_begin = end_copy;
 			m_begin->next(m_begin->previous());
 			m_begin->previous(NULL);
@@ -1298,28 +1288,28 @@ namespace ft
 			m_end->next(NULL);
 
 			m_first = m_begin->next();
-			
+
 			iterator it(m_first);
 			iterator ite(m_end);
-			
-			while(it != ite)
+
+			while (it != ite)
 			{
 				prev_copy = it.node()->previous();
 				it.node()->previous(it.node()->next());
 				it.node()->next(prev_copy);
 				it++;
 			}
-		}	
+		}
 	};
-		
+
 	template <class T, class Alloc>
-  	void swap (list<T,Alloc>& x, list<T,Alloc>& y)
+	void swap(list<T, Alloc> &x, list<T, Alloc> &y)
 	{
 		x.swap(y);
 	}
 
 	template <class T, class Alloc>
-	bool operator== (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator==(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return (false);
@@ -1327,32 +1317,32 @@ namespace ft
 		typename ft::list<T>::const_iterator ite_lhs = lhs.end();
 		typename ft::list<T>::const_iterator it_rhs = rhs.begin();
 		typename ft::list<T>::const_iterator ite_rhs = rhs.end();
-		while(it_lhs != ite_lhs && it_rhs != ite_rhs)
+		while (it_lhs != ite_lhs && it_rhs != ite_rhs)
 		{
 			if (*it_lhs != *it_rhs)
-				return(false);
+				return (false);
 			it_lhs++;
 			it_rhs++;
 		}
 		if (it_lhs == ite_lhs && it_rhs == ite_rhs)
-			return(true);
+			return (true);
 		return (false);
 	}
 
 	template <class T, class Alloc>
-	bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator!=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
-		return(!(lhs == rhs));
+		return (!(lhs == rhs));
 	}
 
 	template <class T, class Alloc>
-	bool operator< (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator<(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
 		typename ft::list<T>::const_iterator it_lhs = lhs.begin();
 		typename ft::list<T>::const_iterator ite_lhs = lhs.end();
 		typename ft::list<T>::const_iterator it_rhs = rhs.begin();
 		typename ft::list<T>::const_iterator ite_rhs = rhs.end();
-		
+
 		while (it_lhs != ite_lhs)
 		{
 			if (it_rhs == ite_rhs || *it_rhs < *it_lhs)
@@ -1364,25 +1354,25 @@ namespace ft
 		}
 		return (it_rhs != ite_rhs);
 	}
-	
+
 	template <class T, class Alloc>
-	bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator<=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
 		return (!(rhs < lhs));
 	}
 
 	template <class T, class Alloc>
-	bool operator> (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator>(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
 		return (rhs < lhs);
 	}
 
 	template <class T, class Alloc>
-	bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs)
+	bool operator>=(const list<T, Alloc> &lhs, const list<T, Alloc> &rhs)
 	{
 		return (!(lhs < rhs));
 	}
-	
-};
+
+}; // namespace ft
 
 #endif

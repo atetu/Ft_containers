@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/03 14:17:50 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 15:51:12 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ class DequeTest
 			std::deque<T> copy(size, val);
 			// std::cout << "middle\n" << std::flush;
 			typename std::deque<T>::iterator itl = copy.begin();
-			typename std::deque<T>::iterator itel = copy.end();
+	//		typename std::deque<T>::iterator itel = copy.end();
 			typename std::deque<T>::iterator first;
 			typename std::deque<T>::iterator last;
 			for(int i = 0 ; i < start; i++)
@@ -103,8 +103,8 @@ class DequeTest
 			typename ft::deque<T>::iterator ite = ft_copy.end();
 		
 			std::deque<T> copy(size, val);
-			typename std::deque<T>::iterator itl = copy.begin();
-			typename std::deque<T>::iterator itel = copy.end();
+		//	typename std::deque<T>::iterator itl = copy.begin();
+		//	typename std::deque<T>::iterator itel = copy.end();
 			
 			ft::deque<int> ftl(ft_copy);
 			m_ftdeque = ftl;
@@ -418,7 +418,6 @@ class DequeTest
                     m_deque.pop_front();
 					if (!(checkIdenticaldeques("POP_FRONT")))
 						return;
-					i++;
                 }
 			}
 			// m_ftdeque.pop_front();

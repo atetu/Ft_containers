@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ListTest.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/11 21:20:18 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/12 14:50:35 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ public:
 		typename ft::list<T>::iterator ft_last;
 		std::list<T> copy(size, val);
 		typename std::list<T>::iterator itl = copy.begin();
-		typename std::list<T>::iterator itel = copy.end();
+//		typename std::list<T>::iterator itel = copy.end();
 		typename std::list<T>::iterator first;
 		typename std::list<T>::iterator last;
 		for (int i = 0; i < start; i++)
@@ -87,8 +87,8 @@ public:
 		typename ft::list<T>::iterator ite = ft_copy.end();
 
 		std::list<T> copy(size, val);
-		typename std::list<T>::iterator itl = copy.begin();
-		typename std::list<T>::iterator itel = copy.end();
+		// typename std::list<T>::iterator itl = copy.begin();
+		// typename std::list<T>::iterator itel = copy.end();
 		ft::list<int> ftl(ft_copy);
 		m_ftList = ftl;
 
@@ -220,7 +220,6 @@ public:
 	void push_front()
 	{
 		m_ftList.push_front(50);
-
 		m_list.push_front(50);
 		if (checkIdenticalLists("PUSH_FRONT"))
 			print("PUSH_FRONT", "OK");
@@ -237,7 +236,7 @@ public:
 
 	void pop_back()
 	{
-		int max;
+		size_t max;
 		if (!((max = m_ftList.size()) == m_list.size()))
 			print("POP_BACK", "WRONG");
 		else
@@ -248,7 +247,6 @@ public:
 				m_list.pop_back();
 				if (!(checkIdenticalLists("POP_BACK")))
 					return;
-				i++;
 			}
 		}
 		if (checkIdenticalLists("POP_BACK"))
@@ -257,7 +255,7 @@ public:
 
 	void pop_front()
 	{
-		int max;
+		size_t max;
 		if (!((max = m_ftList.size()) == m_list.size()))
 			print("POP_FRONT", "WRONG");
 		else
@@ -268,7 +266,6 @@ public:
 				m_list.pop_back();
 				if (!(checkIdenticalLists("POP_FRONT")))
 					return;
-				i++;
 			}
 		}
 		if (checkIdenticalLists("POP_FRONT"))
@@ -334,8 +331,6 @@ public:
 	{
 		typename ft::listIterator<T> itFt = m_ftList.begin();
 		typename std::list<T>::iterator itList = m_list.begin();
-		typename ft::listIterator<T> iteFt = m_ftList.end();
-		typename std::list<T>::iterator iteList = m_list.end();
 
 		ERASE(itFt, itList, "ERASE", 1);
 		//	ERASE(iteFt, iteList, "ERASE", 1); //normal segfault;
@@ -539,7 +534,7 @@ public:
 		typename ft::list<T>::reverse_iterator ft_re = m_ftList.rend();
 		typename std::list<T>::reverse_iterator r = m_list.rbegin();
 		typename std::list<T>::reverse_iterator re = m_list.rend();
-			
+
 		while (ft_r != ft_re && r != re)
 		{
 			if (*ft_r != *r)
@@ -571,7 +566,7 @@ public:
 		ft::ReverseIterator<iter_type> ftbis = ftm;
 		ft::ReverseIterator<iter_type> ft2 = ftm;
 		ft2++;
-				
+
 		std::list<int>::reverse_iterator m = m_list.rbegin();
 		std::list<int>::reverse_iterator mbis = m;
 		std::list<int>::reverse_iterator m2 = m;

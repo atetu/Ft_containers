@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 15:26:07 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 15:55:27 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -540,7 +540,7 @@ namespace ft
 		ConstMapIterator
 		operator=(const ConstMapIterator &other)
 		{
-		//	m_node = other.m_node;
+			m_node = other.m_node;
 			return (*this);
 		}
 
@@ -705,8 +705,8 @@ namespace ft
 		public:
 				explicit map (const key_compare& comp = key_compare(),
 					const allocator_t& alloc = allocator_t()) :
-						m_comp(comp),
 						m_allocator(alloc),
+						m_comp(comp),
 						m_root(NULL),
 						m_first(NULL),
 						m_end(NULL),
@@ -725,8 +725,8 @@ namespace ft
 				map (InputMapIterator first, InputMapIterator last,
 				const key_compare& comp = key_compare(),
 				const allocator_t& alloc = allocator_t()) :
-					m_comp(comp),
 					m_allocator(alloc),
+					m_comp(comp),
 					m_root(NULL),
 					m_size(0)
 				{
@@ -908,6 +908,7 @@ namespace ft
 				iterator
 				insert (iterator position, const value_type& val)
 				{
+					(void)position;
 					return((insert(val)).first);
 				}
 				
@@ -1329,7 +1330,7 @@ namespace ft
 				void
 				setLimits()
 				{
-					MapNode* first = NULL;
+					// MapNode* first = NULL;
 					MapNode* end = NULL;
 					// std::cout << "Root: " << m_root << " - " << m_root->key() << std::endl;
 					// 	std::cout << "End: " << m_end << std::endl;
@@ -1623,7 +1624,7 @@ namespace ft
 
 		typename ft::map<Key, T>::const_iterator rit = rhs.begin();
 		typename ft::map<Key, T>::const_iterator rite = rhs.end();
-		typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
+		// typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
 		
 		while(lit != lite && rit != rite)
 		{
@@ -1657,7 +1658,7 @@ namespace ft
 
 		typename ft::map<Key, T>::const_iterator rit = rhs.begin();
 		typename ft::map<Key, T>::const_iterator rite = rhs.end();
-		typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
+		// typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
 		
 		while(lit != lite && rit != rite)
 		{

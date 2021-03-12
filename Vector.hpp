@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 16:35:14 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 15:42:03 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <exception>
 
 #include "Iterator.hpp"
+#include "ReverseIterator.hpp"
 
 namespace ft
 {
@@ -150,26 +151,26 @@ namespace ft
 
 			reverse_iterator rend()
 			{
-				if (m_size)
-				{
+				// if (m_size)
+				// {
 					iterator beg = begin();
-					beg++;
+					// beg++;
 					return (reverse_iterator(beg));
-				}
-				else
-					return(reverse_iterator(end(), 0));
+				// }
+				// else
+				// 	return(reverse_iterator(begin(), 0));
 			}
 
 			const_reverse_iterator rend() const
 			{
-				if (m_size)
-				{
+				// if (m_size)
+				// {
 					iterator beg = begin();
-					beg++;
+					// beg++;
 					return (const_reverse_iterator(beg));
-				}
-				else
-					return(const_reverse_iterator(end(), 0));
+				// }
+				// else
+				// 	return(const_reverse_iterator(begin(), 0));
 			}
 			
 			/*CAPACITY*/
@@ -181,19 +182,20 @@ namespace ft
 
 			size_type max_size() const
 			{
-					return (std::numeric_limits<size_type>::max() / sizeof(value_type));
+				 return (std::min((size_type) std::numeric_limits<difference_type>::max(),
+                        std::numeric_limits<size_type>::max() / sizeof(value_type)));	
 			}
 			
 			void resize (size_type n, value_type val = value_type())
 			{
-				if (n < m_size)
+				if ((int)n < m_size)
 				{
 					erase(iterator(&m_array[n]), iterator (&m_array[m_size]));
 					//m_size too adapat
 				}
-				else if (n > m_size)
+				else if ((int)n > m_size)
 				{
-					if (n + 1 > m_capacity)
+					if ((int)n + 1 > m_capacity)
 						reserve(n + 10); // check max
 					for(size_type i = m_size; i < n; i++)
 						push_back(val);
@@ -212,13 +214,13 @@ namespace ft
 			
 			void reserve(size_type n)
 			{
-				if (n > m_capacity)
+				if ((int)n > m_capacity)
 				{
 					if (m_capacity)
 					{
 						T* copy = m_allocator.allocate(n);
 						
-						for (size_type i = 0; i < m_size; i++)
+						for (int i = 0; i < m_size; i++)
 							m_allocator.construct(copy + i, m_array[i]);
 						m_allocator.destroy(m_array);
 						m_allocator.deallocate(m_array, m_size);
@@ -248,7 +250,7 @@ namespace ft
 			
 			reference at (size_type n)
 			{
-				if (m_size == 0 || n < 0 || n >= m_size)
+				if (m_size == 0 || (int)n < 0 || (int)n >= m_size)
 				{
 					throw (std::out_of_range("vector"));
 				}
@@ -291,7 +293,7 @@ namespace ft
 			{
 			//	clear();
 				
-				if (n >= m_capacity)
+				if ((int)n >= m_capacity)
 					reserve(n +10) ; // check way to reserve  + limit max_size
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
@@ -301,7 +303,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last)
 			{
 			//	clear();
-				int neededSize = last.value() - first.value();
+				int neededSize = last.node() - first.node();
 			//	std::cout << "HERE\n" << std::flush;
 				if (neededSize < 0)
 					neededSize = -neededSize;
@@ -364,12 +366,12 @@ namespace ft
 				//VERIFIER MAX SIZE
 				if (n < 0)
 					return;
-				int p = position.value()- begin().value();
+				int p = position.node()- begin().node();
 						
-				if ((m_size + n + 1) > m_capacity)
+				if ((m_size + (int)n + 1) > m_capacity)
 					reserve(m_size + n + 1);
 	
-				if (&m_array[p] != end().value())
+				if (&m_array[p] != end().node())
 				{
 					copy.assign(iterator(&m_array[p]), end());
 					copyToDo = true;
@@ -389,16 +391,16 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-				int p = position.value()- begin().value();
+				int p = position.node()- begin().node();
 								
-				int neededSize = last.value() - first.value();
+				int neededSize = last.node() - first.node();
 				if (neededSize < 0)
 					neededSize = -neededSize;
 			
 				if ((m_size + neededSize + 1) > m_capacity)
 					reserve(m_size + neededSize + 1);
 							
-				if (&m_array[p] != end().value())
+				if (&m_array[p] != end().node())
 				{
 					copyToDo = true;
 					copy.assign(iterator(&m_array[p]), end());
@@ -459,9 +461,9 @@ namespace ft
 					copyToDo = true;
 				}
 				
-				size_type toDelete = end().value() - first.value();
+				size_type toDelete = end().node() - first.node();
 				
-				m_allocator.destroy(first.value()); // does it destroy all the rest of the vector until the end?
+				m_allocator.destroy(first.node()); // does it destroy all the rest of the vector until the end?
 				m_size -= toDelete;;
 		
 				if (copyToDo)

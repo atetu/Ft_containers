@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 19:46:13 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/12 14:31:03 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ namespace ft
 	template<class T>
 	class Iterator //: public ft::iterator<ft::input_iterator_tag, T>
 	{
+		public:
+			typedef T value_type;
+			typedef const T const_value_type;
+			typedef value_type &reference;
+			typedef value_type* pointer;
+			typedef const_value_type* const_pointer;
+			
 		private:
 			T *m_ptr;
 			
@@ -63,7 +70,11 @@ namespace ft
 				m_ptr(other.m_ptr)
 			{
 			}
-  			
+			
+			~Iterator()
+			{
+			}
+			
 			Iterator
 			operator=(const Iterator &other)
 			{
@@ -114,34 +125,95 @@ namespace ft
 			}
 			
   			T&
-			operator*()
+			operator*() const
 			{
 				return (*m_ptr);
 			}
 
+			T&
+			operator->() const
+			{
+				return (&(*m_ptr));
+			}
+			
 			T*
-			value()
+			node() const
 			{
 				return (m_ptr);
 			}
-		
+
+			Iterator
+			base() const
+			{
+				return(*this);
+			}
+
+			Iterator
+			operator+(int value)
+			{
+				Iterator tmp(*this);
+				tmp += value;
+				return(tmp);
+			}
+
+			Iterator
+			operator-(int value)
+			{
+				Iterator tmp(*this);
+				tmp -=value;
+				return(tmp);
+			}
+
+			bool
+			operator<(const Iterator& other) const
+			{
+				return(m_ptr < other.node());
+			}
+
+			bool
+			operator>(const Iterator& other) const
+			{
+				return(m_ptr > other.node());
+			}
+
+			bool
+			operator<=(const Iterator& other) const
+			{
+				return(m_ptr <= other.node());
+			}
+
+			bool
+			operator>=(const Iterator& other) const
+			{
+				return(m_ptr >= other.node());
+			}
+
+			Iterator
+			operator+=(int value)
+			{
+				m_ptr +=value;
+				return(*this);
+			}
+
+			Iterator
+			operator-=(int value)
+			{
+				m_ptr -=value;
+				return(*this);
+			}
 	};
 
 	template <class T>
 	class ConstIterator
 	{
 	public:
-		typedef const T value_type;
-		typedef const value_type& const_reference;
-//		typedef value_type & reference;
-
-	// private:
-	// 	typedef Node<T> Node;
-	
-	// private:
-	// 	const Node *m_node;
-	
-	private:
+		typedef T value_type;
+		typedef const T const_value_type;
+		typedef value_type &reference;
+		typedef const_value_type& const_reference;
+		typedef value_type* pointer;
+		typedef const_value_type* const_pointer;
+		
 			value_type *m_ptr;
 
 	public:
@@ -165,11 +237,15 @@ namespace ft
 				m_ptr(other.m_ptr)
 			{
 			}
+
+			~ConstIterator()
+			{
+			}
   			
 			ConstIterator
 			operator=(const ConstIterator &other)
 			{
-				// m_ptr = other.m_ptr;
+				m_ptr = other.m_ptr;
 				return (*this);
 			}
 			
@@ -223,12 +299,78 @@ namespace ft
 				return (*m_ptr);
 			}
 
+			const_reference
+			operator->() const
+			{
+				return (&(*m_ptr));
+			}
 			const value_type*
-			value() const
+			node() const
 			{
 				return (m_ptr);
 			}
 	
+
+			ConstIterator
+			base() const
+			{
+				return(*this);
+			}
+
+			ConstIterator
+			operator+(int value)
+			{
+				ConstIterator tmp(*this);
+				tmp +=value;
+				return(tmp);
+			}
+
+			ConstIterator
+			operator-(int value)
+			{
+				ConstIterator tmp(*this);
+				tmp -=value;
+				return(tmp);
+			}
+
+			bool
+			operator<(ConstIterator& other) const
+			{
+				return(m_ptr < other.node());
+			}
+
+			bool
+			operator>(ConstIterator& other) const
+			{
+				return(m_ptr > other.node());
+			}
+
+			bool
+			operator<=(ConstIterator& other) const
+			{
+				return(m_ptr <= other.node());
+			}
+
+			bool
+			operator>=(ConstIterator& other) const
+			{
+				return(m_ptr >= other.node());
+			}
+
+			ConstIterator
+			operator+=(int value)
+			{
+				m_ptr = m_ptr + value;
+				return(*this);
+			}
+
+			ConstIterator
+			operator-=(int value)
+			{
+				m_ptr = m_ptr - value;
+				return(*this );
+			}
+			
 		// listConstIterator() : m_node(NULL)
 		// {
 		// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Deque.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 20:36:57 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/12 15:50:19 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ namespace ft
 							// 	std::cout << "capacity: " << m_capacity << std::endl;
 							start = n / 2 - m_size / 2;
 							end = start;
-							for (size_t i = m_front; i < m_rear; i++)
+							for (int i = m_front; i < m_rear; i++)
 							{	
 									// std::cout << "Start " <<  m_array[i] << std::endl;
 								m_allocator.construct(&copy[end], m_array[i]);
@@ -247,7 +247,7 @@ namespace ft
 			{
 			//	std::cout << "HERE\n" << std::flush;
 				clear();
-				if (n >= m_capacity)
+				if ((int)n >= m_capacity)
 					reserve(n * 2 + 10) ; // check way to reserve  + limit max_size
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
@@ -258,7 +258,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last)
 			{
 				clear();
-				int neededSize = last.value() - first.value();
+				int neededSize = last.node() - first.node();
 			
 				if (neededSize < 0)
 					neededSize = -neededSize;

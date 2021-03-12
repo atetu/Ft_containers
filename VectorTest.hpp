@@ -6,7 +6,7 @@
 /*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/01 16:52:45 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 15:48:29 by atetu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ class VectorTest
 			typename ft::vector<T>::iterator ft_last;
 			std::vector<T> copy(size, val);
 			typename std::vector<T>::iterator itl = copy.begin();
-			typename std::vector<T>::iterator itel = copy.end();
+			// typename std::vector<T>::iterator itel = copy.end();
 			typename std::vector<T>::iterator first;
 			typename std::vector<T>::iterator last;
 			for(int i = 0 ; i < start; i++)
@@ -97,12 +97,12 @@ class VectorTest
 		{
 			(void)c;
 			ft::vector<T> ft_copy(size, val);
-			typename ft::vector<T>::iterator it = ft_copy.begin();
-			typename ft::vector<T>::iterator ite = ft_copy.end();
+			// typename ft::vector<T>::iterator it = ft_copy.begin();
+			// typename ft::vector<T>::iterator ite = ft_copy.end();
 		
 			std::vector<T> copy(size, val);
-			typename std::vector<T>::iterator itl = copy.begin();
-			typename std::vector<T>::iterator itel = copy.end();
+			// typename std::vector<T>::iterator itl = copy.begin();
+			// typename std::vector<T>::iterator itel = copy.end();
 			
 			ft::vector<int> ftl(ft_copy);
 			m_ftvector = ftl;
@@ -378,7 +378,7 @@ class VectorTest
 
         void pop_back()
         {
-			int max;
+			size_t max;
             if (!((max = m_ftvector.size()) == m_vector.size()))
                 print("POP_BACK", "WRONG");
             else
@@ -389,7 +389,6 @@ class VectorTest
                     m_vector.pop_back();
 					if (!(checkIdenticalvectors("POP_BACK", 1)))
 						return;
-					i++;
                 }
 			}
 			if(checkIdenticalvectors("POP_BACK", 1))
@@ -531,8 +530,8 @@ class VectorTest
 		{
 			typename ft::Iterator<T> itFt = m_ftvector.begin();
 			typename std::vector<T>::iterator itvector = m_vector.begin();
-			typename ft::Iterator<T> iteFt = m_ftvector.end();
-			typename std::vector<T>::iterator itevector = m_vector.end();
+			// typename ft::Iterator<T> iteFt = m_ftvector.end();
+			// typename std::vector<T>::iterator itevector = m_vector.end();
 			
 			ERASE_VEC(itFt, itvector, "ERASE", 1);
 		//	ERASE(iteFt, itevector, "ERASE", 1); //normal segfault;
@@ -577,201 +576,93 @@ class VectorTest
 				print("SWAP", "OK");
 		}
 
-		
-		
-	// 	void resize()
-	// 	{
-	// 		m_ftvector.resize(2);
-	// 		m_vector.resize(2);
-	// 		if (checkIdenticalvectors("RESIZE"))
-	// 			print("RESIZE", "OK");
-	// 		m_ftvector.resize(6);
-	// 		m_vector.resize(6);
-	// 		if (checkIdenticalvectors("RESIZE 2"))
-	// 			print("RESIZE 2", "OK");
-	// 	}
+		void relations()
+		{
+			typename ft::vector<T>::iterator ft = m_ftvector.begin();
+			// typename ft::vector<T>::iterator ft_bis = ft;
+			typename ft::vector<T>::iterator ft2 = ft;
+			ft2++;
+			typename std::vector<T>::iterator r = m_vector.begin();
+			// typename std::vector<T>::iterator r_bis = r;
+			typename std::vector<T>::iterator r2 = r;
+			r2++;
+			if ((*(ft+(2)) == *(r+(2))) &&
+			(*(ft2-(1)) == *(r2-(1))) &&
+			((ft < ft2) == (r < r2)) &&
+			((ft <= ft2) == (r <= r2)) &&
+			((ft > ft2) == (r > r2)) &&
+			((ft >= ft2) == (r >= r2)))
+				print("RELATIONS", "OK");
+			relations_const(m_ftvector, m_vector);
+		}
 
-		
-	// 	void clear()
-	// 	{
-	// 		int array[3] = {6, 7, 8};
-			
-	// 		m_ftvector.clear();
-	// 		m_vector.clear();
-	// 		checkIdenticalvectors("CLEAR");
-			
-	// 		init(array, 3);
-	// 		checkIdenticalvectors("CLEAR");
-	// 		m_ftvector.clear();
-	// 		m_vector.clear();
-	// 		if (checkIdenticalvectors("CLEAR"))
-	// 			print("CLEAR", "OK");
-	// 	}
-	// 	void splice()
-	// 	{
-	// 		int array[3] = {6, 7, 8};
-	// 		init(array, 3);
-			
-	// 		ft::vector<int> m_other;
-	// 		std::vector<int> other;
-	// 		for (int i = 0 ; i < 3; i++)
-	// 		{
-	// 			m_other.push_back(9);
-	// 			other.push_back(9);
-	// 		}
-			
-	// 		ft::vectorIterator<T> it= m_ftvector.begin();
-	// 		ft::vectorIterator<T> ite = m_ftvector.end();
-	// 		while (it != ite)
-	// 			it++;
-		
-	// 		ft::vectorIterator<T> itt = m_ftvector.begin();
-	// 		typename std::vector<T>::iterator ipp = m_vector.begin();
-	
-	// 		m_ftvector.splice(itt, m_other);
-	// 		m_vector.splice(ipp, other);
-			
-	// 		if (checkIdenticalvectors("SPLICE 1"))
-	// 			print("SPLICE 1", "OK");
-			
-	// 		ft::vector<int> m_newOther;
-	// 		std::vector<int> newOther;
-	// 		for (int i = 0 ; i < 3; i++)
-	// 		{
-	// 			m_newOther.push_back(3);
-	// 			newOther.push_back(3);
-	// 		}
-	// 		m_newOther.push_back(4);
-	// 		newOther.push_back(4);
-	// 		ft::vectorIterator<T> itOther = m_newOther.begin();
-	// 		typename std::vector<T>::iterator ipOther = newOther.begin();
-	// 		for (int i = 0; i < 2; i++)
-	// 		{
-	// 			itOther++;
-	// 			ipOther++;
-	// 		}
-	// 		m_ftvector.splice(itt, m_newOther, itOther);
-	// 		m_vector.splice(ipp, newOther, ipOther);
-			
-	// 		if (checkIdenticalvectors("SPLICE 2"))
-	// 			print("SPLICE 2", "OK");
+		void relations_const(ft::vector<T> const m_vec, std::vector<T> const vec)
+		{
+			typename ft::vector<T>::const_iterator ft = m_vec.begin();
+			// typename ft::vector<T>::const_iterator ft_bis = ft;
+			typename ft::vector<T>::const_iterator ft2 = ft;
+			ft2++;
+			typename std::vector<T>::const_iterator r = vec.begin();
+			// typename std::vector<T>::const_iterator r_bis = r;
+			typename std::vector<T>::const_iterator r2 = r;
+			r2++;
+			if ((*(ft+(2)) == *(r+(2))) &&
+			(*(ft2-(1)) == *(r2-(1))) &&
+			((ft < ft2) == (r < r2)) &&
+			((ft <= ft2) == (r <= r2)) &&
+			((ft > ft2) == (r > r2)) &&
+			((ft >= ft2) == (r >= r2)))
+				print("RELATIONS CONST", "OK");
+		}
 
-	// 		ft::vector<int> m_newOther2;
-	// 		std::vector<int> newOther2;
-	// 		for (int i = 0 ; i < 3; i++)
-	// 		{
-	// 			m_newOther2.push_back(5);
-	// 			newOther2.push_back(5);
-	// 		}
-	// 		m_newOther2.push_back(7);
-	// 		newOther2.push_back(7);
-	// 		ft::vectorIterator<T> itOther2 = m_newOther2.begin();
-	// 		typename std::vector<T>::iterator ipOther2 = newOther2.begin();
-	// 		for (int i = 0; i < 2; i++)
-	// 		{
-	// 			itOther2++;
-	// 			ipOther2++;
-	// 		}
-	// 		m_ftvector.splice(itt, m_newOther2, itOther2);
-	// 		m_vector.splice(ipp, newOther2, ipOther2);
+		void rendIncrement()
+		{
+			typename ft::vector<T>::reverse_iterator ft_r = m_ftvector.rbegin();
+			typename ft::vector<T>::reverse_iterator ft_re = m_ftvector.rend();
+			typename std::vector<T>::reverse_iterator r = m_vector.rbegin();
+			typename std::vector<T>::reverse_iterator re = m_vector.rend();
+				
+			while (ft_r != ft_re && r != re)
+			{
+				std::cout << "FT: " << *ft_r << std::endl;
+				std::cout << "VEC: " << *r << std::endl;
+				if (*ft_r != *r)
+				{
+					print("REND", "WRONG");
+					return;
+				}
+				ft_r++;
+				r++;
+			}
+			if (ft_r == ft_re && r == re)
+				print("REND", "OK");
+			else
+				print("REND", "WRONG");
+		}
 
-	// 		if (checkIdenticalvectors("SPLICE 3"))
-	// 			print("SPLICE 3", "OK");
-	// 	}
+		void reverse_relational()
+		{
+			typedef ft::vector<int>::iterator iter_type;
+			ft::ReverseIterator<iter_type> ftm = m_ftvector.rbegin();
+			ft::ReverseIterator<iter_type> ftbis = ftm;
+			ft::ReverseIterator<iter_type> ft2 = ftm;
+			ft2++;
+					
+			std::vector<int>::reverse_iterator m = m_vector.rbegin();
+			std::vector<int>::reverse_iterator mbis = m;
+			std::vector<int>::reverse_iterator m2 = m;
+			m2++;
 
-	// 	void sort()
-	// 	{
-	// 		m_vector.push_back (3);
-	// 		m_vector.push_back (2);
-	// 		m_vector.push_back (5);
-	// 		m_vector.sort();
+			if ((ftm == ftbis) == (m == mbis) && (ftm == ft2) == (m == m2))
+				print("REVERSE ==", "OK");
 
-			
-	// 		m_ftvector.push_back (3);
-	// 		m_ftvector.push_back (2);
-	// 		m_ftvector.push_back (5);
- 	// 		m_ftvector.sort();
+			if ((ftm != ftbis) == (m != mbis) && (ftm != ft2) == (m != m2))
+				print("REVERSE !=", "OK");
 
-	// 		if (checkIdenticalvectors("SORT"))
-	// 			print("SORT", "OK");
-
-	// 		m_vector.push_back (54);
-	// 		m_vector.push_back (4);
-	// 		m_vector.push_back (10);
-	// 		m_vector.sort(mycomparison);
-
-			
-	// 		m_ftvector.push_back (54);
-	// 		m_ftvector.push_back (4);
-	// 		m_ftvector.push_back (10);
- 	// 		m_ftvector.sort(mycomparison);
-
-	// 		if (checkIdenticalvectors("SORT2"))
-	// 			print("SORT2", "OK");
-	// 	}
-		
-		
-	// 	void merge()
-	// 	{
-	// 		std::vector<int> second;
-	// 		second.push_back (6);
-	// 		second.push_back (1);
-	// 		second.push_back (4);
-	// 		second.sort();
-	// 		m_vector.merge(second);
-
-	// 		ft::vector<int> ft_second;
-	// 		ft_second.push_back (6);
-	// 		ft_second.push_back (1);
-	// 		ft_second.push_back (4);
-	// 		ft_second.sort();
-		
-	// 		m_ftvector.merge(ft_second);
-		
-	// 		if (checkIdenticalvectors("MERGE"))
-	// 			print("MERGE", "OK");
-
-	// 		std::vector<int> second2;
-	// 		ft::vector<int> ft_second2;
-	// 		second2.push_back(2);	
-	// 		ft_second2.push_back(2);
-	// 		m_vector.merge(second2, mycomparison);
-	// 		m_ftvector.merge(ft_second2, mycomparison);
-
-	// 		if (checkIdenticalvectors("MERGE2"))
-	// 			print("MERGE2", "OK");
-	// 	}
-
-	// 	void reverse()
-	// 	{
-	// 		m_ftvector.reverse();
-	// 		m_vector.reverse();
-	// 		if (checkIdenticalvectors("REVERSE"))
-	// 			print("REVERSE", "OK");
-	// 	}
-
-	// 	void rendIncrement()
-	// 	{
-	// 		typename ft::vector<T>::reverse_iterator ft_r = m_ftvector.rbegin();
-	// 		typename ft::vector<T>::reverse_iterator ft_re = m_ftvector.rend();
-	// 		typename std::vector<T>::reverse_iterator r = m_vector.rbegin();
-	// 		typename std::vector<T>::reverse_iterator re = m_vector.rend();
-	// 		while(ft_r != ft_re && r != re)
-	// 		{
-	// 			if (*ft_r != *r)
-	// 			{
-	// 				print("REND", "WRONG");
-	// 				return;
-	// 			}
-	// 			ft_r++;
-	// 			r++;
-	// 		}
-	// 		if (ft_r == ft_re && r == re)
-	// 			print("REND", "OK");
-	// 		else
-	// 			print("REND", "WRONG");
-	// 	}
-
-
+			// if (m > mbis)
+			// 	std::cout << "Working?\n";
+			// if ((ftm < ftbis) == (m < mbis) && (ftm < ft2) == (m < m2))
+			// 	print("REVERSE <", "OK");
+		}
 };
 #endif
