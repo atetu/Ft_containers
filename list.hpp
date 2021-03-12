@@ -15,7 +15,7 @@
 
 #include <memory>
 #include <iostream>
-// #include "Iterator.hpp"
+#include <limits>
 #include "ReverseIterator.hpp"
 
 namespace ft
@@ -141,22 +141,22 @@ namespace ft
 		typedef value_type *pointer;
 		typedef const_value_type *const_pointer;
 
-	private:
-		typedef Node<T> Node;
+	// private:
+	// 	typedef Node<T> Node;
 
 	private:
-		Node *m_node;
+		Node<T> *m_node;
 
 	public:
 		listIterator() : m_node(NULL)
 		{
 		}
 
-		listIterator(Node *node) : m_node(node)
+		listIterator(Node<T> *node) : m_node(node)
 		{
 		}
 
-		listIterator(const Node *node) : m_node(node)
+		listIterator(const Node<T> *node) : m_node(node)
 		{
 		}
 
@@ -223,7 +223,7 @@ namespace ft
 			return (m_node->value());
 		}
 
-		Node *node() const
+		Node<T> *node() const
 		{
 			return (m_node);
 		}
@@ -252,22 +252,22 @@ namespace ft
 		typedef value_type *pointer;
 		typedef const_value_type *const_pointer;
 
-	private:
-		typedef Node<T> Node;
+	// private:
+	// 	typedef Node<T> Node;
 
 	private:
-		const Node *m_node;
+		Node<T> *m_node;
 
 	public:
 		listConstIterator() : m_node(NULL)
 		{
 		}
 
-		listConstIterator(Node *node) : m_node(node)
+		listConstIterator(Node<T> *node) : m_node(node)
 		{
 		}
 
-		listConstIterator(const Node *node) : m_node(node)
+		listConstIterator(const Node<T> *node) : m_node(node)
 		{
 		}
 
@@ -340,7 +340,7 @@ namespace ft
 			return (&(m_node->value()));
 		}
 
-		const Node *
+		const Node<T> *
 		node() const
 		{
 			return (m_node);
@@ -483,20 +483,24 @@ namespace ft
 
 		~list()
 		{
-			//clear() ???
-			iterator it = begin();
-			iterator ite = end();
+			clear();
+			// iterator it = begin();
+			// iterator ite = end();
 
-			if (it != ite)
-			{
-				while (it != ite)
-				{
-					it = erase(it);
-				}
-			}
-			it = begin();
-			erase(it);
-			erase(ite);
+			// if (it != ite)
+			// {
+			// 	while (it != ite)
+			// 	{
+			// 		it = erase(it);
+			// 	}
+			// }
+			// it = begin();
+			// erase(it);
+			// erase(ite);
+			m_allocNode.destroy(m_begin);
+			m_allocNode.deallocate(m_begin, 1);
+			m_allocNode.destroy(m_end);
+			m_allocNode.deallocate(m_end, 1);
 		}
 
 		list &

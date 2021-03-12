@@ -107,7 +107,7 @@ namespace ft
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef ft::pair<const Key, T> value_type;
+			typedef pair<const Key, T> value_type;
 			// typedef size_t size_type;
 			// typedef ptrdiff_t difference_type;
 			// typedef Compare key_compare;
@@ -168,7 +168,7 @@ namespace ft
 				m_right = r;
 			}
 			
-			value_type& pair()
+			value_type& getPair()
 			{
 				return (m_pair);
 			}
@@ -260,22 +260,22 @@ namespace ft
         //typedef const value_type* const_pointer;
 		typedef value_type &reference;
 
-	protected:
-		typedef MapNode<Key, T> MapNode;
+	// protected:
+	// 	typedef MapNode<Key, T> MapNode;
 
 	protected:
-		MapNode *m_node;
+		MapNode<Key, T> *m_node;
 
 	public:
 		MapIterator() : m_node(NULL)
 		{
 		}
 
-		MapIterator(MapNode *node) : m_node(node)
+		MapIterator(MapNode<Key, T> *node) : m_node(node)
 		{
 		}
 
-		MapIterator(const MapNode *node) : m_node(node)
+		MapIterator(const MapNode<Key, T> *node) : m_node(node)
 		{
 		}
 
@@ -297,7 +297,7 @@ namespace ft
 		MapIterator
 		operator++()
 		{
-			MapNode *tmp;
+			MapNode<Key, T> *tmp;
 		//	std::cout<< "NOde: " << m_node->value() << std::endl;
 			if (m_node->hasRight())
 			{
@@ -329,21 +329,21 @@ namespace ft
 			return (*this);
 		}
 
-		MapNode*
-		identifyDeepestLeft(MapNode* node)
+		MapNode<Key, T>*
+		identifyDeepestLeft(MapNode<Key, T>* node)
 		{
 		//	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-			MapNode* tmp = node;
+			MapNode<Key, T>* tmp = node;
 			while (tmp->hasLeft())
 				tmp = tmp->left();
 			return(tmp);
 		}
 		
-		MapNode*
-		identifyDeepestRight(MapNode* node)
+		MapNode<Key, T>*
+		identifyDeepestRight(MapNode<Key, T>* node)
 		{
 		//	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-			MapNode* tmp = node;
+			MapNode<Key, T>* tmp = node;
 			while (tmp->hasRight())
 				tmp = tmp->right();
 			return(tmp);
@@ -373,7 +373,7 @@ namespace ft
 			// 	}
 			// }
 
-			MapNode *tmp;
+			MapNode<Key, T> *tmp;
 			if (m_node->hasLeft())
 			{
 			//	std::cout << "ICI\n" << std::flush;
@@ -431,16 +431,16 @@ namespace ft
 		{
 			// std::cout << "address:" << m_node << std::endl;
 			// std::cout << "value: " << m_node->value() << std::endl;
-			return (m_node->pair());
+			return (m_node->getPair());
 		}
 
 		pair<const Key, T>*
 		operator->() const
 		{
-			return(&(m_node->pair()));
+			return(&(m_node->getPair()));
 		}
 
-		MapNode *node() const
+		MapNode<Key, T> *node() const
 		{
 			return (m_node);
 		}
@@ -510,22 +510,22 @@ namespace ft
 		typedef const value_type &reference;
 		typedef const value_type& const_reference;
 
-	private:
-		typedef MapNode<Key, T> MapNode;
+	// private:
+	// 	typedef MapNode<Key, T><Key, T><Key, T> MapNode<Key, T>;
 
 	private:
-		MapNode *m_node;
+		MapNode<Key, T> *m_node;
 
 	public:
 		ConstMapIterator() : m_node(NULL)
 		{
 		}
 
-		ConstMapIterator(MapNode *node) : m_node(node)
+		ConstMapIterator(MapNode<Key, T> *node) : m_node(node)
 		{
 		}
 
-		ConstMapIterator(const MapNode *node) : m_node(node)
+		ConstMapIterator(const MapNode<Key, T> *node) : m_node(node)
 		{
 		}
 
@@ -548,7 +548,7 @@ namespace ft
 		operator++()
 		{
 		//	std::cout << "ici\n";
-			MapNode *tmp;
+			MapNode<Key, T> *tmp;
 			if (m_node->hasRight())
 			{
 				m_node = identifyDeepestLeft(m_node->right());
@@ -574,11 +574,11 @@ namespace ft
 			return (*this);
 		}
 
-		MapNode*
-		identifyDeepestLeft(MapNode* node)
+		MapNode<Key, T>*
+		identifyDeepestLeft(MapNode<Key, T>* node)
 		{
 		//	std::cout << "trouble node: " << node << " - " << node->hasLeft() << "\n" << std::flush;
-			MapNode* tmp = node;
+			MapNode<Key, T>* tmp = node;
 			while (tmp->hasLeft())
 				tmp = tmp->left();
 			return(tmp);
@@ -636,16 +636,16 @@ namespace ft
 		{
 			// std::cout << "address:" << m_node << std::endl;
 			// std::cout << "value: " << m_node->value() << std::endl;
-			return (m_node->pair());
+			return (m_node->getPair());
 		}
 
 		pair<const Key, T>*
 		operator->() const
 		{
-			return(&(m_node->pair()));
+			return(&(m_node->getPair()));
 		}
 
-		const MapNode *node() const
+		const MapNode<Key, T> *node() const
 		{
 			return (m_node);
 		}
@@ -731,7 +731,7 @@ namespace ft
 					m_size(0)
 				{
 					createEndNode();
-					m_first = m_root = createNode(first.node()->pair());
+					m_first = m_root = createNode(first.node()->getPair());
 					connection(m_root, 1, m_end);
 					iterator tmp = first;
 					if (first != last)
@@ -753,7 +753,7 @@ namespace ft
 				{
 					createEndNode();
 					const MapNode *e = x.end().node();
-					m_root = createNode((x.m_root)->pair());
+					m_root = createNode((x.m_root)->getPair());
 					//std::cout << "Root: " << m_root << " - " <<  m_root->key() << std::endl;
 				//	std::cout <<  "source left: " <<x.m_root->left()->left() << std::endl;
 					copyNodes(m_root, x.m_root, e);
@@ -792,7 +792,7 @@ namespace ft
 					MapNode* root = other.m_root;
 					// std::cout << "ROOT:" << root << std::endl;
 					// std::cout << "ROOT:" << root->key() << std::endl;
-					m_root = createNode(root->pair());
+					m_root = createNode(root->getPair());
 					copyNodes(m_root, other.m_root, other.end().node());
 					m_first = identifyDeepestLeft(m_root->left());
 					if (m_first == NULL)
@@ -1407,7 +1407,7 @@ namespace ft
 						{
 							// std::cout << "LLLLLEEEFFFT\n" << std::flush;
 							source = source->left();
-							MapNode *node = createNode(source->pair());
+							MapNode *node = createNode(source->getPair());
 							connection(parent, 0, node);
 							copyNodes(node, source, end);
 							// std::cout << "SORTIE\n";
@@ -1418,7 +1418,7 @@ namespace ft
 						{
 							// std::cout << "RRIRIIIGHT\n" << std::flush;
 							source = source->right();
-							MapNode *node = createNode(source->pair());
+							MapNode *node = createNode(source->getPair());
 							connection(parent, 1, node);
 							copyNodes(node, source, end);
 						}

@@ -43,68 +43,68 @@ void listTestor()
 	testor.pop_front();
 	testor.init(array, 6);
 	testor.resize();
-	testor.insert();
-	testor.insert2();
-	testor.erase();
-	testor.erase2();
-	testor.splice();
-	testor.sort();
-	testor.merge();
-	testor.reverse();
-	testor.rendIncrement();
-	testor.reverse_relational();
-	testor.maxSize();
-	testor.clear();
+	// testor.insert();
+	// testor.insert2();
+	// testor.erase();
+	// testor.erase2();
+	// testor.splice();
+	// testor.sort();
+	// testor.merge();
+	// testor.reverse();
+	// testor.rendIncrement();
+	// testor.reverse_relational();
+	// testor.maxSize();
+	// testor.clear();
 
-	ListTest<int> testor2(24, 3);
-	if (testor2.checkIdenticalLists("INIT2"))
-		ListTest<int>::print("INIT2", "OK");
+	// ListTest<int> testor2(24, 3);
+	// if (testor2.checkIdenticalLists("INIT2"))
+	// 	ListTest<int>::print("INIT2", "OK");
 
-	ListTest<int> testor3(3, 24, 3, 7);
-	if (testor3.checkIdenticalLists("INIT3"))
-		ListTest<int>::print("INIT3", "OK");
+	// ListTest<int> testor3(3, 24, 3, 7);
+	// if (testor3.checkIdenticalLists("INIT3"))
+	// 	ListTest<int>::print("INIT3", "OK");
 	
-	ListTest<int> testor4(3, 24, "copy");
-	if (testor4.checkIdenticalLists("INIT4"))
-		ListTest<int>::print("INIT4", "OK");
+	// ListTest<int> testor4(3, 24, "copy");
+	// if (testor4.checkIdenticalLists("INIT4"))
+	// 	ListTest<int>::print("INIT4", "OK");
 
-	std::list<int> first;
-	std::list<int> second;
-	ft::list<int> ft_first;
-	ft::list<int> ft_second;
-	first.push_back(5);
-	first.push_back(44);
-	first.push_back(35);
-	second.push_back(6);
-	second.push_back(36);
-	second.push_back(21);
-	second.push_back(2);
-	ft_first.push_back(5);
-	ft_first.push_back(44);
-	ft_first.push_back(35);
-	ft_second.push_back(6);
-	ft_second.push_back(36);
-	ft_second.push_back(21);
-	ft_second.push_back(2);
-	swap(first, second);
-	ft::swap(ft_first, ft_second);
-	if(ListTest<int>::checkIdenticalLists(first, ft_first, "SWAP", 0))
-		ListTest<int>::print("SWAP", "OK");
-	if(ListTest<int>::checkIdenticalLists(second, ft_second, "SWAP2", 0))
-		ListTest<int>::print("SWAP2", "OK");
+	// std::list<int> first;
+	// std::list<int> second;
+	// ft::list<int> ft_first;
+	// ft::list<int> ft_second;
+	// first.push_back(5);
+	// first.push_back(44);
+	// first.push_back(35);
+	// second.push_back(6);
+	// second.push_back(36);
+	// second.push_back(21);
+	// second.push_back(2);
+	// ft_first.push_back(5);
+	// ft_first.push_back(44);
+	// ft_first.push_back(35);
+	// ft_second.push_back(6);
+	// ft_second.push_back(36);
+	// ft_second.push_back(21);
+	// ft_second.push_back(2);
+	// swap(first, second);
+	// ft::swap(ft_first, ft_second);
+	// if(ListTest<int>::checkIdenticalLists(first, ft_first, "SWAP", 0))
+	// 	ListTest<int>::print("SWAP", "OK");
+	// if(ListTest<int>::checkIdenticalLists(second, ft_second, "SWAP2", 0))
+	// 	ListTest<int>::print("SWAP2", "OK");
 
-	if ((ft_first < ft_second) == (first < second))
-		ListTest<int>::print("<", "OK");
-	if ((ft_first == ft_second) == (first == second))
-		ListTest<int>::print("==", "OK");
-	if ((ft_first != ft_second) == (first != second))
-		ListTest<int>::print("!=", "OK");
-	if ((ft_first <= ft_second) == (first <= second))
-		ListTest<int>::print("<=", "OK");
-	if ((ft_first > ft_second) == (first > second))
-		ListTest<int>::print(">", "OK");
-	if ((ft_first >= ft_second) == (first >= second))
-		ListTest<int>::print(">=", "OK");
+	// if ((ft_first < ft_second) == (first < second))
+	// 	ListTest<int>::print("<", "OK");
+	// if ((ft_first == ft_second) == (first == second))
+	// 	ListTest<int>::print("==", "OK");
+	// if ((ft_first != ft_second) == (first != second))
+	// 	ListTest<int>::print("!=", "OK");
+	// if ((ft_first <= ft_second) == (first <= second))
+	// 	ListTest<int>::print("<=", "OK");
+	// if ((ft_first > ft_second) == (first > second))
+	// 	ListTest<int>::print(">", "OK");
+	// if ((ft_first >= ft_second) == (first >= second))
+	// 	ListTest<int>::print(">=", "OK");
 }
 
 void vectorTestor()
@@ -265,11 +265,11 @@ void mapTestor()
 int main()
 {
 	listTestor();
-	vectorTestor();
-	dequeTestor();
-	stackTestor();
-	queueTestor();
-	mapTestor();
+	// vectorTestor();
+	// dequeTestor();
+	// stackTestor();
+	// queueTestor();
+	// mapTestor();
 	// while(1)
 	// {
 		

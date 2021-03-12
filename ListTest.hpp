@@ -95,6 +95,10 @@ public:
 		std::list<int> l(copy);
 		m_list = l;
 	}
+	
+	~ListTest()
+	{
+	}
 
 	void init(T *array, int size)
 	{
