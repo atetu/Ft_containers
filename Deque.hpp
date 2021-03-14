@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/14 12:36:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/14 16:59:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ namespace ft
 				m_size(0)
 				
 			{
-				std::cout << "ICIC\n";
+				//std::cout << "ICIC\n";
 				m_capacity = 0;
 				assign(n, val);
-				std::cout << "ASSIGN\n";
+				//std::cout << "ASSIGN\n";
 			//exit(1);
 			}
 		
@@ -109,11 +109,12 @@ namespace ft
 			{
 				// std::cout << "Destructor\n";
 			
-				std::cout << "FRONT: " << m_array[m_front] << std::endl;
+			//	std::cout << "FRONT: " << m_array[m_front] << std::endl;
 				// exit(1);
 				clear();
 				// delete (m_array);
-				m_allocator.deallocate(m_array, m_capacity);
+				// for (int i = 0 ; i < m_capacity; i++)
+					m_allocator.deallocate(m_array, m_capacity);
 				m_array = NULL;
 				// std::cout << "end of \n";
 			}
@@ -144,6 +145,7 @@ namespace ft
 			
 			iterator begin()
 			{
+				//std::cout << "M-front: " << m_front << std::endl;
 				return(iterator(&m_array[m_front]));	
 			}
 			
@@ -152,7 +154,7 @@ namespace ft
 				// std::cout << "M-front: " << m_front <<  std::endl;
 				// std::cout << "M-size: " << m_size << std::endl;
 				// if (m_front)
-				// 	std::cout << "M-front: " <<m_array[m_front] << std::endl;
+			//	std::cout << "M-front: " <<m_array[m_front] << std::endl;
 				return(const_iterator(&m_array[m_front]));
 			}
 
@@ -178,7 +180,7 @@ namespace ft
 			
 			void reserve(size_type n)
 			{
-					// std::cout << "RESERVE: " << n << "\n" << std::flush;
+				//	std::cout << "RESERVE: " << n << "\n" << std::flush;
 					// std::cout << "SIZE: " << m_size << "\n" << std::flush;
 				// if (n > m_capacity)
 				// {
@@ -186,14 +188,16 @@ namespace ft
 					int end;
 					if (m_capacity)
 					{
-						std::cout << "ALLOUEMENET\n";
+					//	std::cout << "ALLOUEMENET\n";
 						T* copy = m_allocator.allocate(n);
 						//int oldCapacity = m_capacity;
 						if (m_size)
 						{
 							// std::cout << "n: " << n << std::endl;
 							// 	std::cout << "capacity: " << m_capacity << std::endl;
+						//	std::cout << "Size before cal: " << m_size << std::endl;
 							start = n / 2 - m_size / 2;
+						//	std::cout << "Size after cal: " << m_size << std::endl;
 							end = start;
 							for (int i = m_front; i < m_rear; i++)
 							{	
@@ -212,10 +216,13 @@ namespace ft
 							//m_rear = m_front + 1;
 						}
 						
-					//	m_allocator.destroy(m_array);
+						// m_allocator.destroy(m_array);
+						for(int i = m_front; i < m_rear; i++)
+							m_allocator.destroy(&m_array[i]);
+				
 						m_allocator.deallocate(m_array, m_capacity);
 						m_array = copy;
-						// std::cout << "New front 1: " <<  m_front << m_array[m_front] << std::endl;
+					//	std::cout << "New front 1: " <<  m_front << m_array[m_front] << std::endl;
 						// // m_front = start;
 						// m_rear = end;
 					//	std::cout << "end: " << end << std::endl;
@@ -229,8 +236,8 @@ namespace ft
 					}
 					else
 					{
-						std::cout << "reserve : "<< n << "\n";
-						std::cout << "ALOCATION\n";
+						// std::cout << "reserve : "<< n << "\n";
+						// std::cout << "ALOCATION\n";
 						m_array = m_allocator.allocate(n);
 					//	m_allocator.deallocate(m_array, m_capacity);
 						m_middle = n/2;
@@ -244,13 +251,16 @@ namespace ft
 					
 				// }
 				//copy
-				std::cout << "Capacity at the end of reserve : " << m_capacity << std::endl;
+				// std::cout << "Capacity at the end of reserve : " << m_capacity << std::endl;
 				
 			}
 
 			/*ELEMENT ACCESS*/
 			reference back()
 			{
+				// std::cout<< " rear :" << m_rear << std::endl;
+				// 	std::cout<< " front :" << m_front << std::endl;
+			//		std::cout << "val : " << m_array[m_front] << std::endl;
 				return (m_array[m_rear - 1]);
 			}
 			
@@ -266,9 +276,18 @@ namespace ft
 				clear();
 				if ((int)n >= m_capacity)
 					reserve(n * 2 + 10) ; // check way to reserve  + limit max_size
+				(void)val;
 				for (size_type i = 0; i < n; i++)
+				// {
+				// 	this->m_allocator.construct(this->m_array + m_size, val);
+				// 	m_size++;
+				// }
+				// // {
+				// // 	this->m_allocator.construct(&(this->m_array[m_front + i]), val);
+				// // 	m_rear++;
+				// // }
 					push_back(val);
-				std::cout << "m_capacity assign: " << m_capacity << std::flush;
+				// std::cout << "m_capacity assign: " << m_capacity << std::flush;
 			//	exit(1);
 			}
 				
@@ -276,6 +295,7 @@ namespace ft
 			void assign (InputIterator first, InputIterator last)
 			{
 				clear();
+			//	std::coutstd::cout << "First: " << *first << std::endl;
 				int neededSize = last.node() - first.node();
 			
 				if (neededSize < 0)
@@ -289,28 +309,43 @@ namespace ft
 
 			void push_back (const value_type& val)
 			{
+				// std::cout << "initial val : " << val << std::endl;
+				// 	std::cout << "initial size : " << m_size << std::endl;
 				// std::cout << "Size: " << m_size << "\n" << std::flush;
 				// std::cout << "Capacity: " << m_capacity << "\n" << std::flush;
 				
 				if (m_size >= m_capacity - 1 || m_rear >= m_capacity - 2 )
+				{
+					// std::cout << "To reserve: " << m_capacity + 10 << std::endl;
 					reserve(m_capacity + 10) ; // check way to reserve  + limit max_size
-				std::cout << "CONSTRUCT\n";
+					// std::cout << "Size after reserve: " << m_size << std::endl;
+				}
+				// std::cout << "CONSTRUCT\n";
 				if (m_size)
 				{
-					// std::cout << "rear: " << m_rear << std::endl;
+				//	std::cout << "rear1: " << m_rear << std::endl;
 					m_rear++;
 					m_allocator.construct(&m_array[m_rear - 1], val);
+				//	std::cout << "Size after construct 1: " << m_size << std::endl;
 				}
 				else
 				{
+					//std::cout << "rear2: " << m_rear << std::endl;
 					m_allocator.construct(&m_array[m_front], val);
+					//this->m_allocator.construct(this->m_array + m_size, val);
 					// m_front = m_middle;
 					m_rear++;
+					//std::cout << "Size after construct 2: " << m_size << std::endl;
+					// std::cout << "rear end: " << m_rear << std::endl;
+					// std::cout << "front: " << m_front << std::endl;
+					// std::cout << "val : " << m_array[m_size] << std::endl;
 				//	m_rear++;
 				// 	std::cout << "rear middle: " << m_rear << std::endl;
 				}
+			//	std::cout << "Size before increment: " << m_size << std::endl;
 				m_size++;
-				// std::cout << "val: " << val << std::endl;
+			//	std::cout << "size inside : " << m_size << std::endl;
+				//std::cout << "val: " << m_array[m_size-1] << std::endl;
 				// std::cout << "Front: " << m_front << " - " << m_array[m_front]<< std::endl;
 			}
 
@@ -360,26 +395,30 @@ namespace ft
 			
 			void clear()
 			{
+				
 				//m_allocator.deallocate(m_array, m_capacity);
 				if (m_size)
 				{	
-					// for(int i = m_front; i < m_rear; i++)
-					// 	m_allocator.destroy(&m_array[i]);
-				
-					std::cout << "insideCLEAR\n" << std::flush;
-					m_allocator.destroy(&m_array[m_front]);
-					m_array = NULL;
-				//std::cout << "front: " <<  m_array[m_front] << std::flush;
+					for(int i = m_front; i < m_rear; i++)
+					{
+					//	std::cout << "I:" << i << std::endl;
+						m_allocator.destroy(&m_array[i]);
+					}
 				}
+				// 	std::cout << "insideCLEAR\n" << std::flush;
+				// //	m_allocator.destroy(&m_array[m_front]);
+				// 	m_array = NULL;
+				// //std::cout << "front: " <<  m_array[m_front] << std::flush;
+				// }
 				m_size = 0;
 				//m_allocator.deallocate(m_array, m_capacity);
-				m_capacity =0;
+				// m_capacity =0;
 				if (m_capacity)
 					m_front = m_rear = m_capacity / 2;
 				else
 					m_front = m_rear = 0;
-				std::cout << "capacity: " << m_capacity << std::endl;
-				//m_allocator.deallocate(m_array, m_capacity);
+				//std::cout << "capacity: " << m_capacity << std::endl;
+			//	m_allocator.deallocate(m_array, m_capacity);
 			}
 		// private:
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   QueueTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/11 20:38:15 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/14 16:59:59 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,8 @@ public:
 
 	void size()
 	{
+		// std::cout << "FT size: " << m_ftqueue.size() << std::endl;
+		// std::cout << "Q size: " << m_queue.size() << std::endl;
 		if (m_ftqueue.size() == m_queue.size())
 			print("SIZE", "OK");
 		else
@@ -263,9 +265,8 @@ public:
 		{
 		// int i = 0;
 			// std::cout << "\nSTART\n\n";
-			ft_second = set_ft_second(i);
-			second = set_second(i);
-			if ((m_ftqueue == ft_second) != (m_queue == second))
+		
+			if ((m_ftqueue == set_ft_second(i)) != (m_queue == set_second(i)))
 			{
 				// std::cout << "I: " << i << std::endl;
 				// std::cout << "my result: " << (m_ftqueue < ft_second) << std::endl;
@@ -284,9 +285,7 @@ public:
 
 		for (int i = 0; i < 5; i++)
 		{
-			ft_second = set_ft_second(i);
-			second = set_second(i);
-			if ((m_ftqueue != ft_second) != (m_queue != second))
+			if ((m_ftqueue != set_ft_second(i)) != (m_queue != set_second(i)))
 			{
 				print("NOT EQUAL", "WRONG");
 				return;
@@ -302,14 +301,13 @@ public:
 
 		for (int i = 0; i < 5; i++)
 		{
-			ft_second = set_ft_second(i);
-			second = set_second(i);
+		
 			// std::cout << "START\n";
 			// ft::deque<int>::const_iterator it = ft_second.begin();
 			// std::cout << "second: " << *it << std::endl;
 			// ft_second.pop();
 			// std::cout << "second: " << ft_second.back() << std::endl;
-			if ((m_ftqueue < ft_second) != (m_queue < second))
+			if ((m_ftqueue < set_ft_second(i)) != (m_queue < set_second(i)))
 			{
 				// std::cout << "I: " << i << std::endl;
 				// std::cout << "my result: " << (m_ftqueue < ft_second) << std::endl;
@@ -328,9 +326,7 @@ public:
 
 		for (int i = 0; i < 5; i++)
 		{
-			ft_second = set_ft_second(i);
-			second = set_second(i);
-			if ((m_ftqueue <= ft_second) != (m_queue <= second))
+			if ((m_ftqueue <= set_ft_second(i)) != (m_queue <= set_second(i)))
 			{
 				print("LESS OR EQUAL", "WRONG");
 				return;
@@ -346,9 +342,7 @@ public:
 
 		for (int i = 0; i < 5; i++)
 		{
-			ft_second = set_ft_second(i);
-			second = set_second(i);
-			if ((m_ftqueue > ft_second) != (m_queue > second))
+			if ((m_ftqueue > set_ft_second(i)) != (m_queue > set_second(i)))
 			{
 				print("GREATER", "WRONG");
 				return;
@@ -364,9 +358,7 @@ public:
 
 		for (int i = 0; i < 5; i++)
 		{
-			ft_second = set_ft_second(i);
-			second = set_second(i);
-			if ((m_ftqueue >= ft_second) != (m_queue >= second))
+			if ((m_ftqueue >= set_ft_second(i)) != (m_queue >= set_second(i)))
 			{
 				print("GREATER OR EQUAL", "WRONG");
 				return;

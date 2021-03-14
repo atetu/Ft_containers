@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/12 21:58:10 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/14 15:19:57 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ class DequeTest
 			typename std::deque<T>::iterator last;
 			for(int i = 0 ; i < start; i++)
 			{
+				std::cout << "IT: " << *it<< std::endl;
 				it++;
 				itl++;
 			}
@@ -84,7 +85,7 @@ class DequeTest
 			}
 			ft_last = it;
 			last = itl;
-			// std::cout << "middle\n" << std::flush;
+			 std::cout << "FT FIRST: " << *ft_first << std::flush;
 			ft::deque<int> ftl(ft_first, ft_last);
 			m_ftdeque = ftl;
 			

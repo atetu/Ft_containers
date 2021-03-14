@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:27:31 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/14 12:21:58 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/14 17:00:42 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,11 +180,12 @@ void vectorTestor()
 
 void dequeTestor()
 {
-	ft::deque<int> ftl(4, 24);
-//DequeTest<int> testor1;
-	// DequeTest<int> testor2(24, 3);
-	// DequeTest<int> testor3(3, 24, 3, 7);
-	// DequeTest<int> testor4(3, 24, "copy");
+	// ft::deque<int> ftl(1, 24);
+	// ftl.clear();
+	DequeTest<int> testor1;
+ 	DequeTest<int> testor2(24, 3);
+ 	DequeTest<int> testor3(3, 24, 3, 7);
+	DequeTest<int> testor4(3, 24, "copy");
 }
 
 void stackTestor()
@@ -265,12 +266,12 @@ void mapTestor()
 
 int main()
 {
-	// listTestor();
-	// vectorTestor();
-	 dequeTestor();
-	// stackTestor();
-	// queueTestor();
-	// mapTestor();
+	listTestor();
+	vectorTestor();
+	dequeTestor();
+	stackTestor();
+	queueTestor();
+	mapTestor();
 	// while(1)
 	// {
 		
