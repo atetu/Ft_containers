@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 15:55:27 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/14 20:32:05 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -781,7 +781,17 @@ namespace ft
 				T& operator[](const Key& key)
 				{
 					iterator it = find(key);
-					return((*it).value());
+					if (it != end())
+					{
+						// std::cout << "not good\n";
+						return((*it).value());
+					}
+					else
+					{
+						pair<iterator,bool> ret = insert(make_pair(key, mapped_type()));
+						iterator newIt = ret.first;;
+						return(newIt->second);
+					}
 				}
 
 				map&
@@ -1211,9 +1221,13 @@ namespace ft
 				{
 					iterator found = begin();
 					iterator ite = end();
-				
-					while(key_comp()(found->first, k) && found != ite)
+				// std::cout<< "ICI\n";
+				// std::cout << "FOUND"<< found->first << " - " <<found->second << std::endl;
+					while(m_comp(found->first, k) && found != ite)
+					{
+						// std::cout << "cle: " << found->first << std::endl;
 						found++;
+					}
 					
 					return(found);
 				}
@@ -1222,8 +1236,8 @@ namespace ft
 				{
 					const_iterator found = begin();
 					const_iterator ite = end();
-				
-					while(key_comp()(found->first, k) && found != ite)
+					
+					while(m_comp(found->first, k) && found != ite)
 						found++;
 					
 					return(found);
@@ -1611,6 +1625,10 @@ namespace ft
 					child->parent(parent);
 				}
 				
+
+				template< class K, class Y, class C, class A >
+				friend bool operator==( const map<K, Y, C,A>& lhs,
+				const map<K,Y,C,A>& rhs );
 	
 	};
 

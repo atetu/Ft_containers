@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Iterator.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/27 15:38:21 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 14:31:03 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/14 18:20:38 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ namespace ft
 				return (&(*m_ptr));
 			}
 			
-			T*
+			pointer
 			node() const
 			{
 				return (m_ptr);
@@ -213,8 +213,9 @@ namespace ft
 		typedef const_value_type& const_reference;
 		typedef value_type* pointer;
 		typedef const_value_type* const_pointer;
-		
-			value_type *m_ptr;
+	
+	private:
+		value_type *m_ptr;
 
 	public:
 		public:

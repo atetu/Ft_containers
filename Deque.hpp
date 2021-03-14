@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Deque.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/14 16:59:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/14 18:29:38 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,16 @@ namespace ft
 			const_reference back() const
 			{
 				return (m_array[m_rear - 1]);
+			}
+			
+			reference front()
+			{
+				return (m_array[m_front]);
+			}
+			
+			const_reference front() const
+			{
+				return (m_array[m_front]);
 			}
 			
 			/*MODIFIERS*/

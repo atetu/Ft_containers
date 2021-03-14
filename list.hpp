@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 19:06:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/14 19:18:27 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -595,7 +595,7 @@ namespace ft
 		bool
 		empty() const
 		{
-			return (m_first == m_end);
+			return (m_size == 0);
 		}
 
 		size_type
@@ -614,7 +614,8 @@ namespace ft
 
 		template <class InputIterator>
 		void
-		assign(InputIterator first, InputIterator last) //,  typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr
+		assign(InputIterator first, InputIterator last,
+		typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
 		{
 			this->clear();
 
@@ -727,8 +728,17 @@ namespace ft
 			return (iterator(node));
 		}
 
+		void insert (iterator position, size_type n, const value_type& val)
+		{
+			for (size_type i = 0 ; i< n; i++)
+			{
+				position = insert(position, val);
+			}
+		}
+		
 		template <class InputIt>
-		void insert(iterator pos, InputIt first, InputIt last)
+		void insert(iterator pos, InputIt first, InputIt last,
+		typename std::enable_if<!std::is_integral<InputIt>::value, InputIt>::type* = nullptr)
 		{
 			while (first != last)
 			{
@@ -1019,7 +1029,7 @@ namespace ft
 			{
 				if (it != it_first)
 				{
-					if (binary_pred, *it, *it_previous)
+					if (binary_pred(*it, *it_previous))
 					{
 						it = erase(it);
 						continue;
@@ -1100,6 +1110,7 @@ namespace ft
 			}
 			if (itx != itex)
 				splice(ite, x);
+			x.m_size = 0;
 		}
 
 		template <class Compare>
@@ -1170,6 +1181,7 @@ namespace ft
 			}
 			if (itx != itex)
 				splice(ite, x);
+			x.m_size = 0;
 		}
 
 		void sort()

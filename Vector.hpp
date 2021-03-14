@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 15:42:03 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/14 19:49:18 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <memory>
 #include <iostream>
 #include <exception>
+#include <cmath>
+#include <cstddef>
 
 #include "Iterator.hpp"
 #include "ReverseIterator.hpp"
@@ -195,8 +197,8 @@ namespace ft
 				}
 				else if ((int)n > m_size)
 				{
-					if ((int)n + 1 > m_capacity)
-						reserve(n + 10); // check max
+					if ((int)n > m_capacity)
+						reserve(n); // check max
 					for(size_type i = m_size; i < n; i++)
 						push_back(val);
 				}
@@ -291,24 +293,24 @@ namespace ft
 			/*MODIFIERS*/
 			void assign(size_type n, const value_type& val)
 			{
-			//	clear();
+				clear();
 				
 				if ((int)n >= m_capacity)
-					reserve(n +10) ; // check way to reserve  + limit max_size
+					reserve(n) ; // check way to reserve  + limit max_size
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
 			}
 			
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
+			void assign (InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
 			{
-			//	clear();
+				clear();
 				int neededSize = last.node() - first.node();
 			//	std::cout << "HERE\n" << std::flush;
 				if (neededSize < 0)
 					neededSize = -neededSize;
 				if (neededSize >= m_capacity)
-					reserve(neededSize + 10); // check max limit
+					reserve(neededSize); // check max limit
 			//	std::cout << "HERE\n" << std::flush;
 				for (;first != last; first++)
 				{
@@ -321,7 +323,7 @@ namespace ft
 			void push_back (const value_type& val)
 			{
 				if (m_size + 1 > m_capacity)
-					reserve(m_size + 10) ; // check way to reserve  + limit max_size
+					reserve(calculate_capacity(m_size + 1)) ; // check way to reserve  + limit max_size
 				m_allocator.construct(m_array + m_size, val);
 				m_size++;
 				// std::cout << "Val: " << val << std::endl;
@@ -368,8 +370,8 @@ namespace ft
 					return;
 				int p = position.node()- begin().node();
 						
-				if ((m_size + (int)n + 1) > m_capacity)
-					reserve(m_size + n + 1);
+				if ((m_size + (int)n ) > m_capacity)
+					reserve(calculate_capacity(m_size + n));
 	
 				if (&m_array[p] != end().node())
 				{
@@ -398,7 +400,7 @@ namespace ft
 					neededSize = -neededSize;
 			
 				if ((m_size + neededSize + 1) > m_capacity)
-					reserve(m_size + neededSize + 1);
+					reserve(calculate_capacity(m_size + neededSize));
 							
 				if (&m_array[p] != end().node())
 				{
@@ -491,6 +493,21 @@ namespace ft
 				x.assign(copy.begin(), copy.end());
 				copy.clear();
 			}
+
+		private:
+		
+		// A REFAIRE!!!!
+		size_type calculate_capacity (size_type neededCapacity)
+		{
+			size_type capacity = 0;
+			size_type power = 0;
+			while (capacity < neededCapacity)
+			{
+				capacity = pow(2, power++);
+				//pow++;
+			}
+			return (capacity);
+		}
 	};
 
 	template <class T, class Alloc>
