@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DequeTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/12 15:51:12 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 21:58:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ template <typename T>
 class DequeTest
 {
     private:
-        ft::deque<T> m_ftdeque;
+     	ft::deque<T> m_ftdeque;
         std::deque<T> m_deque;
 		// ft::deque<const T> m_ftconstdeque;
         // std::deque<const T> m_constdeque;
@@ -47,11 +47,11 @@ class DequeTest
 		DequeTest(T val, int size)
 		{
 			ft::deque<T> ftl(size, val);
-			m_ftdeque = ftl;
+			// m_ftdeque = ftl;
 			std::deque<T> l(size, val);
-			m_deque = l;
-			if(checkIdenticaldeques("INIT_SIZE_VAL", 1))
-				print("INIT_SIZE_VAL", "OK");
+			// m_deque = l;
+			// if(checkIdenticaldeques("INIT_SIZE_VAL", 1))
+			// 	print("INIT_SIZE_VAL", "OK");
 		}
         
 		DequeTest(T val, int size, int start, int end)
@@ -116,7 +116,12 @@ class DequeTest
 				print("INIT_COPY", "OK");
 		}
 		
-        		static void
+		~DequeTest()
+		{
+			
+		}
+        
+		static void
         print(const std::string& test, const std::string & result)
         {
             std::cout << "Test " << test << " : " << result << std::endl;

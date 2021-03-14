@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ListTest.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/12 14:50:35 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 19:07:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,14 @@ public:
 			m_list.push_back(array[i]);
 			i++;
 		}
+
+		// typename ft::listIterator<T> itFtList = m_ftList.begin();
+		// typename ft::listIterator<T> iteFtList = m_ftList.end();
+		// while(itFtList != iteFtList)
+		// {
+		// 	std::cout << *itFtList << std::endl;
+		// 	itFtList++;
+		// }
 	}
 
 	static void
@@ -369,12 +377,12 @@ public:
 	{
 		m_ftList.resize(2);
 		m_list.resize(2);
-		if (checkIdenticalLists("RESIZE"))
-			print("RESIZE", "OK");
-		m_ftList.resize(6);
-		m_list.resize(6);
-		if (checkIdenticalLists("RESIZE 2"))
-			print("RESIZE 2", "OK");
+		// if (checkIdenticalLists("RESIZE"))
+		// 	print("RESIZE", "OK");
+		// m_ftList.resize(6);
+		// m_list.resize(6);
+		// if (checkIdenticalLists("RESIZE 2"))
+		// 	print("RESIZE 2", "OK");
 	}
 
 	void clear()

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Deque.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 15:50:19 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/14 12:36:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,14 @@ namespace ft
 				m_array(nullptr),
 				m_front(0),
 				m_rear(0),
-				m_size(0),
-				m_capacity(0)
+				m_size(0)
+				
 			{
+				std::cout << "ICIC\n";
+				m_capacity = 0;
 				assign(n, val);
+				std::cout << "ASSIGN\n";
+			//exit(1);
 			}
 		
 			template <class InputIterator> deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
@@ -103,8 +107,15 @@ namespace ft
 
 			~deque()
 			{
+				// std::cout << "Destructor\n";
+			
+				std::cout << "FRONT: " << m_array[m_front] << std::endl;
+				// exit(1);
 				clear();
+				// delete (m_array);
 				m_allocator.deallocate(m_array, m_capacity);
+				m_array = NULL;
+				// std::cout << "end of \n";
 			}
 
 			deque& operator= (deque const & x)
@@ -175,6 +186,7 @@ namespace ft
 					int end;
 					if (m_capacity)
 					{
+						std::cout << "ALLOUEMENET\n";
 						T* copy = m_allocator.allocate(n);
 						//int oldCapacity = m_capacity;
 						if (m_size)
@@ -200,7 +212,7 @@ namespace ft
 							//m_rear = m_front + 1;
 						}
 						
-						m_allocator.destroy(m_array);
+					//	m_allocator.destroy(m_array);
 						m_allocator.deallocate(m_array, m_capacity);
 						m_array = copy;
 						// std::cout << "New front 1: " <<  m_front << m_array[m_front] << std::endl;
@@ -217,7 +229,10 @@ namespace ft
 					}
 					else
 					{
+						std::cout << "reserve : "<< n << "\n";
+						std::cout << "ALOCATION\n";
 						m_array = m_allocator.allocate(n);
+					//	m_allocator.deallocate(m_array, m_capacity);
 						m_middle = n/2;
 						m_front = m_middle;
 						m_rear = m_middle;
@@ -229,6 +244,8 @@ namespace ft
 					
 				// }
 				//copy
+				std::cout << "Capacity at the end of reserve : " << m_capacity << std::endl;
+				
 			}
 
 			/*ELEMENT ACCESS*/
@@ -251,7 +268,8 @@ namespace ft
 					reserve(n * 2 + 10) ; // check way to reserve  + limit max_size
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
-			//	std::cout << "end\n" << std::flush;
+				std::cout << "m_capacity assign: " << m_capacity << std::flush;
+			//	exit(1);
 			}
 				
 			template <class InputIterator>
@@ -276,6 +294,7 @@ namespace ft
 				
 				if (m_size >= m_capacity - 1 || m_rear >= m_capacity - 2 )
 					reserve(m_capacity + 10) ; // check way to reserve  + limit max_size
+				std::cout << "CONSTRUCT\n";
 				if (m_size)
 				{
 					// std::cout << "rear: " << m_rear << std::endl;
@@ -341,19 +360,26 @@ namespace ft
 			
 			void clear()
 			{
-				// std::cout << "CLEAR\n" << std::flush;
+				//m_allocator.deallocate(m_array, m_capacity);
 				if (m_size)
 				{	
-					// std::cout << "insideCLEAR\n" << std::flush;
+					// for(int i = m_front; i < m_rear; i++)
+					// 	m_allocator.destroy(&m_array[i]);
+				
+					std::cout << "insideCLEAR\n" << std::flush;
 					m_allocator.destroy(&m_array[m_front]);
 					m_array = NULL;
+				//std::cout << "front: " <<  m_array[m_front] << std::flush;
 				}
 				m_size = 0;
+				//m_allocator.deallocate(m_array, m_capacity);
+				m_capacity =0;
 				if (m_capacity)
 					m_front = m_rear = m_capacity / 2;
 				else
 					m_front = m_rear = 0;
-				
+				std::cout << "capacity: " << m_capacity << std::endl;
+				//m_allocator.deallocate(m_array, m_capacity);
 			}
 		// private:
 

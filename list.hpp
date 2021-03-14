@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:34:41 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/12 14:38:27 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/12 19:06:32 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ namespace ft
 		connect(Node *next)
 		{
 			m_previous = next->previous();
+			// std::cout << "connect previous : "<<   m_previous << std::endl;
 			m_next = next;
-
+// std::cout << "connect next : "<<   m_next << std::endl;
 			if (m_previous)
 				m_previous->next(this);
 			if (next)
@@ -670,7 +671,7 @@ namespace ft
 		{
 			Node *node = m_allocNode.allocate(1);
 			m_allocNode.construct(node, val);
-
+		//	std::cout << "end : " << m_end << std::endl;
 			if (m_first == m_end)
 			{
 				node->connect(m_end);
@@ -811,29 +812,43 @@ namespace ft
 
 			if (n < m_size)
 			{
-				while (count <= n)
+				while (count < n)
 				{
 					if (count != 0)
+					{
+						// std::cout << "Next\n";
 						tmp = tmp->next();
+					}
+					// std::cout << "VA : " << tmp->value() << std::endl;
 					if (count == n - 1)
 					{
+						// std::cout << "VA : " << tmp->value() << std::endl;
 						m_end->previous(tmp);
 						save = tmp->next();
 						tmp->next(m_end);
 						tmp = save;
 					}
 					count++;
+					// std::cout << "Count: " << count<< std::endl;
+					// std::cout << "N: " << n << std::endl;
+					// std::cout << "Size: " << m_size<< std::endl;
 				}
-
-				while (count < m_size)
+				size_t size_copy = m_size;	
+				while (count < size_copy)
 				{
-					save = tmp->next();
+					// std::cout << "Count destroy: " << count<< std::endl;
+					// std::cout << "VALEU : " << tmp->value() << std::endl;
+					if (count != size_copy)	
+						save = tmp->next();
 					m_allocNode.destroy(tmp);
 					m_allocNode.deallocate(tmp, 1);
-					tmp = save;
+					if (count != size_copy)
+						tmp = save;
 					count++;
+					m_size--;
 				}
-				m_size = n;
+				// std::cout << "Size: " << m_size << std::endl;
+				//m_size = n;
 			}
 			else if (n > m_size)
 			{
