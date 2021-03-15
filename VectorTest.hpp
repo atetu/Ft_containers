@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   VectorTest.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atetu <atetu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/12 15:48:29 by atetu            ###   ########.fr       */
+/*   Updated: 2021/03/15 20:13:55 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ class VectorTest
     private:
         ft::vector<T> m_ftvector;
         std::vector<T> m_vector;
-		// ft::vector<const T> m_ftconstvector;
-        // std::vector<const T> m_constvector;
 
     public:
         VectorTest<T>()
@@ -39,8 +37,6 @@ class VectorTest
 			m_vector = v;
 			if(checkIdenticalvectors("INIT_EMPTY"))
 				print("INIT_EMPTY", "OK");
-			// m_ftconstvector(42, 4);
-			// m_constvector(42, 4);
         }
         
         VectorTest(T* array, int size)
@@ -67,7 +63,6 @@ class VectorTest
 			typename ft::vector<T>::iterator ft_last;
 			std::vector<T> copy(size, val);
 			typename std::vector<T>::iterator itl = copy.begin();
-			// typename std::vector<T>::iterator itel = copy.end();
 			typename std::vector<T>::iterator first;
 			typename std::vector<T>::iterator last;
 			for(int i = 0 ; i < start; i++)
@@ -97,12 +92,8 @@ class VectorTest
 		{
 			(void)c;
 			ft::vector<T> ft_copy(size, val);
-			// typename ft::vector<T>::iterator it = ft_copy.begin();
-			// typename ft::vector<T>::iterator ite = ft_copy.end();
 		
 			std::vector<T> copy(size, val);
-			// typename std::vector<T>::iterator itl = copy.begin();
-			// typename std::vector<T>::iterator itel = copy.end();
 			
 			ft::vector<int> ftl(ft_copy);
 			m_ftvector = ftl;
@@ -139,20 +130,9 @@ class VectorTest
             typename std::vector<T>::iterator itvector = m_vector.begin();
             typename std::vector<T>::iterator itevector = m_vector.end();
 
-			// while(itvector != itevector)
-			// {
-			// 	std::cout << "VECTOR: "<< *itvector << std::endl;
-			// 	itvector++;
-			// }
-			// while(itFtvector != iteFtvector)
-			// {
-			// 	std::cout << "FT: "<< *itFtvector << std::endl;
-			// 	itFtvector++;
-			// }
 			if (m_ftvector.size() && m_vector.size())
 			{
-				std::cout << "SIZE: " << m_ftvector.size() << "-" << m_vector.size() << std::endl;
-				while (itFtvector != iteFtvector) //&& itvector != itevector)
+				while (itFtvector != iteFtvector && itvector != itevector)
 				{
 					if (writeOption)
 						std::cout <<*itFtvector << "-" << *itvector << std::endl;
@@ -172,8 +152,6 @@ class VectorTest
 			}
 			else if (m_ftvector.size() != m_vector.size())
 			{
-				std::cout << "FT Vector size : " << m_ftvector.size() << std::endl;
-					std::cout << "Vector size : " << m_vector.size() << std::endl;
 				print(testName, "WRONG3");
 				return(0);
 			}
@@ -189,7 +167,7 @@ class VectorTest
             typename ft::Iterator<Y> iteFtvector = y.end();
            
 
-            while (itFtvector != iteFtvector) //&& itvector != itevector)
+            while (itFtvector != iteFtvector && itvector != itevector)
             {
 				if (writeOption)
 					std::cout <<*itFtvector << "-" << *itvector << std::endl;
@@ -275,7 +253,7 @@ class VectorTest
 		{
 			m_ftvector.resize(2);
 			m_vector.resize(2);
-			if(checkIdenticalvectors("RESIZE 1", 1))
+			if(checkIdenticalvectors("RESIZE 1"))
 				print("RESIZE 1", "OK");
 
 			m_ftvector.resize(0);
@@ -299,20 +277,7 @@ class VectorTest
             CHECK_VALUES_VEC(empty, "EMPTY");
         }
 
-    //     void assign()
-    //     {}
-
-	//  	void push_front()
-    //     {
-    //         m_ftvector.push_front(50);
-          
-    //         m_vector.push_front(50);
-	// 		if(checkIdenticalvectors("PUSH_FRONT"))
-	// 			print("PUSH_FRONT", "OK");
-    //     }
-		
-
-		void operator_access()
+   		void operator_access()
 		{
 			for (size_t i = 0 ; i < m_ftvector.size(); i++)
 			{
@@ -335,9 +300,7 @@ class VectorTest
 						print("AT", "WRONG");
 				}
 				i = m_ftvector.size() + 1;
-				// std::cout << "After end ft: " << m_ftvector.at(i) << std::endl;
-				// std::cout << "After end vec: " << m_vector.at(i) << std::endl;
-				
+						
 				print("AT", "OK");
 			}
 			catch(const std::exception& e)
@@ -349,8 +312,6 @@ class VectorTest
 
 		void front()
 		{
-			// std::cout <<  m_vector.front() << std::endl;
-			// std::cout <<  m_ftvector.front() << std::endl;
 			if (m_ftvector.front() == m_vector.front())
 				print("FRONT", "OK");
 			else
@@ -359,8 +320,6 @@ class VectorTest
 		
 		void back()
 		{
-			// std::cout <<  m_vector.back() << std::endl;
-			// std::cout <<  m_ftvector.back() << std::endl;
 			if (m_ftvector.back() == m_vector.back())
 				print("BACK", "OK");
 			else
@@ -387,38 +346,18 @@ class VectorTest
                 {
 				    m_ftvector.pop_back();
                     m_vector.pop_back();
-					if (!(checkIdenticalvectors("POP_BACK", 1)))
+					if (!(checkIdenticalvectors("POP_BACK")))
 						return;
                 }
 			}
-			if(checkIdenticalvectors("POP_BACK", 1))
+			if(checkIdenticalvectors("POP_BACK"))
 				print("POP_BACK", "OK");
         }
-		
-	// 	void pop_front()
-    //     {
-	// 		int max;
-    //         if (!((max = m_ftvector.size()) == m_vector.size()))
-    //             print("POP_FRONT", "WRONG");
-    //         else
-    //         {
-	// 			for (int i = 0; i < 2; i++)
-	// 			{
-	// 			    m_ftvector.pop_back();
-    //                 m_vector.pop_back();
-	// 				if (!(checkIdenticalvectors("POP_FRONT")))
-	// 					return;
-	// 				i++;
-    //             }
-	// 		}
-	// 		if(checkIdenticalvectors("POP_FRONT"))
-	// 			print("POP_FRONT", "OK");
-    //     }
 		
 		#define INSERT_VEC(itFt, itvector, val)			\
 			m_ftvector.insert(itFt, val);				\
 			m_vector.insert(itvector, val);				\
-			if (!(checkIdenticalvectors("INSERT", 1)))	\
+			if (!(checkIdenticalvectors("INSERT")))	\
 				return;
 				
 		void insert()
@@ -440,7 +379,7 @@ class VectorTest
 		#define INSERT_VEC1(itFt, itvector, val, size)	\
 			m_ftvector.insert(itFt, size, val);				\
 			m_vector.insert(itvector, size, val);				\
-			if (!(checkIdenticalvectors("INSERT1", 1)))	\
+			if (!(checkIdenticalvectors("INSERT1")))	\
 				return;
 
 		void insert1()
@@ -451,10 +390,6 @@ class VectorTest
             typename std::vector<T>::iterator itevector = m_vector.end();
 		
 			INSERT_VEC1(itFt, itvector, 100, 4);
-			// m_ftvector.insert(iteFt, 100);
-			// m_vector.insert(itevector, 100);
-			// if (checkIdenticalvectors("INSERT1"))
-			// 	print("INSERT", "OK");
 			
 			itFt = m_ftvector.begin();
 			iteFt = m_ftvector.end();
@@ -462,13 +397,6 @@ class VectorTest
             itevector = m_vector.end();
 			INSERT_VEC1(iteFt, itevector, 100, 4);
 		
-			// itFt = m_ftvector.begin();
-			// iteFt = m_ftvector.end();
-            // itvector = m_vector.begin();
-            // itevector = m_vector.end();
-			// m_vector.insert(itvector, -1, 33);
-			// m_ftvector.insert(itFt, -1, 33);
-			//INSERT_VEC1(itFt, itvector, 333, -1); //fonctionne pas
 			print("INSERT1", "OK");
 		}
 
@@ -489,29 +417,12 @@ class VectorTest
 			itFt = m_ftvector.begin();
 			itvector = m_vector.begin();
 			
-			// if (checkIdenticalvectors("INSERT2", 1))
-			// 	print("INSERT2", "OK");	
 		    itFt++;
 			itvector++;
 			    
-			// typename ft::Iterator<T> i = ft_vector.begin();
-			// typename ft::Iterator<T> ie = ft_vector.end();
-			// while(i !=ie)
-			// {
-			// 	std::cout << "I:" << *i <<std::endl;
-			// 	i++;
-			// }
-			
-			// typename std::vector<T>::iterator v = vector.begin();
-			// typename std::vector<T>::iterator ve = vector.end();
-			// while (v != ve)
-			// {
-			// 	std::cout << "V: " << *v << std::endl;
-			// 	v++;
-			// }
 			m_ftvector.insert(itFt, ft_vector.begin(), ft_vector.end());
 			m_vector.insert(itvector, vector.begin(), vector.end());
-			if (checkIdenticalvectors("INSERT2", 1))
+			if (checkIdenticalvectors("INSERT2"))
 				print("INSERT2", "OK");	
 		}
 
@@ -530,13 +441,10 @@ class VectorTest
 		{
 			typename ft::Iterator<T> itFt = m_ftvector.begin();
 			typename std::vector<T>::iterator itvector = m_vector.begin();
-			// typename ft::Iterator<T> iteFt = m_ftvector.end();
-			// typename std::vector<T>::iterator itevector = m_vector.end();
 			
 			ERASE_VEC(itFt, itvector, "ERASE", 1);
-		//	ERASE(iteFt, itevector, "ERASE", 1); //normal segfault;
 		
-			itFt = m_ftvector.begin();// with std::vector, when doing itvector++ just after works
+			itFt = m_ftvector.begin();
 			itvector = m_vector.begin();
 			++itFt;
 			itvector++;
@@ -579,11 +487,9 @@ class VectorTest
 		void relations()
 		{
 			typename ft::vector<T>::iterator ft = m_ftvector.begin();
-			// typename ft::vector<T>::iterator ft_bis = ft;
 			typename ft::vector<T>::iterator ft2 = ft;
 			ft2++;
 			typename std::vector<T>::iterator r = m_vector.begin();
-			// typename std::vector<T>::iterator r_bis = r;
 			typename std::vector<T>::iterator r2 = r;
 			r2++;
 			if ((*(ft+(2)) == *(r+(2))) &&
@@ -599,11 +505,9 @@ class VectorTest
 		void relations_const(ft::vector<T> const m_vec, std::vector<T> const vec)
 		{
 			typename ft::vector<T>::const_iterator ft = m_vec.begin();
-			// typename ft::vector<T>::const_iterator ft_bis = ft;
 			typename ft::vector<T>::const_iterator ft2 = ft;
 			ft2++;
 			typename std::vector<T>::const_iterator r = vec.begin();
-			// typename std::vector<T>::const_iterator r_bis = r;
 			typename std::vector<T>::const_iterator r2 = r;
 			r2++;
 			if ((*(ft+(2)) == *(r+(2))) &&
@@ -624,8 +528,6 @@ class VectorTest
 				
 			while (ft_r != ft_re && r != re)
 			{
-				std::cout << "FT: " << *ft_r << std::endl;
-				std::cout << "VEC: " << *r << std::endl;
 				if (*ft_r != *r)
 				{
 					print("REND", "WRONG");
@@ -658,11 +560,6 @@ class VectorTest
 
 			if ((ftm != ftbis) == (m != mbis) && (ftm != ft2) == (m != m2))
 				print("REVERSE !=", "OK");
-
-			// if (m > mbis)
-			// 	std::cout << "Working?\n";
-			// if ((ftm < ftbis) == (m < mbis) && (ftm < ft2) == (m < m2))
-			// 	print("REVERSE <", "OK");
 		}
 };
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DequeTest.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:52:45 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/14 15:19:57 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/15 20:00:32 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ class DequeTest
     private:
      	ft::deque<T> m_ftdeque;
         std::deque<T> m_deque;
-		// ft::deque<const T> m_ftconstdeque;
-        // std::deque<const T> m_constdeque;
 
     public:
         DequeTest<T>()
@@ -39,43 +37,31 @@ class DequeTest
 			m_deque = v;
 			if(checkIdenticaldeques("INIT_EMPTY"))
 				print("INIT_EMPTY", "OK");
-			// m_ftconstdeque(42, 4);
-			// m_constdeque(42, 4);
         }
         
        		
 		DequeTest(T val, int size)
 		{
 			ft::deque<T> ftl(size, val);
-			// m_ftdeque = ftl;
 			std::deque<T> l(size, val);
-			// m_deque = l;
-			// if(checkIdenticaldeques("INIT_SIZE_VAL", 1))
-			// 	print("INIT_SIZE_VAL", "OK");
 		}
         
 		DequeTest(T val, int size, int start, int end)
 		{
-			// std::cout << "start\n" << std::flush;
 			ft::deque<T> ft_copy(size, val);
-			// std::cout << "start\n" << std::flush;
 			typename ft::deque<T>::iterator it = ft_copy.begin();
 			typename ft::deque<T>::iterator ite = ft_copy.end();
 			typename ft::deque<T>::iterator ft_first;
 			typename ft::deque<T>::iterator ft_last;
 			std::deque<T> copy(size, val);
-			// std::cout << "middle\n" << std::flush;
 			typename std::deque<T>::iterator itl = copy.begin();
-	//		typename std::deque<T>::iterator itel = copy.end();
 			typename std::deque<T>::iterator first;
 			typename std::deque<T>::iterator last;
 			for(int i = 0 ; i < start; i++)
 			{
-				std::cout << "IT: " << *it<< std::endl;
 				it++;
 				itl++;
 			}
-			std::cout << "start\n" << std::flush;
 			ft_first = it;
 			first = itl;
 			for(; start < end; start++)
@@ -85,14 +71,14 @@ class DequeTest
 			}
 			ft_last = it;
 			last = itl;
-			 std::cout << "FT FIRST: " << *ft_first << std::flush;
+
 			ft::deque<int> ftl(ft_first, ft_last);
 			m_ftdeque = ftl;
 			
 			std::deque<int> l(first, last);
 			m_deque = l;
-			// std::cout << "end\n" << std::flush;
-			if(checkIdenticaldeques("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST", 1))
+		
+			if(checkIdenticaldeques("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST"))
 				print("INIT_INPUT_ITERATOR_FIRST_INPUT_ITERATOR_LAST", "OK");
 		}
 		
@@ -104,8 +90,6 @@ class DequeTest
 			typename ft::deque<T>::iterator ite = ft_copy.end();
 		
 			std::deque<T> copy(size, val);
-		//	typename std::deque<T>::iterator itl = copy.begin();
-		//	typename std::deque<T>::iterator itel = copy.end();
 			
 			ft::deque<int> ftl(ft_copy);
 			m_ftdeque = ftl;
@@ -119,7 +103,6 @@ class DequeTest
 		
 		~DequeTest()
 		{
-			
 		}
         
 		static void
@@ -135,21 +118,10 @@ class DequeTest
             typename std::deque<T>::iterator itdeque = m_deque.begin();
             typename std::deque<T>::iterator itedeque = m_deque.end();
 
-			// while(itdeque != itedeque)
-			// {
-			// 	std::cout << "deque: "<< *itdeque << std::endl;
-			// 	itdeque++;
-			// }
-			// while(itFtdeque != iteFtdeque)
-			// {
-			// 	std::cout << "FT: "<< *itFtdeque << std::endl;
-			// 	itFtdeque++;
-			// }
 			if (m_ftdeque.size() && m_deque.size())
 			{
 				std::cout << "SIZE: " << m_ftdeque.size() << "-" << m_deque.size() << std::endl;
-				while (itFtdeque != iteFtdeque) //&& itdeque != itedeque)
-				//  for (int i = 0; i < 3; i++)
+				while (itFtdeque != iteFtdeque && itdeque != itedeque)
 				{
 					if (writeOption)
 						std::cout <<*itFtdeque << "-" << *itdeque << std::endl;
@@ -170,8 +142,6 @@ class DequeTest
 			}
 			else if (m_ftdeque.size() != m_deque.size())
 			{
-				std::cout << "FT deque size : " << m_ftdeque.size() << std::endl;
-					std::cout << "deque size : " << m_deque.size() << std::endl;
 				print(testName, "WRONG3");
 				return(0);
 			}
@@ -187,7 +157,7 @@ class DequeTest
             typename ft::Iterator<Y> iteFtdeque = y.end();
            
 			std::cout << "SIZE: " << y.size() << "-" << x.size() << std::endl;
-            while (itFtdeque != iteFtdeque) //&& itdeque != itedeque)
+            while (itFtdeque != iteFtdeque && itdeque != itedeque)
             {
 				if (writeOption)
 					std::cout <<*itFtdeque << "-" << *itdeque << std::endl;
@@ -212,7 +182,7 @@ class DequeTest
             m_ftdeque.push_back(6);
           
             m_deque.push_back(6);
-			if(checkIdenticaldeques("PUSH_BACK", 1))
+			if(checkIdenticaldeques("PUSH_BACK"))
 				print("PUSH_BACK", "OK");
         }
 
@@ -220,12 +190,12 @@ class DequeTest
         {
             m_ftdeque.push_front(6);
             m_deque.push_front(6);
-			if(checkIdenticaldeques("PUSH_FRONT", 1))
+			if(checkIdenticaldeques("PUSH_FRONT"))
 				print("PUSH_FRONT", "OK");
 			m_ftdeque.push_front(6);
             m_deque.push_front(6);
 			
-			if(checkIdenticaldeques("PUSH_FRONT", 1))
+			if(checkIdenticaldeques("PUSH_FRONT"))
 				print("PUSH_FRONT", "OK");
         }
 
@@ -241,12 +211,12 @@ class DequeTest
 					std::cout << "I: " << i << std::endl;
 				    m_ftdeque.pop_back();
                     m_deque.pop_back();
-					if (!(checkIdenticaldeques("POP_BACK", 1)))
+					if (!(checkIdenticaldeques("POP_BACK")))
 						return;
 					
                 }
 			}
-			if(checkIdenticaldeques("POP_BACK", 1))
+			if(checkIdenticaldeques("POP_BACK"))
 				print("POP_BACK", "OK");
         }
 		
@@ -265,10 +235,6 @@ class DequeTest
 						return;
                 }
 			}
-			// m_ftdeque.pop_front();
-            // m_deque.pop_front();
-			// m_ftdeque.pop_front();
-            // //m_deque.pop_front();
 			if(checkIdenticaldeques("POP_FRONT"))
 				print("POP_FRONT", "OK");
         }

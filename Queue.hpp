@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/11 19:54:13 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/15 19:47:15 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 #include <memory>
 #include <iostream>
-// #include "Base.hpp"
 #include "Iterator.hpp"
 #include "Deque.hpp"
 
@@ -25,7 +24,6 @@ namespace ft
 	template <class T, class Container = deque<T> >
 	class queue
 	{
-		
 		public:
 			typedef T value_type;
 			typedef Container container_type;

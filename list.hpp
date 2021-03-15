@@ -61,9 +61,7 @@ namespace ft
 		connect(Node *next)
 		{
 			m_previous = next->previous();
-			// std::cout << "connect previous : "<<   m_previous << std::endl;
 			m_next = next;
-// std::cout << "connect next : "<<   m_next << std::endl;
 			if (m_previous)
 				m_previous->next(this);
 			if (next)
@@ -141,9 +139,6 @@ namespace ft
 		typedef value_type &reference;
 		typedef value_type *pointer;
 		typedef const_value_type *const_pointer;
-
-	// private:
-	// 	typedef Node<T> Node;
 
 	private:
 		Node<T> *m_node;
@@ -252,9 +247,6 @@ namespace ft
 		typedef const_value_type &const_reference;
 		typedef value_type *pointer;
 		typedef const_value_type *const_pointer;
-
-	// private:
-	// 	typedef Node<T> Node;
 
 	private:
 		Node<T> *m_node;
@@ -442,8 +434,7 @@ namespace ft
 			m_first = m_end;
 			m_size = 0;
 		}
-
-	public:
+		
 		Node *
 		allocate(const T &value)
 		{
@@ -452,7 +443,8 @@ namespace ft
 			return (node);
 		}
 
-		//Constructs an empty list with zero elements.
+	public:
+		
 		explicit list(const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
 			m_end = m_allocNode.allocate(1);
@@ -467,7 +459,7 @@ namespace ft
 		}
 
 		//Constructs a new list with n elements and assigns val to each element of list.
-		list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
+		explicit list(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : m_allocator(alloc)
 		{
 			create_list();
 			assign(n, val);
@@ -491,19 +483,6 @@ namespace ft
 		~list()
 		{
 			clear();
-			// iterator it = begin();
-			// iterator ite = end();
-
-			// if (it != ite)
-			// {
-			// 	while (it != ite)
-			// 	{
-			// 		it = erase(it);
-			// 	}
-			// }
-			// it = begin();
-			// erase(it);
-			// erase(ite);
 			m_allocNode.destroy(m_begin);
 			m_allocNode.deallocate(m_begin, 1);
 			m_allocNode.destroy(m_end);
@@ -554,19 +533,16 @@ namespace ft
 		reverse_iterator rbegin()
 		{
 			return (reverse_iterator(end()));
-			//return (reverse_iterator(m_end->previous()));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
 			return (const_reverse_iterator(end()));
-			// return (const_reverse_iterator(m_end->previous()));
 		}
 
 		reverse_iterator rend()
 		{
 			return (reverse_iterator(begin()));
-			//return (reverse_iterator(m_begin));
 		}
 
 		const_reverse_iterator rend() const
@@ -678,7 +654,6 @@ namespace ft
 		{
 			Node *node = m_allocNode.allocate(1);
 			m_allocNode.construct(node, val);
-		//	std::cout << "end : " << m_end << std::endl;
 			if (m_first == m_end)
 			{
 				node->connect(m_end);
@@ -831,29 +806,19 @@ namespace ft
 				while (count < n)
 				{
 					if (count != 0)
-					{
-						// std::cout << "Next\n";
 						tmp = tmp->next();
-					}
-					// std::cout << "VA : " << tmp->value() << std::endl;
 					if (count == n - 1)
 					{
-						// std::cout << "VA : " << tmp->value() << std::endl;
 						m_end->previous(tmp);
 						save = tmp->next();
 						tmp->next(m_end);
 						tmp = save;
 					}
 					count++;
-					// std::cout << "Count: " << count<< std::endl;
-					// std::cout << "N: " << n << std::endl;
-					// std::cout << "Size: " << m_size<< std::endl;
 				}
 				size_t size_copy = m_size;	
 				while (count < size_copy)
 				{
-					// std::cout << "Count destroy: " << count<< std::endl;
-					// std::cout << "VALEU : " << tmp->value() << std::endl;
 					if (count != size_copy)	
 						save = tmp->next();
 					m_allocNode.destroy(tmp);
@@ -863,8 +828,6 @@ namespace ft
 					count++;
 					m_size--;
 				}
-				// std::cout << "Size: " << m_size << std::endl;
-				//m_size = n;
 			}
 			else if (n > m_size)
 			{
@@ -1039,37 +1002,6 @@ namespace ft
 				}
 				it++;
 			}
-
-
-			// iterator it(m_first);
-			// iterator it_first(m_first);
-			// iterator it_previous;
-			// iterator ite(m_end);
-
-			// while (it != m_end)
-			// {
-			// 	if (it != it_first)
-			// 	{
-			// 	//	int ret = binary_pred(*it_previous,*it);
-			// 	//
-			// 		if (binary_pred(*it, *it_previous))
-			// 		{
-			// 	//		std::cout << "ICI\n";
-			// 			it = erase(it);
-			// 			continue;
-			// 		}
-			// 		else
-			// 		{
-			// 			it_previous++;
-			// 			it++;
-			// 		}
-			// 	}
-			// 	else
-			// 	{
-			// 		it_previous = it;
-			// 		it++;
-			// 	}
-			// }
 		}
 
 		void merge(list &x)
@@ -1433,6 +1365,5 @@ namespace ft
 		return (!(lhs < rhs));
 	}
 
-}; // namespace ft
-
+}; 
 #endif

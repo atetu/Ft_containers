@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ListTest.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/15 10:45:09 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/12 19:07:22 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/15 19:49:33 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <memory>
 #include <iostream>
 #include "Iterator.hpp"
-#include "list.hpp"
+#include "List.hpp"
 #include <list>
 
 bool mycomparison(int first, double second);
@@ -55,7 +55,6 @@ public:
 		typename ft::list<T>::iterator ft_last;
 		std::list<T> copy(size, val);
 		typename std::list<T>::iterator itl = copy.begin();
-//		typename std::list<T>::iterator itel = copy.end();
 		typename std::list<T>::iterator first;
 		typename std::list<T>::iterator last;
 		for (int i = 0; i < start; i++)
@@ -87,8 +86,6 @@ public:
 		typename ft::list<T>::iterator ite = ft_copy.end();
 
 		std::list<T> copy(size, val);
-		// typename std::list<T>::iterator itl = copy.begin();
-		// typename std::list<T>::iterator itel = copy.end();
 		ft::list<int> ftl(ft_copy);
 		m_ftList = ftl;
 
@@ -110,14 +107,6 @@ public:
 			m_list.push_back(array[i]);
 			i++;
 		}
-
-		// typename ft::listIterator<T> itFtList = m_ftList.begin();
-		// typename ft::listIterator<T> iteFtList = m_ftList.end();
-		// while(itFtList != iteFtList)
-		// {
-		// 	std::cout << *itFtList << std::endl;
-		// 	itFtList++;
-		// }
 	}
 
 	static void
@@ -133,7 +122,7 @@ public:
 		typename std::list<T>::iterator itList = m_list.begin();
 		typename std::list<T>::iterator iteList = m_list.end();
 
-		while (itFtList != iteFtList) //&& itList != iteList)
+		while (itFtList != iteFtList && itList != iteList)
 		{
 			if (writeOption)
 				std::cout << *itFtList << "-" << *itList << std::endl;
@@ -161,7 +150,7 @@ public:
 		typename ft::listIterator<Y> itFtList = y.begin();
 		typename ft::listIterator<Y> iteFtList = y.end();
 
-		while (itFtList != iteFtList) //&& itList != iteList)
+		while (itFtList != iteFtList && itList != iteList)
 		{
 			if (writeOption)
 				std::cout << *itFtList << "-" << *itList << std::endl;
@@ -345,9 +334,8 @@ public:
 		typename std::list<T>::iterator itList = m_list.begin();
 
 		ERASE(itFt, itList, "ERASE", 1);
-		//	ERASE(iteFt, iteList, "ERASE", 1); //normal segfault;
 
-		itFt = m_ftList.begin(); // with std::list, when doing itList++ just after works
+		itFt = m_ftList.begin();
 		itList = m_list.begin();
 		++itFt;
 		itList++;
@@ -368,21 +356,10 @@ public:
 			print("ERASE2", "OK");
 	}
 
-	// void swap(ft::list & x)
-	// {
-
-	// }
-
 	void resize()
 	{
 		m_ftList.resize(2);
 		m_list.resize(2);
-		// if (checkIdenticalLists("RESIZE"))
-		// 	print("RESIZE", "OK");
-		// m_ftList.resize(6);
-		// m_list.resize(6);
-		// if (checkIdenticalLists("RESIZE 2"))
-		// 	print("RESIZE 2", "OK");
 	}
 
 	void clear()
@@ -589,11 +566,6 @@ public:
 
 		if ((ftm != ftbis) == (m != mbis) && (ftm != ft2) == (m != m2))
 			print("REVERSE !=", "OK");
-
-		// if (m > mbis)
-		// 	std::cout << "Working?\n";
-		// if ((ftm < ftbis) == (m < mbis) && (ftm < ft2) == (m < m2))
-		// 	print("REVERSE <", "OK");
 	}
 };
 #endif

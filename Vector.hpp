@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/14 19:49:18 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/15 19:32:38 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ namespace ft
 			typedef ConstIterator<T> const_iterator;
 			typedef ReverseIterator<iterator> reverse_iterator;
 			typedef ReverseIterator<const_iterator> const_reverse_iterator;
-		//	typedef ft::ReverseIterator<T> reverse_iterator;
-		//	typedef ft::ConstReverseIterator<T> const_reverse_iterator;
 		
 		private:
 			allocator_type m_allocator;
@@ -76,7 +74,6 @@ namespace ft
 				m_size(0),
 				m_capacity(0)
 			{
-				//std::cout << "WHERE IT SHOULD NOT BE\n" << std::flush;
 				assign(first, last);
 			}
 
@@ -86,7 +83,6 @@ namespace ft
 				m_size(0),
 				m_capacity(0)
 			{
-				// check size of x??
 				assign(x.begin(), x.end());
 			}
 
@@ -105,9 +101,6 @@ namespace ft
 					m_array = nullptr;
 					m_size = 0;
 					m_capacity = 0;
-					
-				//	const_iterator it = x.begin();
-				//	std::cout << "IT: " << it.value() << std::endl;
 					
 					if (x.m_capacity != 0)
 						reserve(m_capacity);
@@ -153,26 +146,14 @@ namespace ft
 
 			reverse_iterator rend()
 			{
-				// if (m_size)
-				// {
-					iterator beg = begin();
-					// beg++;
-					return (reverse_iterator(beg));
-				// }
-				// else
-				// 	return(reverse_iterator(begin(), 0));
+				iterator beg = begin();
+				return (reverse_iterator(beg));
 			}
 
 			const_reverse_iterator rend() const
 			{
-				// if (m_size)
-				// {
-					iterator beg = begin();
-					// beg++;
-					return (const_reverse_iterator(beg));
-				// }
-				// else
-				// 	return(const_reverse_iterator(begin(), 0));
+				iterator beg = begin();
+				return (const_reverse_iterator(beg));
 			}
 			
 			/*CAPACITY*/
@@ -193,12 +174,11 @@ namespace ft
 				if ((int)n < m_size)
 				{
 					erase(iterator(&m_array[n]), iterator (&m_array[m_size]));
-					//m_size too adapat
 				}
 				else if ((int)n > m_size)
 				{
 					if ((int)n > m_capacity)
-						reserve(n); // check max
+						reserve(n);
 					for(size_type i = m_size; i < n; i++)
 						push_back(val);
 				}
@@ -216,6 +196,8 @@ namespace ft
 			
 			void reserve(size_type n)
 			{
+				if (n > max_size())
+					throw (std::length_error("Reservation exceeds max size"));
 				if ((int)n > m_capacity)
 				{
 					if (m_capacity)
@@ -234,10 +216,8 @@ namespace ft
 					}
 					m_capacity = n;
 				}
-				//copy
 			}
 
-			
 			/*ELEMENT ACCESS*/
 
 			reference operator[] (size_type n)
@@ -247,7 +227,7 @@ namespace ft
 			
 			const_reference operator[] (size_type n) const
 			{
-				return(m_array[n]); // check
+				return(m_array[n]);
 			}
 			
 			reference at (size_type n)
@@ -291,12 +271,13 @@ namespace ft
 			}
 
 			/*MODIFIERS*/
+			
 			void assign(size_type n, const value_type& val)
 			{
 				clear();
 				
 				if ((int)n >= m_capacity)
-					reserve(n) ; // check way to reserve  + limit max_size
+					reserve(n) ;
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
 			}
@@ -306,27 +287,20 @@ namespace ft
 			{
 				clear();
 				int neededSize = last.node() - first.node();
-			//	std::cout << "HERE\n" << std::flush;
 				if (neededSize < 0)
 					neededSize = -neededSize;
 				if (neededSize >= m_capacity)
-					reserve(neededSize); // check max limit
-			//	std::cout << "HERE\n" << std::flush;
+					reserve(neededSize);
 				for (;first != last; first++)
-				{
-		//			std::cout << "First: " << *first << "\n" << std::flush;
 					push_back(*first);
-			//		std::cout << "HERE\n" << std::flush;
-				}
 			}
 
 			void push_back (const value_type& val)
 			{
 				if (m_size + 1 > m_capacity)
-					reserve(calculate_capacity(m_size + 1)) ; // check way to reserve  + limit max_size
+					reserve(calculate_capacity(m_size + 1));
 				m_allocator.construct(m_array + m_size, val);
 				m_size++;
-				// std::cout << "Val: " << val << std::endl;
 			}
 
 			void pop_back()
@@ -343,16 +317,13 @@ namespace ft
 				ft::vector<T> copy;
 				iterator start;
 				iterator ret;
-				// check capacity
 				if (position != end())
 				{
-					// std::cout << "ICI\n";
 					start = position;
 					start--;
 					copy.assign(position, end());
 					copyToDo = true;
 					erase(position, end());
-					
 				}
 				push_back(val);
 				ret = end();
@@ -365,7 +336,6 @@ namespace ft
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
-				//VERIFIER MAX SIZE
 				if (n < 0)
 					return;
 				int p = position.node()- begin().node();
@@ -379,10 +349,8 @@ namespace ft
 					copyToDo = true;
 					erase(iterator(&m_array[p]), end());
 				}
-			
 				for (size_type i = 0; i < n; i++)
 					push_back(val);
-			
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -410,10 +378,7 @@ namespace ft
 				}
 				
 				for (; first != last; first++)
-				{
-					// std::cout << "First:" << *first << std::endl;
 					push_back(*first);
-				}
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
 			}
@@ -433,11 +398,6 @@ namespace ft
 				if (ret != begin())
 					ret--;
 				erase(position, end());
-				// std::cout << "SIZE: " << m_size << std::endl;
-				// std::cout << "Begin: " << *(copy.begin()) << std::endl;
-				// std::cout << "Begin++: " << *(copy.begin()++) << std::endl;
-			//	m_allocator.destroy(position.value());
-			//	m_size--;
 				if (copyToDo)
 				{
 					iterator start = copy.begin();
@@ -465,12 +425,12 @@ namespace ft
 				
 				size_type toDelete = end().node() - first.node();
 				
-				m_allocator.destroy(first.node()); // does it destroy all the rest of the vector until the end?
+				m_allocator.destroy(first.node());
 				m_size -= toDelete;;
 		
 				if (copyToDo)
 					insert(iterator(&m_array[m_size]), copy.begin(), copy.end());
-				return (last); // to check
+				return (last);
 			}
 
 			void clear()
@@ -495,19 +455,15 @@ namespace ft
 			}
 
 		private:
-		
-		// A REFAIRE!!!!
-		size_type calculate_capacity (size_type neededCapacity)
-		{
-			size_type capacity = 0;
-			size_type power = 0;
-			while (capacity < neededCapacity)
+			//https://github.com/brokenfiles/ft_containers/blob/master/Vector/Vector.hpp
+			size_type calculate_capacity (size_type neededCapacity)
 			{
-				capacity = pow(2, power++);
-				//pow++;
+				size_type ret = 0;
+				size_type exponent = 0;
+				while (ret < neededCapacity)
+					ret = pow(2, exponent++);
+				return (ret);
 			}
-			return (capacity);
-		}
 	};
 
 	template <class T, class Alloc>

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/12 14:27:31 by atetu             #+#    #+#             */
-/*   Updated: 2021/03/14 17:00:42 by user42           ###   ########.fr       */
+/*   Updated: 2021/03/15 21:58:34 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ bool mycomparison (int first, double second)
 	return (int(first)<int(second));
 }
 		
-
 void listTestor()
 {
 	int array[6] ={0, 1, 2, 3, 4, 5};
@@ -180,8 +179,6 @@ void vectorTestor()
 
 void dequeTestor()
 {
-	// ft::deque<int> ftl(1, 24);
-	// ftl.clear();
 	DequeTest<int> testor1;
  	DequeTest<int> testor2(24, 3);
  	DequeTest<int> testor3(3, 24, 3, 7);
@@ -266,11 +263,17 @@ void mapTestor()
 
 int main()
 {
+	std::cout << "\n\n----LIST----\n\n";
 	listTestor();
+	std::cout << "\n\n----VECTOR----\n\n";
 	vectorTestor();
+	std::cout << "\n\n----DEQUE----\n\n";
 	dequeTestor();
+	std::cout << "\n\n----STACK----\n\n";
 	stackTestor();
+	std::cout << "\n\n----QUEUE----\n\n";
 	queueTestor();
+	std::cout << "\n\n----MAP----\n\n";
 	mapTestor();
 	// while(1)
 	// {
