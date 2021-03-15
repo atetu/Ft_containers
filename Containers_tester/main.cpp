@@ -20,11 +20,11 @@
 #include "Tester_Include.hpp"
 
 // Mettre ici les headers de vos containers
-#include "../Ft_containes2/list.hpp"
-#include "../Ft_containes2/Vector.hpp"
-#include "../Ft_containes2/Map.hpp"
-#include "../Ft_containes2/Queue.hpp"
-#include "../Ft_containes2/Stack.hpp"
+#include "../list.hpp"
+#include "../Vector.hpp"
+#include "../Map.hpp"
+#include "../Queue.hpp"
+#include "../Stack.hpp"
 
 
 int main()

@@ -99,10 +99,10 @@ void splice()
 
 	list.splice(list.begin(), list2, list2.begin());
 	assert(list.size() == 3);
-	// list.splice(list.begin(), list2);
-	// assert(list.size() == 4);
-	// list.splice(list.begin(), list2, list2.begin(), list2.begin());
-	// assert(list.size() == 4);
+	list.splice(list.begin(), list2);
+	assert(list.size() == 4);
+	list.splice(list.begin(), list2, list2.begin(), list2.begin());
+	assert(list.size() == 4);
 }
 
 template<class List>
@@ -190,29 +190,30 @@ void pop_back() {
 template<class List>
 void unique_binary_pred()
 {
-	// List list;
-	// for (int i = 0; i < 10; ++i)
-	// {
-	// 	list.push_back(i);
-	// 	list.push_back(i);
-	// }
-	// assert(list.size() == 20);
-	// list.unique(is_upper);
-	// assert(list.size() == 2);
+	List list;
+	for (int i = 0; i < 10; ++i)
+	{
+		list.push_back(i);
+		list.push_back(i);
+	}
+	assert(list.size() == 20);
+	list.unique(is_upper);
+	std::cout << "List size: " << list.size() << std::endl;
+	assert(list.size() == 2);
 }
 
 template<class List>
 void unique()
 {
-	// List list;
-	// for (int i = 0; i < 10; ++i)
-	// {
-	// 	list.push_back(i);
-	// 	list.push_back(i);
-	// }
-	// assert(list.size() == 20);
-	// list.unique();
-	// assert(list.size() == 10);
+	List list;
+	for (int i = 0; i < 10; ++i)
+	{
+		list.push_back(i);
+		list.push_back(i);
+	}
+	assert(list.size() == 20);
+	list.unique();
+	assert(list.size() == 10);
 }
 
 template<class List>

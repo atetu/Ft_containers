@@ -2,7 +2,7 @@
 # define MAP_TESTS_HPP
 
 # include "../Tester.hpp"
-#include "../../Ft_containes2/Map.hpp" 
+#include "../../Map.hpp" 
 
 
 template<class Map>
@@ -66,7 +66,9 @@ void operators()
 	assert((map1 < map) == false);
 	assert((map1 > map) == false);
 	map1[0] = 21;
+	//std:: cout << "different" << (map1 == map) << std::endl;
 	assert(map1 != map);
+		std:: cout << "less" << (map1 < map) << std::endl;
 	assert(map1 < map);
 	assert((map1 > map) == false);
 	assert((map1 >= map) == false);

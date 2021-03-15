@@ -394,6 +394,12 @@ namespace ft
 		}
 
 		void
+		init_first()
+		{
+			m_first = m_begin->next();
+		}
+
+		void
 		reduce_size()
 		{
 			m_size--;
@@ -932,7 +938,7 @@ namespace ft
 				m_first = i.node();
 			x.reduce_size();
 			if (x_first_indicator)
-				x.init();
+				x.init_first();
 		}
 
 		void splice(iterator position, list &x, iterator first, iterator last)
@@ -995,25 +1001,21 @@ namespace ft
 		void unique()
 		{
 			iterator it(m_first);
-			iterator it_first(m_first);
-			iterator it_previous;
+			iterator itnext;
 			iterator ite(m_end);
 
 			while (it != m_end)
 			{
-				if (it != it_first)
+				itnext = it;
+				itnext++;
+				while (itnext != ite)
 				{
-					if (*it_previous == *it)
-					{
-						it = erase(it);
-						continue;
-					}
+					if (*it == *itnext)
+						itnext = erase(itnext);
+					else
+						itnext++;
 				}
-				else
-				{
-					it_previous = it;
-					it++;
-				}
+				it++;
 			}
 		}
 
@@ -1021,26 +1023,53 @@ namespace ft
 		void unique(BinaryPredicate binary_pred)
 		{
 			iterator it(m_first);
-			iterator it_first(m_first);
-			iterator it_previous;
+			iterator itnext;
 			iterator ite(m_end);
 
 			while (it != m_end)
 			{
-				if (it != it_first)
+				itnext = it;
+				itnext++;
+				while (itnext != ite)
 				{
-					if (binary_pred(*it, *it_previous))
-					{
-						it = erase(it);
-						continue;
-					}
+					if (binary_pred(*it, *itnext))
+						itnext = erase(itnext);
+					else
+						itnext++;
 				}
-				else
-				{
-					it_previous = it;
-					it++;
-				}
+				it++;
 			}
+
+
+			// iterator it(m_first);
+			// iterator it_first(m_first);
+			// iterator it_previous;
+			// iterator ite(m_end);
+
+			// while (it != m_end)
+			// {
+			// 	if (it != it_first)
+			// 	{
+			// 	//	int ret = binary_pred(*it_previous,*it);
+			// 	//
+			// 		if (binary_pred(*it, *it_previous))
+			// 		{
+			// 	//		std::cout << "ICI\n";
+			// 			it = erase(it);
+			// 			continue;
+			// 		}
+			// 		else
+			// 		{
+			// 			it_previous++;
+			// 			it++;
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		it_previous = it;
+			// 		it++;
+			// 	}
+			// }
 		}
 
 		void merge(list &x)

@@ -6,7 +6,7 @@
 /*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/14 20:32:05 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/15 13:04:53 by alicetetu        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,8 +371,7 @@ namespace ft
 			// 		while (m_node == m_node->parent()->left())
 			// 			m_node = m_node->parent();		
 			// 	}
-			// }
-
+			// }	
 			MapNode<Key, T> *tmp;
 			if (m_node->hasLeft())
 			{
@@ -426,6 +425,31 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
+				bool
+		operator<(const MapIterator &other) const
+		{
+			return (m_node < other.m_node);
+		}
+
+		bool
+		operator<=(const MapIterator &other) const
+		{
+			return (!(other.m_node < m_node));
+		}
+
+		bool
+		operator>(const MapIterator &other) const
+		{
+			return (m_node > other.m_node);
+		}
+
+		bool
+		operator>=(const MapIterator &other) const
+		{
+			return (!(other.m_node > m_node));
+		}
+
+
 		pair<const Key, T>&
 		operator*()
 		{
@@ -478,7 +502,8 @@ namespace ft
 	bool operator< (const MapIterator<Key, T>& lhs,
 	const MapIterator<Key, T>& rhs)
 	{
-		return(lhs->first < rhs->first);
+		return(lhs.node() < rhs.node());
+		//return(lhs->first < rhs->first && lhs->second < rhs->second);
 	}
 
 	template <class Key, class T>
@@ -631,6 +656,30 @@ namespace ft
 			return (m_node != other.m_node);
 		}
 
+		bool
+		operator<(const ConstMapIterator &other) const
+		{
+			return (m_node < other.m_node);
+		}
+
+		bool
+		operator<=(const ConstMapIterator &other) const
+		{
+			return (!(other.m_node < m_node));
+		}
+
+		bool
+		operator>(const ConstMapIterator &other) const
+		{
+			return (m_node > other.m_node);
+		}
+
+		bool
+		operator>=(const ConstMapIterator &other) const
+		{
+			return (!(other.m_node > m_node));
+		}
+
 		const value_type
 		operator*() const
 		{
@@ -651,6 +700,53 @@ namespace ft
 		}
 	};
 
+	template <class Key, class T>
+	bool operator== (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		// ft::map<Key, T>::MapIterator<Key, T>::key_compare l_key_comp = lhs.key_comp();
+	//typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
+        if (lhs->first == rhs->first && lhs->second== rhs->second)
+			return(true);
+		else
+			return(false);
+    }
+
+	template <class Key, class T>
+	bool operator!= (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		return(!(lhs == rhs));
+    }
+
+	template <class Key, class T>
+	bool operator< (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		return(lhs.node() < rhs.node());
+		//return(lhs->first < rhs->first && lhs->second < rhs->second);
+	}
+
+	template <class Key, class T>
+	bool operator<= (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		return (!(rhs < lhs));
+	}
+
+	template <class Key, class T>
+	bool operator> (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template <class Key, class T>
+	bool operator>= (const ConstMapIterator<Key, T>& lhs,
+	const ConstMapIterator<Key, T>& rhs)
+	{
+		return (!(lhs < rhs));
+	}
 
 
 	template< typename Key, typename T, typename Compare = ft::less<Key>, typename Allocator = std::allocator<ft::MapNode<Key, T> > >
@@ -731,29 +827,40 @@ namespace ft
 					m_size(0)
 				{
 					createEndNode();
-					m_first = m_root = createNode(first.node()->getPair());
+					if (first.node())
+					{
+						m_first = m_root = createNode(first.node()->getPair());
+						m_size++;
+					}
+					else
+						m_root = NULL;
 					connection(m_root, 1, m_end);
 					iterator tmp = first;
 					if (first != last)
 						tmp++;
-					while (tmp != last)
+					
+					std::cout << "SIZE: " << m_size << std::endl;while (tmp != last)
 					{
 						insert(*tmp);
 						tmp++;
 					}
-					
+				
+				//	std::cout << "X SIZE: " << x.m_size << std::endl;
 				}
 				
 				map (const map& x) : 
 					m_allocator(x.m_allocator),
 					m_comp(x.m_comp),
 					m_root(NULL),
-					m_first(NULL),
-					m_size(x.m_size)
+					m_first(NULL)
 				{
 					createEndNode();
 					const MapNode *e = x.end().node();
-					m_root = createNode((x.m_root)->getPair());
+					if (x.m_root)
+						m_root = createNode((x.m_root)->getPair());
+					else
+						m_root = NULL;
+					
 					//std::cout << "Root: " << m_root << " - " <<  m_root->key() << std::endl;
 				//	std::cout <<  "source left: " <<x.m_root->left()->left() << std::endl;
 					copyNodes(m_root, x.m_root, e);
@@ -761,8 +868,11 @@ namespace ft
 					m_first = identifyDeepestLeft(m_root->left());
 					if(m_first == NULL) // CHECK ICI!!!!!
 						m_first = m_root;
-					iterator it = begin();
-					iterator ite = end();
+					m_size = x.m_size;
+					// std::cout << "SIZE: " << m_size << std::endl;
+					// std::cout << "X SIZE: " << x.m_size << std::endl;
+					// iterator it = begin();
+					// iterator ite = end();
 					// while(it != ite)
 					// {
 					// 	std::cout << it.node() << "\n" << std::flush;
@@ -1400,7 +1510,12 @@ namespace ft
 					}
 					else
 					{
-						if (m_comp(node->key(), pos->key()))
+						if (!(m_comp(node->key(), pos->key())) && !(m_comp(pos->key(), node->key())))
+						{
+							iterator found = iterator(node);
+							return (make_pair<iterator, bool>(found, false));
+						}
+						else if (m_comp(node->key(), pos->key()))
 							return(search_insert(pos, 0, pos->left(), node));
 						else
 							return(search_insert(pos, 1, pos->right(), node));
@@ -1644,12 +1759,16 @@ namespace ft
 		typename ft::map<Key, T>::const_iterator rite = rhs.end();
 		// typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
 		
+		if (lhs.size () != rhs.size())
+			return(false);
 		while(lit != lite && rit != rite)
 		{
 			if (l_key_comp(lit->first, rit->first) || l_key_comp(rit->first, lit->first))
 				return(false);
-			if (lhs.value_comp()(*lit, *rit) || lhs.value_comp()(*rit, *lit))
+			if (lit->second != rit->second)
 				return(false);
+			// std::cout << "comp:" << lhs.value_comp()(*lit, *rit) << std::endl;
+			// std::cout << "comp:" << lhs.value_comp()(*rit, *lit) << std::endl;
 			lit++;
 			rit++;
 		}
@@ -1678,17 +1797,23 @@ namespace ft
 		typename ft::map<Key, T>::const_iterator rite = rhs.end();
 		// typename ft::map<Key, T>::key_compare r_key_comp = rhs.key_comp();
 		
+		if (lhs.empty() || rhs.empty())
+		{
+			return (lhs.size() < rhs.size());
+		}
 		while(lit != lite && rit != rite)
 		{
 			if (l_key_comp(lit->first, rit->first) || l_key_comp(rit->first, lit->first))
-				return(l_key_comp(lit->first, rit->first));
+				return(lit < rit);
+			if (lit->second != rit->second)
+				return (lit->second < rit->second);
 			lit++;
 			rit++;
 		}
 		if (lit == lite && rit == rite)
 			return(false);
 		else
-			return(l_key_comp(lit->first, rit->first));
+			return(lhs.size(), rhs.size());
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
