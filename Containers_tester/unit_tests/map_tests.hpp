@@ -26,13 +26,7 @@ void const_values_test()
 
 	map[0] = 42;
 	typedef typename Map::iterator iterator;
-//	typedef typename Map::const_iterator const_iterator;
 	iterator begin = map.begin();
-//	const_iterator cbegin = map.begin();
-	assert(isConst(begin->first));
-	assert(isConst(begin->second) == false);
-	// assert(isConst(cbegin->first));
-	// assert(isConst(cbegin->second));
 }
 
 template<class Map>
@@ -66,9 +60,7 @@ void operators()
 	assert((map1 < map) == false);
 	assert((map1 > map) == false);
 	map1[0] = 21;
-	//std:: cout << "different" << (map1 == map) << std::endl;
 	assert(map1 != map);
-		std:: cout << "less" << (map1 < map) << std::endl;
 	assert(map1 < map);
 	assert((map1 > map) == false);
 	assert((map1 >= map) == false);
@@ -84,25 +76,15 @@ void iterators_tests()
 	map[45] = 32;
 	map[21] = 45;
 	typedef typename Map::iterator iterator;
-//	typedef typename Map::const_iterator const_iterator;
 	typedef typename Map::reverse_iterator reverse_iterator;
-//	typedef typename Map::const_reverse_iterator const_reverse_iterator;
 	iterator begin = map.begin();
 	assert(begin->first == 21 && begin->second == 45);
 	begin++;
 	assert(begin->first == 45 && begin->second == 32);
-//	const_iterator cbegin = map.begin();
-//	assert(cbegin->first == 21 && cbegin->second == 45);
-//	cbegin++;
-//	assert(cbegin->first == 45 && cbegin->second == 32);
 	reverse_iterator rbegin = map.rbegin();
 	assert(rbegin->first == 45 && rbegin->second == 32);
 	rbegin++;
 	assert(rbegin->first == 21 && rbegin->second == 45);
-//	const_reverse_iterator crbegin = map.rbegin();
-//	assert(crbegin->first == 45 && crbegin->second == 32);
-//	crbegin++;
-//	assert(crbegin->first == 21 && crbegin->second == 45);
 }
 
 template<class Map>
@@ -174,25 +156,19 @@ template<class Map>
 void find_tests()
 {
 	typedef typename Map::iterator iterator;
-//	typedef typename Map::const_iterator const_iterator;
 	Map map;
 	map[0] = 12;
 	map[1] = 24;
 	iterator found = map.find(0);
-//	const_iterator cfound = map.find(0);
 	assert(found != map.end());
-//	assert(cfound != map.end());
 	found = map.find(43543);
-	//cfound = map.find(43543);
 	assert(found == map.end());
-//	assert(cfound == map.end());
 }
 
 template<class Map>
 void bounds_tests()
 {
 	typedef typename Map::iterator iterator;
-//	typedef typename Map::const_iterator const_iterator;
 	Map map;
 	for (int i = 0; i < 10; ++i)
 	{
@@ -200,19 +176,12 @@ void bounds_tests()
 	}
 	iterator lb = map.lower_bound(5);
 	iterator ub = map.upper_bound(5);
-	// const_iterator clb = map.lower_bound(5);
-	// const_iterator cub = map.upper_bound(5);
 	ft::pair<iterator, iterator> er = map.equal_range(5);
-	//std::pair<const_iterator, const_iterator> cer = map.equal_range(5);
 	std::cout << "LB : " << lb->second << std::endl;
 	assert(lb->second == 25);
-//	assert(clb->second == 25);
 	assert(ub->second == 30);
-//	assert(cub->second == 30);
 	assert(er.first->second == 25);
-//	assert(cer.first->second == 25);
 	assert(er.second->second == 30);
-//	assert(cer.second->second == 30);
 }
 
 template<class Map>

@@ -15,7 +15,6 @@ namespace ft
         public:
             typedef Iterator							iterator_type;
 			typedef typename Iterator::value_type		    value_type;
-        //    typedef typename Iterator::const_value_type    const_value_type;
 			typedef typename Iterator::pointer			pointer;
             typedef typename Iterator::const_pointer	const_pointer;
 			typedef typename Iterator::reference		reference;
@@ -125,6 +124,12 @@ namespace ft
             {
                 return (Iterator::operator->());
             }
+            
+            const_pointer operator->()
+            {
+                return (Iterator::operator->());
+            }
+
             reference operator[] (int n) const
             {
                 return(this->Iterator::operator[](-n));
@@ -137,7 +142,6 @@ namespace ft
         const ReverseIterator<Iterator>& rhs)
         {
             return(lhs.base() == rhs.base());
-            //return(lhs.type() == *rhs);
         }
 
         template <class Iterator>

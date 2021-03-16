@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/08 12:17:43 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/15 19:32:38 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/16 15:24:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ namespace ft
 		public:
 			explicit vector(const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_size(0),
 				m_capacity(0)
 			{
@@ -58,7 +58,7 @@ namespace ft
 
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_size(0),
 				m_capacity(0)
 			{
@@ -67,10 +67,9 @@ namespace ft
 
 			// Implementation for class types other than integral types (char, int...)
 			template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-            typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) :
+			vector (InputIterator first, typename allow_if<InputIterator::It, InputIterator>::type last, const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_size(0),
 				m_capacity(0)
 			{
@@ -79,7 +78,7 @@ namespace ft
 
 			vector (const vector& x) :
 				m_allocator(x.m_allocator),
-				m_array(nullptr),
+				m_array(NULL),
 				m_size(0),
 				m_capacity(0)
 			{
@@ -98,7 +97,7 @@ namespace ft
 				{
 					clear();
 					m_allocator = x.m_allocator;
-					m_array = nullptr;
+					m_array = NULL;
 					m_size = 0;
 					m_capacity = 0;
 					
@@ -283,7 +282,7 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last, typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
+			void assign (InputIterator first, typename allow_if<InputIterator::It, InputIterator>::type last)
 			{
 				clear();
 				int neededSize = last.node() - first.node();
@@ -356,18 +355,17 @@ namespace ft
 			}
 			
 			template <class InputIterator>
-    		void insert (iterator position, InputIterator first, InputIterator last,
-            typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
+    		void insert (iterator position, InputIterator first, typename allow_if<InputIterator::It, InputIterator>::type last)
 			{
 				bool copyToDo = false;
 				ft::vector<T> copy;
 				int p = position.node()- begin().node();
 								
-				int neededSize = last.node() - first.node();
+				difference_type neededSize = last - first;
 				if (neededSize < 0)
 					neededSize = -neededSize;
 			
-				if ((m_size + neededSize + 1) > m_capacity)
+				if ((m_size + (int)neededSize + 1) > m_capacity)
 					reserve(calculate_capacity(m_size + neededSize));
 							
 				if (&m_array[p] != end().node())
@@ -455,7 +453,6 @@ namespace ft
 			}
 
 		private:
-			//https://github.com/brokenfiles/ft_containers/blob/master/Vector/Vector.hpp
 			size_type calculate_capacity (size_type neededCapacity)
 			{
 				size_type ret = 0;

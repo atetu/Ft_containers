@@ -10,14 +10,12 @@ void exec_test_list(wanted_tests_type tests = wanted_tests_type())
 {
 	new_type("List");
 	{
-		//register tests
 		register_test("empty_list", empty_list<List>);
 		register_test("push_back_one_element", push_back_one_element<List>);
 		register_test("push_front_one_element", push_front_one_element<List>);
 		register_test("forty_two_elements_front_back", forty_two_elements_push_back_front<List>);
 		register_test("front_back", front_back<List>);
 		register_test("iterators", iterators<List>);
-		register_test("reverse_iterators", reverse_iterators<List>);
 		register_test("empty_and_size", empty_and_size<List>);
 		register_test("erase", erase<List>);
 		register_test("insert", insert<List>);

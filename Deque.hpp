@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Deque.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 19:00:40 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/15 19:41:54 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/16 14:50:37 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft
 		
 			explicit deque (const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_front(0),
 				m_rear(0),
 				m_size(0),
@@ -59,7 +59,7 @@ namespace ft
 			
 			explicit deque (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_front(0),
 				m_rear(0),
 				m_size(0)
@@ -69,10 +69,9 @@ namespace ft
 				assign(n, val);
 			}
 		
-			template <class InputIterator> deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-            typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr) :
+			template <class InputIterator> deque (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) :
 				m_allocator(alloc),
-				m_array(nullptr),
+				m_array(NULL),
 				m_front(0),
 				m_rear(0),
 				m_size(0),
@@ -111,7 +110,7 @@ namespace ft
 				{
 					clear();
 					m_allocator = x.m_allocator;
-					m_array = nullptr;
+					m_array = NULL;
 					m_size = 0;
 					m_capacity = 0;
 					m_front = 0;
@@ -191,10 +190,10 @@ namespace ft
 			}
 				
 			template <class InputIterator>
-			void assign (InputIterator first, InputIterator last)
+			void assign (InputIterator first, typename allow_if<InputIterator::It, InputIterator>::type last)
 			{
 				clear();
-				int neededSize = last.node() - first.node();
+				int neededSize = last - first;
 			
 				if (neededSize < 0)
 					neededSize = -neededSize;

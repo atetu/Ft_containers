@@ -86,10 +86,8 @@ void iterators_vector_tests() {
 	vector.push_back(42);
 	vector.push_back(54);
 	typedef typename Vector::iterator iterator;
-//	typedef typename Vector::const_iterator const_iterator;
 	iterator begin = vector.begin();
 	iterator end = vector.end();
-	//const_iterator cbegin = vector.begin();
 	int number = 0;
 	while (begin != end) {
 		if (number == 0) {
@@ -99,7 +97,6 @@ void iterators_vector_tests() {
 		}
 		number++;
 		begin++;
-	//	cbegin++;
 	}
 	assert(number == 2);
 
@@ -153,11 +150,6 @@ void constructors_vector_tests() {
 	iterator end = vector3.end();
 	end--;
 	assert(*end == 42);
-
-	// int myints[] = {16,2,77,29};
-	// Vector fifth (myints, myints + sizeof(myints) / sizeof(int) );
-	// assert(fifth.size() == 4);
-	// assert(*fifth.begin() == 16);
 }
 
 template <class Vector>
@@ -166,7 +158,6 @@ void operators_vector_tests() {
 
 	Vector vector1 = vector;
 	assert(vector1.size() == 10);
-	//assert(vector1.capacity() == 10);
 
 	Vector vector2(9, 41);
 	assert(vector2 < vector);
@@ -187,21 +178,17 @@ void assign_vector_tests() {
 	assert(vector.size() == 0);
 	vector.push_back(5);
 	assert(vector.size() == 1);
-	//ssert(vector.capacity() == 1);
 	vector.assign(2, 50);
 	assert(vector.size() == 2);
-//	assert(vector.capacity() == 2);
 	for (int i = 0; i < 5; ++i)
 	{
 		vector.push_back(i);
 	}
 	assert(vector.size() == 7);
-	//assert(vector.capacity() == 8);
 	Vector vector1;
 	assert(vector1.size() == 0);
 	vector1.assign(vector.begin(), vector.end());
 	assert(vector1.size() == 7);
-	//assert(vector1.capacity() == 7);
 	typedef typename Vector::iterator iterator;
 	iterator begin = vector.begin();
 	iterator begin1 = vector1.begin();
@@ -230,7 +217,6 @@ void erase_vector_tests() {
 		vector.push_back(i);
 	}
 	assert(vector.size() == 10);
-//	assert(vector.capacity() == 16);
 	vector.erase(vector.begin(), vector.end());
 	assert(vector.size() == 0);
 	for (int i = 0; i < 10; ++i)
@@ -283,7 +269,6 @@ void clear_vector_tests() {
 	assert(vector.size() == 5);
 	vector.clear();
 	assert(vector.size() == 0);
-//	assert(vector.capacity() == 5);
 }
 
 template <class Vector>
@@ -308,13 +293,10 @@ void element_access_vector_tests() {
 template <class Vector>
 void const_iterators_vector_tests() {
 	typedef typename Vector::iterator iterator;
-//	typedef typename Vector::const_iterator const_iterator;
 	Vector vector;
 	vector.push_back(42);
 	iterator begin = vector.begin();
-//	const_iterator cbegin = vector.begin();
 	assert(isConst(*begin) == false);
-//	assert(isConst(*cbegin) == true);
 }
 
 #endif

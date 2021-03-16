@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alicetetu <alicetetu@student.42.fr>        +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/04 08:45:55 by alicetetu         #+#    #+#             */
-/*   Updated: 2021/03/15 21:52:26 by alicetetu        ###   ########.fr       */
+/*   Updated: 2021/03/16 15:17:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-#include <memory>
 #include <iostream>
 #include <exception>
+#include <limits>
+#include "utils.hpp"
 #include "ReverseIterator.hpp"
 
 /*https://www.geeksforgeeks.org/deletion-binary-tree/*/
@@ -90,6 +91,7 @@ namespace ft
 	{
 		return (pair<T1, T2>(t, u));
 	}
+
 	
 	template <class T>
 	struct less : std::binary_function <T,T,bool>
@@ -105,7 +107,7 @@ namespace ft
 		public:
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<const Key, T> value_type;
+			typedef pair<Key, T> value_type;
 	
 		private:
 			MapNode *m_parent;
@@ -120,8 +122,8 @@ namespace ft
 			MapNode() : m_pair(value_type())
 			{
 			}
-		
-			MapNode(pair<const Key, T> p) : m_pair(p)
+			
+			MapNode(const pair<Key, T> p) : m_pair(p)
 			{
 			}
 			
@@ -244,11 +246,13 @@ namespace ft
 	{
 	public:
 		typedef pair<Key, T> value_type;
-		typedef pair<const Key, T> const_value_type;
+		typedef const pair<Key, T> const_value_type;
 		typedef value_type* pointer;
 		typedef const_value_type* const_pointer;
    		typedef value_type &reference;
 
+		static const bool It;
+		
 	private:
 		MapNode<Key, T> *m_node;
 
@@ -402,18 +406,18 @@ namespace ft
 		}
 
 
-		pair<const Key, T>&
-		operator*()
+		const pair< Key, T>&
+		operator*() const
 		{
 			return (m_node->getPair());
 		}
 
-		pair<const Key, T>*
-		operator->() const
+		pair<Key, T>*
+		operator->() 
 		{
 			return(&(m_node->getPair()));
 		}
-
+		
 		MapNode<Key, T> *node() const
 		{
 			return (m_node);
@@ -471,7 +475,10 @@ namespace ft
 	{
 		return (!(lhs < rhs));
 	}
-		
+	
+	template <class Q, class W>
+	const bool MapIterator<Q, W>::It = true;
+	
 	template <class Key, class T>
 	class ConstMapIterator
 	{
@@ -479,7 +486,9 @@ namespace ft
 		typedef const pair<Key, T> value_type;
 		typedef const value_type &reference;
 		typedef const value_type& const_reference;
-
+		
+		static const bool It;
+		
 	private:
 		MapNode<Key, T> *m_node;
 
@@ -626,7 +635,7 @@ namespace ft
 			return (m_node->getPair());
 		}
 
-		pair<const Key, T>*
+		const pair< Key, T>*
 		operator->() const
 		{
 			return(&(m_node->getPair()));
@@ -683,6 +692,8 @@ namespace ft
 		return (!(lhs < rhs));
 	}
 
+	template <class Q, class W>
+	const bool ConstMapIterator<Q, W>::It = true;
 
 	template< typename Key, typename T, typename Compare = ft::less<Key>, typename Allocator = std::allocator<ft::MapNode<Key, T> > >
 	class map
@@ -692,7 +703,7 @@ namespace ft
 			typedef T mapped_type;
 			typedef pair<Key, T> value_type;
 			typedef size_t size_type;
-			typedef ptrdiff_t difference_type;
+			typedef __gnu_cxx::ptrdiff_t difference_type;
 			typedef Compare key_compare;
 			typedef Allocator allocator_t;
 			typedef typename allocator_t::reference reference;
@@ -747,7 +758,7 @@ namespace ft
 				}
 				
 				template <class InputMapIterator>
-				map (InputMapIterator first, InputMapIterator last,
+				map (InputMapIterator first, typename allow_if<InputMapIterator::It, InputMapIterator>::type last,
 				const key_compare& comp = key_compare(),
 				const allocator_t& alloc = allocator_t()) :
 					m_allocator(alloc),
@@ -891,7 +902,7 @@ namespace ft
 				{
 					iterator it = find(key);
 					if (it != end())
-						return((*it).value());
+						return(it->second);
 					else
 					{
 						pair<iterator,bool> ret = insert(make_pair(key, mapped_type()));
@@ -926,8 +937,7 @@ namespace ft
 				}
 				
 				template <class InputIterator>
-				void insert (InputIterator first, InputIterator last,
-				typename std::enable_if<!std::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
+				void insert (InputIterator first, typename allow_if<InputIterator::It, InputIterator>::type last)
 				{
 					iterator f = first;
 					iterator l = last;
@@ -1176,6 +1186,17 @@ namespace ft
 				
 				MapNode*
 				createNode(const value_type& val)
+				{
+					MapNode *node = NULL;
+					node = m_allocator.allocate(1);
+					m_allocator.construct(node, val);
+					node->left(NULL);
+					node->right(NULL);
+					return(node);
+				}
+				
+				MapNode*
+				createNode(value_type& val)
 				{
 					MapNode *node = NULL;
 					node = m_allocator.allocate(1);
@@ -1441,12 +1462,7 @@ namespace ft
 					
 					child->parent(parent);
 				}
-				
 
-				// template< class K, class Y, class C, class A >
-				// friend bool operator==( const map<K, Y, C,A>& lhs,
-				// const map<K,Y,C,A>& rhs );
-	
 	};
 
 	template< class Key, class T, class Compare, class Alloc >

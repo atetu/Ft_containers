@@ -222,17 +222,13 @@ void const_values_list_tests() {
 
 	list.push_back(42);
 	typedef typename List::iterator iterator;
-//	typedef typename List::const_iterator const_iterator;
 	iterator begin = list.begin();
-//	const_iterator cbegin = list.begin();
 	assert(isConst(*begin) == false);
-//	assert(isConst(*cbegin));
 }
 
 template <class List>
 void constructors_list() {
 	typedef typename List::iterator iterator;
-//	typedef typename List::const_iterator const_iterator;
 
 	List list;
 	assert(list.size() == 0);
@@ -381,62 +377,21 @@ template<class List>
 void iterators()
 {
 	typedef typename List::iterator iterator;
-//	typedef typename List::const_iterator const_iterator;
 	List list;
 	list.push_back(42);
 	list.push_front(5);
 	assert(list.size() == 2);
 	iterator begin = list.begin();
-//	const_iterator cbegin = list.begin();
 	assert(isConst(*begin) == false);
-//	assert(isConst(*cbegin) == true);
 	assert(*begin == 5);
-	//assert(*cbegin == 5);
 	begin++;
-//	cbegin++;
 	assert(*begin == 42);
-	//assert(*cbegin == 42);
 	iterator end = list.end();
-//	const_iterator cend = list.end();
 	end--;
-//	cend--;
 	assert(*end == 42);
-//	assert(*cend == 42);
 	end--;
-////	cend--;
 	assert(*end == 5);
-//	assert(*cend == 5);
 	assert(end == list.begin());
-//	assert(cend == list.begin());
-}
-
-template<class List>
-void reverse_iterators()
-{
-	// typedef typename List::reverse_iterator reverse_iterator;
-	// List list;
-	// list.push_back(42);
-	// list.push_front(5);
-	// assert(list.size() == 2);
-	// reverse_iterator rend = list.rend();
-	// rend++;
-	// std::cout << "REND: " << *rend << std::endl;
-	// assert(*rend == 42);
-	// rend++;
-	// std::cout << *rend << std::endl;
-	// assert(*rend == 5);
-	// typedef typename std::list<int>::reverse_iterator reverse_iterator;
-	// std::list<int> list;
-	// list.push_back(42);
-	// list.push_front(5);
-	// assert(list.size() == 2);
-	// reverse_iterator rend = list.rend();
-	// rend++;
-	// std::cout << "REND: " << *rend << std::endl;
-	// assert(*rend == 42);
-	// rend++;
-	// std::cout << "REND: " << *rend << std::endl;
-	// assert(*rend == 5);
 }
 
 template<class List>

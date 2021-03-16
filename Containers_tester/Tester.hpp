@@ -11,6 +11,8 @@
 # include <cstdlib>
 //# include <wait.h>
 #include <sstream>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 typedef void (*fn_ptr)();
 typedef std::list<std::string> wanted_tests_type;
